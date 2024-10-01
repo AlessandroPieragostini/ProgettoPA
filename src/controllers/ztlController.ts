@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import ZTL from '../models/ZTL'; // Assicurati di avere il modello ZTL
 
-export const createZTL = async (req: Request, res: Response) => {
+export const createZTL = async (req: Request, res: Response): Promise<void> => {
   try {
     const newZTL = await ZTL.create(req.body);
     res.status(201).json(newZTL);
@@ -10,7 +10,7 @@ export const createZTL = async (req: Request, res: Response) => {
   }
 };
 
-export const getZTLs = async (req: Request, res: Response) => {
+export const getZTLs = async (req: Request, res: Response): Promise<void> => {
   try {
     const ztls = await ZTL.findAll();
     res.status(200).json(ztls);
@@ -19,20 +19,26 @@ export const getZTLs = async (req: Request, res: Response) => {
   }
 };
 
-export const getZTLById = async (req: Request, res: Response) => {
+export const getZTLById = async (req: Request, res: Response): Promise<void> => {
   try {
     const ztl = await ZTL.findByPk(req.params.id);
-    if (!ztl) return res.status(404).json({ error: 'ZTL not found' });
+    if (!ztl) {
+      res.status(404).json({ error: 'ZTL not found' });
+      return; // Aggiungi un return per uscire dalla funzione
+    }
     res.status(200).json(ztl);
   } catch (error) {
     res.status(500).json({ error: 'Error fetching ZTL' });
   }
 };
 
-export const updateZTL = async (req: Request, res: Response) => {
+export const updateZTL = async (req: Request, res: Response): Promise<void> => {
   try {
     const ztl = await ZTL.findByPk(req.params.id);
-    if (!ztl) return res.status(404).json({ error: 'ZTL not found' });
+    if (!ztl) {
+      res.status(404).json({ error: 'ZTL not found' });
+      return; // Aggiungi un return per uscire dalla funzione
+    }
 
     await ztl.update(req.body);
     res.status(200).json(ztl);
@@ -41,10 +47,13 @@ export const updateZTL = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteZTL = async (req: Request, res: Response) => {
+export const deleteZTL = async (req: Request, res: Response): Promise<void> => {
   try {
     const ztl = await ZTL.findByPk(req.params.id);
-    if (!ztl) return res.status(404).json({ error: 'ZTL not found' });
+    if (!ztl) {
+      res.status(404).json({ error: 'ZTL not found' });
+      return; // Aggiungi un return per uscire dalla funzione
+    }
 
     await ztl.destroy();
     res.status(204).send();

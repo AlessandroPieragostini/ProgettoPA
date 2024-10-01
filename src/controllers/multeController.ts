@@ -4,17 +4,20 @@ import { generatePDF } from '../utils/pdfGenerator'; // Funzione per generare PD
 
 export const checkMulte = async (req: Request, res: Response) => {
   try {
-    const multe = await Multa.findAll({ where: { targaVeicolo: req.user?.username } }); // Supponendo che il username sia la targa
+    const multe = await Multa.findAll({ where: { targaVeicolo: req.params.id } }); 
     res.status(200).json(multe);
   } catch (error) {
     res.status(500).json({ error: 'Error fetching fines' });
   }
 };
 
-export const downloadBolletino = async (req: Request, res: Response): Promise<Response> => {
+export const downloadBolletino = async (req: Request, res: Response) => {
   try {
     const multa = await Multa.findByPk(req.params.id);
-    if (!multa) return res.status(404).json({ error: 'Multa non trovata' });
+    if (!multa) {
+      res.status(404).json({ error: 'Multa non trovata' });
+      return;
+    }
 
     const pdfBuffer = await generatePDF(multa); // Genera il PDF
     res.set({
@@ -22,9 +25,10 @@ export const downloadBolletino = async (req: Request, res: Response): Promise<Re
       'Content-Disposition': `attachment; filename=bollettino-${multa.idMulta}.pdf`,
     });
     
-    return res.send(pdfBuffer); // Restituisci esplicitamente la risposta
+    res.send(pdfBuffer); // Restituisci il buffer PDF
   } catch (error) {
-    return res.status(500).json({ error: 'Errore nella generazione del PDF' });
+    console.error(error); // Aggiungi log per aiutarti a debuggare
+    res.status(500).json({ error: 'Errore nella generazione del PDF' });
   }
 };
 
@@ -33,7 +37,10 @@ export const payMulta = async (req: Request, res: Response) => {
   try {
     const { uuid } = req.body; // UUID della multa
     const multa = await Multa.findOne({ where: { uuid } });
-    if (!multa) return res.status(404).json({ error: 'Multa not found' });
+    if (!multa) {
+      res.status(404).json({ error: 'Multa not found' });
+      return;
+    }
 
     // Logica di pagamento (es. verifica dei crediti, ecc.)
 
