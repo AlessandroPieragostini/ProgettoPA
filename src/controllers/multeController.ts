@@ -11,21 +11,23 @@ export const checkMulte = async (req: Request, res: Response) => {
   }
 };
 
-export const downloadBolletino = async (req: Request, res: Response) => {
-    try {
-      const multa = await Multa.findByPk(req.params.id);
-      if (!multa) return res.status(404).json({ error: 'Multa non trovata' });
-  
-      const pdfBuffer = await generatePDF(multa); // Genera il PDF
-      res.set({
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename=bollettino-${multa.idMulta}.pdf`,
-      });
-      res.send(pdfBuffer);
-    } catch (error) {
-      res.status(500).json({ error: 'Errore nella generazione del PDF' });
-    }
-  };
+export const downloadBolletino = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    const multa = await Multa.findByPk(req.params.id);
+    if (!multa) return res.status(404).json({ error: 'Multa non trovata' });
+
+    const pdfBuffer = await generatePDF(multa); // Genera il PDF
+    res.set({
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': `attachment; filename=bollettino-${multa.idMulta}.pdf`,
+    });
+    
+    return res.send(pdfBuffer); // Restituisci esplicitamente la risposta
+  } catch (error) {
+    return res.status(500).json({ error: 'Errore nella generazione del PDF' });
+  }
+};
+
 
 export const payMulta = async (req: Request, res: Response) => {
   try {

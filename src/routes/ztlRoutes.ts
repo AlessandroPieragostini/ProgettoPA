@@ -6,7 +6,7 @@ import {
   updateZTL, 
   deleteZTL 
 } from '../controllers/ztlController';
-import authMiddleware from '../middleware/authMiddleware';
+import { authMiddleware } from '../middleware/authMiddleware';
 
 const router = Router();
 
