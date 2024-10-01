@@ -1,4 +1,4 @@
-import { JWTUser } from './JWTUser'; // Assumi che JWTUser sia già definito da qualche parte
+import { JWTUser } from './JWTUser'; // Assumi che JWTUser sia già definito da qualche partea
 
 declare global {
   namespace Express {
@@ -7,3 +7,11 @@ declare global {
     }
   }
 }
+
+// import { Request } from 'express';
+
+// declare module 'express' {
+//   export interface Request {
+//     user?: JWTUser; 
+//   }
+// }
