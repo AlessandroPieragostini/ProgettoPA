@@ -11,12 +11,11 @@ export const createTransito = async (req: Request, res: Response): Promise<void>
     const veicolo = await Veicolo.findOne({ where: { targa } });
     if (!veicolo) {
       res.status(404).json({ error: 'Veicolo non trovato' });
-      return; // Aggiungi un return per uscire dalla funzione
     }
 
     // Crea il transito
     const nuovoTransito = await Transito.create({
-      veicoloId: veicolo.targa, // Assicurati che `veicoloId` sia il campo corretto
+      veicoloId: veicolo?.targa, 
       varcoId,
       dataOraPassaggio
     });
