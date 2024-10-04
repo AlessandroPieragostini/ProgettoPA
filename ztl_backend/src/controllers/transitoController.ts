@@ -23,7 +23,6 @@ export const createTransito = async (req: Request, res: Response): Promise<void>
     });
     
     //è GIUSTO CHIAMARE CREATEMULTA ??
-    //createMulta(nuovoTransito.id);
     await createMulta(nuovoTransito, veicolo); 
 
     res.status(201).json(nuovoTransito); 
