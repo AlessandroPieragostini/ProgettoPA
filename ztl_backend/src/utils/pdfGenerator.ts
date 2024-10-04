@@ -21,7 +21,7 @@ export const generatePDF = async (multa: Multa) => {
   doc.moveDown();
   doc.fontSize(16).text(`Targa: ${multa.targaVeicolo}`, { align: 'left' });
   doc.text(`Importo: €${multa.importo.toFixed(2)}`, { align: 'left' });
-  doc.text(`ID Multa: ${multa.idMulta}`, { align: 'left' });
+  doc.text(`ID Multa: ${multa.id}`, { align: 'left' });
   doc.text(`UUID Pagamento: ${uuidv4()}`, { align: 'left' }); // Genera UUID per il pagamento
   doc.moveDown();
 

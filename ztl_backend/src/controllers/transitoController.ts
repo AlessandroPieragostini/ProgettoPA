@@ -1,6 +1,10 @@
 import { Request, Response } from 'express';
+import { getGiorno, getOrario } from '../utils/manipolaData';
 import Transito from '../models/transito';
 import Veicolo from '../models/veicolo';
+import VarcoZTL from '../models/ZTL';
+import Whitelist from '../models/whitelist';
+import { createMulta } from './multeController';
 
 // Crea un nuovo transito
 export const createTransito = async (req: Request, res: Response): Promise<void> => {
@@ -19,8 +23,11 @@ export const createTransito = async (req: Request, res: Response): Promise<void>
       varcoId,
       dataOraPassaggio
     });
+    
+    //è GIUSTO CHIAMARE CREATEMULTA ??
+    createMulta(nuovoTransito.id);
 
-    res.status(201).json(nuovoTransito); // Restituisci la risposta
+    res.status(201).json(nuovoTransito); 
   } catch (error) {
     res.status(500).json({ error: 'Errore nella creazione del transito' });
   }
@@ -34,12 +41,12 @@ export const getTransitiByVeicolo = async (req: Request, res: Response): Promise
     const veicolo = await Veicolo.findOne({ where: { targa } });
     if (!veicolo) {
       res.status(404).json({ error: 'Veicolo non trovato' });
-      return; // Aggiungi un return per uscire dalla funzione
+      return; // return per uscire dalla funzione
     }
 
     // Trova tutti i transiti associati al veicolo
     const transiti = await Transito.findAll({ where: { veicoloId: veicolo.targa } });
-    res.status(200).json(transiti); // Restituisci la risposta
+    res.status(200).json(transiti); 
   } catch (error) {
     res.status(500).json({ error: 'Errore nel recupero dei transiti' });
   }

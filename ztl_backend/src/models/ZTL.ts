@@ -32,7 +32,7 @@ VarcoZTL.init({
     type: DataTypes.STRING,
     allowNull: false,
     validate: {
-      isIn: [['lunedi', 'martedi', 'mercoledi', 'giovedi', 'venerdi', 'sabato', 'domenica']],
+      isIn: [["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"]],
     },
   },
 }, {

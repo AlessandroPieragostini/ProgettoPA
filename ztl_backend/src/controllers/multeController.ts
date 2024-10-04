@@ -1,6 +1,67 @@
 import { Request, Response } from 'express';
-import Multa from '../models/multa'; // Assicurati di avere il modello Multa
+import Multa from '../models/multa'; 
+import Transito from '../models/transito';
+import Veicolo from '../models/veicolo';
+import VarcoZTL from '../models/ZTL';
+import Whitelist from '../models/whitelist'; 
 import { generatePDF } from '../utils/pdfGenerator'; // Funzione per generare PDF
+import { getGiorno, getOrario } from '../utils/manipolaData';
+import { calcolaImportoMulta } from '../utils/calcolaMulta';
+import moment from 'moment';
+
+export const createMulta = async (transitoId: number) => {
+  try {
+    // Trova il transito
+    const transito = await Transito.findByPk(transitoId, {
+      include: [Veicolo, VarcoZTL]
+    });
+
+    if (!transito) {
+      throw new Error('Transito non trovato');
+    }
+
+    const targaVeicolo = transito.targaVeicolo;
+    const veicolo = await Veicolo.findOne({ where: { targaVeicolo } });
+    if (!veicolo) {
+      throw new Error('Veicolo non trovato');
+    }
+    
+    // Controlla se il veicolo è nella white list (non viene multato)
+    const isWhiteListed = await Whitelist.findOne({
+      where: { targa: targaVeicolo }
+    });
+
+    if (isWhiteListed) {
+      console.log(`Veicolo con targa ${targaVeicolo} è nella whitelist. Nessuna multa creata.`);
+      return;
+    }
+
+    
+    const giorno = getGiorno(transito.dataOraTransito);
+    const orario = getOrario(transito.dataOraTransito);
+    const varcoId = transito.idVarco
+    
+    const ztl = await VarcoZTL.findOne({ where: { varcoId } });
+    if (ztl?.giornoSettimana == giorno && orario > ztl?.orarioApertura && orario < ztl?.orarioChiusura) {
+      
+      const importoMulta = calcolaImportoMulta(veicolo, moment(transito.dataOraTransito));
+      
+      // Crea la multa
+      const multa = await Multa.create({
+        importo: importoMulta,
+        veicoloId: targaVeicolo,
+        transitoId: transito.id
+      });
+
+      console.log(`Multa creata con successo. Importo: €${multa.importo}`);
+    }
+
+    
+
+  } catch (error) {
+    console.error('Errore nella creazione della multa:', error);
+  }
+};
 
 export const checkMulte = async (req: Request, res: Response) => {
   try {
@@ -22,7 +83,7 @@ export const downloadBolletino = async (req: Request, res: Response) => {
     const pdfBuffer = await generatePDF(multa); // Genera il PDF
     res.set({
       'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename=bollettino-${multa.idMulta}.pdf`,
+      'Content-Disposition': `attachment; filename=bollettino-${multa.id}.pdf`,
     });
     
     res.send(pdfBuffer); // Restituisci il buffer PDF
