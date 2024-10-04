@@ -2,7 +2,7 @@
 FROM node:18-alpine
 
 # Imposta la directory di lavoro
-WORKDIR /app
+WORKDIR /payments_backend
 
 # Copia i file package.json e package-lock.json
 COPY package*.json ./
