@@ -1,4 +1,4 @@
-# src/Dockerfile (per il backend dei pagamenti)
+# src/Dockerfile
 FROM node:18-alpine
 
 # Imposta la directory di lavoro
@@ -16,8 +16,8 @@ COPY . .
 # Compila TypeScript in JavaScript
 RUN npm run build
 
-# Espone la porta 4000 (o la porta che il tuo server dei pagamenti usa)
-EXPOSE 4000
+# Espone la porta 3000 (o la porta che il tuo server usa)
+EXPOSE 3000
 
 # Comando di avvio
 CMD ["npm", "start"]
