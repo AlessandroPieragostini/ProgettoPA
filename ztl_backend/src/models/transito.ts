@@ -5,14 +5,14 @@ import Veicolo from './veicolo';
 import VarcoZTL from './ZTL';
 
 class Transito extends Model {
-  public idTransito!: number;
+  public id!: number;
   public targaVeicolo!: string;
   public idVarco!: number;
   public dataOraTransito!: Date;
 }
 
 Transito.init({
-  idTransito: {
+  id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
@@ -40,6 +40,13 @@ Transito.init({
 }, {
   sequelize,
   modelName: 'Transito',
+  tableName: 'transito'
 });
+
+Veicolo.hasMany(Transito, { foreignKey: 'veicoloId' });
+Transito.belongsTo(Veicolo, { foreignKey: 'veicoloId' });
+
+VarcoZTL.hasMany(Transito, { foreignKey: 'varcoId' });
+Transito.belongsTo(VarcoZTL, { foreignKey: 'varcoId' });
 
 export default Transito;

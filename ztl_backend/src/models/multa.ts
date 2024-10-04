@@ -4,7 +4,7 @@ import sequelize from '../config/database';
 import Veicolo from './veicolo';
 
 class Multa extends Model {
-  public idMulta!: number;
+  public id!: number;
   public targaVeicolo!: string;
   public importo!: number;
   public dataMulta!: Date;
@@ -13,7 +13,7 @@ class Multa extends Model {
 }
 
 Multa.init({
-  idMulta: {
+  id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
@@ -47,6 +47,10 @@ Multa.init({
 }, {
   sequelize,
   modelName: 'Multa',
+  tableName: 'multa'
 });
+
+Veicolo.hasMany(Multa, { foreignKey: 'targaVeicolo' });
+Multa.belongsTo(Veicolo, { foreignKey: 'targaVeicolo' });
 
 export default Multa;

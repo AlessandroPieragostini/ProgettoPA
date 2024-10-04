@@ -38,6 +38,7 @@ VarcoZTL.init({
 }, {
   sequelize,
   modelName: 'VarcoZTL',
+  tableName: 'ztl'
 });
 
 export default VarcoZTL;

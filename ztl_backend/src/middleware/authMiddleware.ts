@@ -18,3 +18,17 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
     return; // Aggiungi un return per evitare di continuare
   }
 };
+
+
+// import { Request, Response, NextFunction } from 'express';
+// import jwt from 'jsonwebtoken';
+
+// export const authenticateOperator = (req: Request, res: Response, next: NextFunction) => {
+//     // Logica per autenticare l'operatore con JWT
+//     next();
+// };
+
+// export const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
+//     // Logica per autenticare l'utente (automobilista) con JWT
+//     next();
+// };

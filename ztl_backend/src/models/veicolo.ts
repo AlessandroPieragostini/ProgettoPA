@@ -23,6 +23,7 @@ Veicolo.init({
 }, {
   sequelize,
   modelName: 'Veicolo',
+  tableName: 'veicolo'
 });
 
 export default Veicolo;
