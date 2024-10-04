@@ -9,30 +9,16 @@ import { getGiorno, getOrario } from '../utils/manipolaData';
 import { calcolaImportoMulta } from '../utils/calcolaMulta';
 import moment from 'moment';
 
-export const createMulta = async (transitoId: number) => {
+export const createMulta = async (transito: Transito, veicolo: Veicolo) => {
   try {
-    // Trova il transito
-    const transito = await Transito.findByPk(transitoId, {
-      include: [Veicolo, VarcoZTL]
-    });
 
-    if (!transito) {
-      throw new Error('Transito non trovato');
-    }
-
-    const targaVeicolo = transito.targaVeicolo;
-    const veicolo = await Veicolo.findOne({ where: { targaVeicolo } });
-    if (!veicolo) {
-      throw new Error('Veicolo non trovato');
-    }
-    
     // Controlla se il veicolo è nella white list (non viene multato)
     const isWhiteListed = await Whitelist.findOne({
-      where: { targa: targaVeicolo }
+      where: { targa: veicolo.targa }
     });
 
     if (isWhiteListed) {
-      console.log(`Veicolo con targa ${targaVeicolo} è nella whitelist. Nessuna multa creata.`);
+      console.log(`Veicolo con targa ${veicolo.targa} è nella whitelist. Nessuna multa creata.`);
       return;
     }
 
@@ -49,7 +35,7 @@ export const createMulta = async (transitoId: number) => {
       // Crea la multa
       const multa = await Multa.create({
         importo: importoMulta,
-        veicoloId: targaVeicolo,
+        veicoloId: veicolo.targa,
         transitoId: transito.id
       });
 

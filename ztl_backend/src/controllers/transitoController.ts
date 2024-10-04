@@ -1,9 +1,6 @@
 import { Request, Response } from 'express';
-import { getGiorno, getOrario } from '../utils/manipolaData';
 import Transito from '../models/transito';
 import Veicolo from '../models/veicolo';
-import VarcoZTL from '../models/ZTL';
-import Whitelist from '../models/whitelist';
 import { createMulta } from './multeController';
 
 // Crea un nuovo transito
@@ -15,6 +12,7 @@ export const createTransito = async (req: Request, res: Response): Promise<void>
     const veicolo = await Veicolo.findOne({ where: { targa } });
     if (!veicolo) {
       res.status(404).json({ error: 'Veicolo non trovato' });
+      return;
     }
 
     // Crea il transito
@@ -25,7 +23,8 @@ export const createTransito = async (req: Request, res: Response): Promise<void>
     });
     
     //è GIUSTO CHIAMARE CREATEMULTA ??
-    createMulta(nuovoTransito.id);
+    //createMulta(nuovoTransito.id);
+    await createMulta(nuovoTransito, veicolo); 
 
     res.status(201).json(nuovoTransito); 
   } catch (error) {
