@@ -1,6 +1,6 @@
 import { Sequelize, Dialect } from 'sequelize';
 import * as process from "node:process";
-// import {logSequelize} from "../middleware/logger.middleware";
+import {logSequelize} from "../ztl_backend/src/middleware/loggerMiddleware";
 
 
 /**
