@@ -2,21 +2,30 @@
 # version: '3'
 
 services:
-  db:
-    image: postgres:14
-    container_name: postgres-db
-    environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASS}
-      POSTGRES_DB: ${DB_NAME}
-    volumes:
-      - db-data:/var/lib/postgresql/data
+  database:
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    container_name: "database"
+    hostname: "postgres"
+    restart: always
+    expose:
+      - "${POSTGRES_PORT}"
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - private-ntwk
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      retries: 5
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
 
   backend-transiti:
     build:
