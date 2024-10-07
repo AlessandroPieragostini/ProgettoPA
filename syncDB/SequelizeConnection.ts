@@ -1,6 +1,5 @@
 import { Sequelize, Dialect } from 'sequelize';
 import * as process from "node:process";
-import {logSequelize} from "../ztl_backend/src/middleware/loggerMiddleware";
 
 
 /**
@@ -39,8 +38,7 @@ export class SequelizeConnection {
         {
           dialect: dialect,
           host: host,
-          port: port,
-          logging: flag_log ? logSequelize : false,
+          port: port
         });
 
     return newInstance;

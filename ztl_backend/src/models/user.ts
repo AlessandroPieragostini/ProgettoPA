@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 import { SequelizeConnection } from '../../../syncDB/SequelizeConnection';
-import {UserRole} from "../static";
+import { UserRole } from "../static";
 
 
 // sequelize model of a table containing all users' data

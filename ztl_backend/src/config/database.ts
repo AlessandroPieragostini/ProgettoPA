@@ -1,12 +1,11 @@
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
 import Multa from '../models/multa'
-import Operatore from '../models/operatore'
 import Tariffa from '../models/tariffa';
 import Transito from '../models/transito';
 import Veicolo from '../models/veicolo';
 import Whitelist from '../models/whitelist';
-import VarcoZTL from '../models/ZTL';
+import VarcoZTL from '../models/varcoZTL';
 
 dotenv.config();
 

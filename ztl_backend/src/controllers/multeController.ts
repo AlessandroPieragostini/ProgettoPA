@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import Multa from '../models/multa'; 
 import Transito from '../models/transito';
 import Veicolo from '../models/veicolo';
-import VarcoZTL from '../models/ZTL';
+import VarcoZTL from '../models/varcoZTL';
 import Whitelist from '../models/whitelist'; 
 import { generatePDF } from '../utils/pdfGenerator'; // Funzione per generare PDF
 import { getGiorno, getOrario } from '../utils/manipolaData';
