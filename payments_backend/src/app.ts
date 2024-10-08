@@ -1,28 +1,16 @@
 import express from 'express';
-import dotenv from 'dotenv';
-import bodyParser from 'body-parser';
-import sequelize from './config/database';
-import pagamentiRoutes from './routes/pagamentiRoutes';
-
-dotenv.config();
+import paymentRoutes from './routes/PaymentRoutes';
+import { authenticateToken } from './middleware/AuthMiddleware';
+import config from './config/config';
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+app.use(express.json());
 
-app.use(bodyParser.json());
+// Rotte per i pagamenti
+app.use('/payments', authenticateToken, paymentRoutes);
 
-app.use('/api', pagamentiRoutes);
+app.listen(config.port, () => {
+    console.log(`Server in esecuzione sulla porta ${config.port}`);
+});
 
-const startServer = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log('Database connected successfully.');
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
-};
-
-startServer();
+export default app;
