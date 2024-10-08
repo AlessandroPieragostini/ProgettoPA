@@ -1,5 +1,4 @@
 import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../../syncDB/SequelizeConnection';
 
 class Multa extends Model {
     public id!: number;
