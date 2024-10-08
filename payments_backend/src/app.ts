@@ -1,16 +1,18 @@
 import express from 'express';
 import paymentRoutes from './routes/PaymentRoutes';
-import { authenticateToken } from './middleware/AuthMiddleware';
-import config from './config/config';
+import checkJWT from './middleware/AuthMiddleware';
+import database from './config/database';
+
+
 
 const app = express();
 app.use(express.json());
 
 // Rotte per i pagamenti
-app.use('/payments', authenticateToken, paymentRoutes);
+app.use('/payments', checkJWT, paymentRoutes);
 
-app.listen(config.port, () => {
-    console.log(`Server in esecuzione sulla porta ${config.port}`);
+app.listen(database.port, () => {
+    console.log(`Server in esecuzione sulla porta ${database.port}`);
 });
 
 export default app;

@@ -11,7 +11,7 @@ export const checkJWT = (req: Request, res: Response, next: NextFunction) => {
       if (err) {
          return res.status(403).json({ error: 'Invalid token' });
       }
-      req.user = decoded;  // Assuming JWT contains user info
+      req.user = decoded;  
       next();
    });
 };

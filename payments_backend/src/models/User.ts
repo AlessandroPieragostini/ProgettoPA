@@ -1,5 +1,4 @@
 import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from '../../../syncDB/SequelizeConnection';
 import bcrypt from 'bcrypt';
 
 // Definizione dei campi opzionali per il Model User
