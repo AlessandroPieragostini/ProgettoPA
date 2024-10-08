@@ -21,31 +21,31 @@ CREATE TABLE IF NOT EXISTS varco (
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Creazione della tabella Veicolo (Veicoli che transitano attraverso i varchi)
-CREATE TABLE IF NOT EXISTS veicoli (
+-- Creazione della tabella Veicolo (veicolo che transitano attraverso i varchi)
+CREATE TABLE IF NOT EXISTS veicolo (
     targa VARCHAR(50) PRIMARY KEY UNIQUE NOT NULL,
     tipo VARCHAR(50) NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Creazione della tabella Transito (Transiti registrati per ciascun veicolo attraverso i varchi)
-CREATE TABLE IF NOT EXISTS transiti (
+-- Creazione della tabella Transito (transito registrati per ciascun veicolo attraverso i varchi)
+CREATE TABLE IF NOT EXISTS transito (
     id SERIAL PRIMARY KEY,
-    targaVeicolo INT REFERENCES veicoli(targa) ON DELETE CASCADE,
+    targaVeicolo VARCHAR(255) REFERENCES veicolo(targa) ON DELETE CASCADE,
     varcoId INT REFERENCES varco(id) ON DELETE CASCADE,
     timestamp TIMESTAMP NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Creazione della tabella Multa (Multe associate ai transiti non autorizzati)
-CREATE TABLE IF NOT EXISTS multe (
+-- Creazione della tabella Multa (multa associate ai transito non autorizzati)
+CREATE TABLE IF NOT EXISTS multa (
     id SERIAL PRIMARY KEY,
     importo DECIMAL(10, 2) NOT NULL,
     pagamentoEffettuato BOOLEAN DEFAULT FALSE,
-    targaVeicolo INT REFERENCES veicolo(targa) ON DELETE CASCADE,
-    transitoId INT REFERENCES transiti(id) ON DELETE CASCADE,
+    targaVeicolo VARCHAR(255) REFERENCES veicolo(targa) ON DELETE CASCADE,
+    transitoId INT REFERENCES transito(id) ON DELETE CASCADE,
     dataMulta TIMESTAMP,
     uuidPagamento INT NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS multe (
 CREATE TABLE IF NOT EXISTS whitelist (
     targaVeicolo VARCHAR(255) PRIMARY KEY,
     dataScadenza TIMESTAMP NULL,
-    FOREIGN KEY (targaVeicolo) REFERENCES veicolo(targa)
+    FOREIGN KEY (targaVeicolo) REFERENCES veicolo(targa),
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS tariffa (
     tipoVeicolo VARCHAR(50) NOT NULL CHECK (tipoVeicolo IN ('elettrico', 'benzina', 'diesel', 'ibrido', 'moto', 'furgone')),
     fasciaOraria VARCHAR(20) NOT NULL CHECK (fasciaOraria IN ('giorno', 'notte', 'ore_punta')),
     giornoFestivo BOOLEAN NOT NULL,
-    costo DECIMAL(10, 2) NOT NULL
+    costo DECIMAL(10, 2) NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -79,10 +79,10 @@ CREATE TABLE IF NOT EXISTS users (
     token DECIMAL NOT NULL,
     role VARCHAR(50) NOT NULL CHECK (role IN ('USER', 'ADMIN', 'SUPER_ADMIN')), -- Modifica a seconda dei ruoli definiti in UserRole
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- -- Popolamento iniziale delle tabelle con dati di esempio
+-- Popolamento iniziale delle tabelle con dati di esempio
 -- Popolamento della tabella ztl
 INSERT INTO ztl (name, description, openingTime, closingTime, day) VALUES
 ('Centro Storico', 'Zona a traffico limitato nel centro città', '08:00', '20:00', 'Lunedì'),
@@ -95,22 +95,22 @@ INSERT INTO varco (location, ztlId) VALUES
 ('Piazza della Libertà', 1),
 ('Viale Università', 2);
 
--- Popolamento della tabella veicoli
-INSERT INTO veicoli (targa, tipo) VALUES
+-- Popolamento della tabella veicolo
+INSERT INTO veicolo (targa, tipo) VALUES
 ('ABC123', 'elettrico'),
 ('XYZ789', 'benzina'),
 ('DEF456', 'diesel'),
 ('GHI789', 'ibrido');
 
--- Popolamento della tabella transiti
-INSERT INTO transiti (targaVeicolo, varcoId, timestamp) VALUES
+-- Popolamento della tabella transito
+INSERT INTO transito (targaVeicolo, varcoId, timestamp) VALUES
 ('ABC123', 1, '2024-01-15 08:30:00'),
 ('XYZ789', 2, '2024-01-16 09:45:00'),
 ('DEF456', 1, '2024-01-17 14:00:00'),
 ('GHI789', 3, '2024-01-18 10:15:00');
 
--- Popolamento della tabella multe
-INSERT INTO multe (importo, pagamentoEffettuato, targaVeicolo, transitoId, dataMulta, uuidPagamento) VALUES
+-- Popolamento della tabella multa
+INSERT INTO multa (importo, pagamentoEffettuato, targaVeicolo, transitoId, dataMulta, uuidPagamento) VALUES
 (100.00, false, 'ABC123', 1, '2024-01-16 12:00:00', 12345),
 (150.00, true, 'XYZ789', 2, '2024-01-17 14:30:00', 12346),
 (200.00, false, 'DEF456', 3, '2024-01-18 16:45:00', 12347);
