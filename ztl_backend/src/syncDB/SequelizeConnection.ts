@@ -25,7 +25,7 @@ export class SequelizeConnection {
 
     const user: string = process.env.POSTGRES_USER || "myuser";
     const password: string = process.env.POSTGRES_PASSWORD || "mypassword";
-    const database: string = process.env.POSTGRES_DB || "db_inference";
+    const database: string = process.env.POSTGRES_DB || "ztl_db";
     const dialect: Dialect = process.env.SEQUELIZE_DIALECT as Dialect || 'postgres';
     const host: string = process.env.POSTGRES_HOST || 'database';
     const port: number = Number(process.env.POSTGRES_PORT || '5432')

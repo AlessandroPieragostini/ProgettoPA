@@ -1,7 +1,8 @@
 // src/models/Multa.ts
 import { DataTypes, Model } from 'sequelize';
-import sequelize from '../config/database';
+import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 import Veicolo from './veicolo';
+
 
 class Multa extends Model {
   public id!: number;
@@ -11,6 +12,8 @@ class Multa extends Model {
   public pagato!: boolean;
   public uuidPagamento!: string;
 }
+
+const sequelize = SequelizeConnection.getInstance().sequelize;
 
 Multa.init({
   id: {

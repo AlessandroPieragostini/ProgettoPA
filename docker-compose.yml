@@ -16,9 +16,9 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     networks:
       - private-ntwk
     healthcheck:
@@ -35,11 +35,10 @@ services:
     env_file:
       - .env
     environment:
-      POSTGRES_HOST: $(POSTGRES_DB)
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      
       JWT_SECRET: ${JWT_SECRET}
+    networks:
+      - private-ntwk
     ports:
       - "3000:3000"
     depends_on:
@@ -54,13 +53,12 @@ services:
     env_file:
       - .env
     environment:
-      DPOSTGRES_HOST: $(POSTGRES_DB)
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      
       JWT_SECRET: ${JWT_SECRET}
     ports:
       - "4000:4000"
+    networks:
+      - private-ntwk
     depends_on:
       database:
         condition: service_healthy

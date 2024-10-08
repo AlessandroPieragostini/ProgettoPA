@@ -1,6 +1,6 @@
 // src/models/Tariffa.ts
 import { DataTypes, Model } from 'sequelize';
-import sequelize from '../config/database';
+import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 
 class Tariffa extends Model {
   public idTariffa!: number;
@@ -9,6 +9,8 @@ class Tariffa extends Model {
   public giornoFestivo!: boolean;
   public costo!: number;
 }
+
+const sequelize = SequelizeConnection.getInstance().sequelize;
 
 Tariffa.init({
   idTariffa: {

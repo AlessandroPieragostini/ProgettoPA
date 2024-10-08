@@ -1,6 +1,6 @@
 // src/models/Transito.ts
 import { DataTypes, Model } from 'sequelize';
-import sequelize from '../config/database';
+import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 import Veicolo from './veicolo';
 import VarcoZTL from './varco';
 
@@ -10,6 +10,8 @@ class Transito extends Model {
   public idVarco!: number;
   public dataOraTransito!: Date;
 }
+
+const sequelize = SequelizeConnection.getInstance().sequelize;
 
 Transito.init({
   id: {

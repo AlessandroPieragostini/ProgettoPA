@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import { SequelizeConnection } from '../../../syncDB/SequelizeConnection';
+import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 import { UserRole } from "../static";
 
 export default class User extends Model {

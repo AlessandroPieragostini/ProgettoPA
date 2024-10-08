@@ -1,11 +1,13 @@
 // src/models/Veicolo.ts
 import { DataTypes, Model } from 'sequelize';
-import sequelize from '../config/database';
+import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 
 class Veicolo extends Model {
   public targa!: string;
   public tipoVeicolo!: string;
 }
+
+const sequelize = SequelizeConnection.getInstance().sequelize;
 
 Veicolo.init({
   targa: {

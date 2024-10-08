@@ -1,7 +1,7 @@
 // src/models/VarcoZTL.ts
 import { DataTypes, Model } from 'sequelize';
 import ZTL from './ztl';
-import sequelize from '../config/database';
+import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 
 class Varco extends Model {
   public id!: number;
@@ -10,6 +10,8 @@ class Varco extends Model {
   public orarioChiusura!: string;
   public giornoSettimana!: string;
 }
+
+const sequelize = SequelizeConnection.getInstance().sequelize;
 
 Varco.init({
   id: {

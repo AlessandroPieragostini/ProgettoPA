@@ -1,5 +1,5 @@
 import { Model, DataTypes } from 'sequelize';
-import sequelize from '../config/database';
+import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 
 class ZTL extends Model {
   public id!: number;
@@ -11,6 +11,8 @@ class ZTL extends Model {
   public createdAt!: Date;
   public updatedAt!: Date;
 }
+
+const sequelize = SequelizeConnection.getInstance().sequelize;
 
 ZTL.init(
   {
