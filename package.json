@@ -8,6 +8,7 @@
     "morgan": "^1.10.0",
     "pdfkit": "^0.15.0",
     "pg": "^8.13.0",
+    "pg-hstore": "^2.3.4",
     "psql": "^0.0.1",
     "rotating-file-stream": "^3.2.5",
     "sequelize": "^6.37.4",
