@@ -10,7 +10,7 @@ app.use(express.json());
 app.listen(3000)
 
 // sync db
-syncDb().then(():void=>{console.log("\t--> SYNC BD DONE")})
+syncDb().then(():void=>{console.log("\t--> SYNC DB DONE")})
 
 // Configura le rotte
 app.use('/api/ztl', ZTLRoutes);

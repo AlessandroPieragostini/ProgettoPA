@@ -32,7 +32,7 @@ Transito.init({
     allowNull: false,
     references: {
       model: VarcoZTL,
-      key: 'idVarco',
+      key: 'id',
     },
   },
   dataOraTransito: {

@@ -43,6 +43,7 @@ Tariffa.init({
 }, {
   sequelize,
   modelName: 'Tariffa',
+  tableName: 'tariffa'
 });
 
 export default Tariffa;

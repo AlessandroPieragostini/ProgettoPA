@@ -26,6 +26,7 @@ Whitelist.init({
 }, {
   sequelize,
   modelName: 'Whitelist',
+  tableName: 'whitelist'
 });
 
 export default Whitelist;
