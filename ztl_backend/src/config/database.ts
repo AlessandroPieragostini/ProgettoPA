@@ -5,7 +5,7 @@ import Tariffa from '../models/tariffa';
 import Transito from '../models/transito';
 import Veicolo from '../models/veicolo';
 import Whitelist from '../models/whitelist';
-import VarcoZTL from '../models/varcoZTL';
+import VarcoZTL from '../models/varco';
 
 dotenv.config();
 

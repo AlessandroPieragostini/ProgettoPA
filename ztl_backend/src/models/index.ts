@@ -1,6 +1,6 @@
 // src/models/index.ts
 import Veicolo from './veicolo';
-import VarcoZTL from './varcoZTL';
+import VarcoZTL from './varco';
 import Transito from './transito';
 import Multa from './multa';
 import Whitelist from './whitelist';

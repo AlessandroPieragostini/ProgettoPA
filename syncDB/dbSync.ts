@@ -1,4 +1,5 @@
-import VarcoZTL from '../ztl_backend/src/models/ztl';
+import ZTL from '../ztl_backend/src/models/ztl';
+import Varco from '../ztl_backend/src/models/varco';
 import Veicolo from '../ztl_backend/src/models/veicolo';
 import Transito from '../ztl_backend/src/models/transito';
 import Multa from '../ztl_backend/src/models/multa';
@@ -7,7 +8,8 @@ import Tariffa from '../ztl_backend/src/models/tariffa';
 import User from '../ztl_backend/src/models/user';
 
 const syncDb = async () => {
-      await VarcoZTL.sync();
+      await ZTL.sync();
+      await Varco.sync();
       await Veicolo.sync();
       await Transito.sync();
       await Multa.sync();
@@ -16,4 +18,4 @@ const syncDb = async () => {
       await User.sync();
 };
   
-export { User, VarcoZTL, Veicolo, Transito, Multa, Whitelist, Tariffa };
+export { User, Varco, ZTL, Veicolo, Transito, Multa, Whitelist, Tariffa };

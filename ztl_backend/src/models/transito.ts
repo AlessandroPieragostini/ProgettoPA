@@ -2,7 +2,7 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '../config/database';
 import Veicolo from './veicolo';
-import VarcoZTL from './varcoZTL';
+import VarcoZTL from './varco';
 
 class Transito extends Model {
   public id!: number;

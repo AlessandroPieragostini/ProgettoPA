@@ -29,7 +29,6 @@ export class SequelizeConnection {
     const dialect: Dialect = process.env.SEQUELIZE_DIALECT as Dialect || 'postgres';
     const host: string = process.env.POSTGRES_HOST || 'database';
     const port: number = Number(process.env.POSTGRES_PORT || '5432')
-    const flag_log: boolean = Boolean(process.env.SEQUELIZE_LOGGING ) || true;
 
     newInstance.sequelize = new Sequelize(
         database,

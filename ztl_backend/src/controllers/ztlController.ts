@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import ZTL from '../models/varcoZTL'; // Assicurati di avere il modello ZTL
+import ZTL from '../models/varco'; // Assicurati di avere il modello ZTL
 
 export const createZTL = async (req: Request, res: Response): Promise<void> => {
   try {

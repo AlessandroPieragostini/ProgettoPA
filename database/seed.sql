@@ -1,11 +1,21 @@
 -- Creazione della tabella ZTL (Zone a Traffico Limitato)
-CREATE TABLE IF NOT EXISTS varcoZTL (
+CREATE TABLE IF NOT EXISTS ztl (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
-    tariffaId INT REFERENCES tariffa(id) ON DELETE CASCADE,
     openingTime VARCHAR(10) NOT NULL,
     closingTime VARCHAR(10) NOT NULL,
+    day VARCHAR(10) NOT NULL,
+    CONSTRAINT chk_giornoSettimana CHECK (day IN ('Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'))
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Creazione della tabella Varco (Varchi associati a ZTL)
+CREATE TABLE IF NOT EXISTS varco (
+    id SERIAL PRIMARY KEY,
+    location VARCHAR(255) NOT NULL,
+    ztlId INT REFERENCES ztl(id) ON DELETE CASCADE,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -23,7 +33,7 @@ CREATE TABLE IF NOT EXISTS veicoli (
 CREATE TABLE IF NOT EXISTS transiti (
     id SERIAL PRIMARY KEY,
     veicoloId INT REFERENCES veicoli(id) ON DELETE CASCADE,
-    varcoId INT REFERENCES varcoZTL(id) ON DELETE CASCADE,
+    varcoId INT REFERENCES varco(id) ON DELETE CASCADE,
     timestamp TIMESTAMP NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -44,7 +54,7 @@ CREATE TABLE IF NOT EXISTS multe (
 CREATE TABLE IF NOT EXISTS whitelist (
     id SERIAL PRIMARY KEY,
     veicoloId INT REFERENCES veicoli(id) ON DELETE CASCADE,
-    varcoId INT REFERENCES varcoZTL(id) ON DELETE CASCADE,
+    varcoId INT REFERENCES varco(id) ON DELETE CASCADE,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -75,10 +85,16 @@ INSERT INTO tariffa (importo, descrizione) VALUES
 (50.00, 'Tariffa base per il centro storico'),
 (75.00, 'Tariffa per ZTL industriale');
 
--- Popolamento della tabella varcoZTL (Zone a Traffico Limitato)
-INSERT INTO varcoZTL (name, description, tariffaId, openingTime, closingTime) VALUES
-('Varco 1 - Centro Storico', 'Accesso alla ZTL del centro storico', 1, '08:00', '18:00'),
-('Varco 2 - Zona Industriale', 'Accesso alla ZTL della zona industriale', 2, '06:00', '20:00');
+-- Popolamento della tabella ZTL
+INSERT INTO ztl (name, description, openingTime, closingTime) VALUES
+('Centro Storico', 'Zona centrale a traffico limitato', '08:00', '18:00'),
+('Zona Industriale', 'Area a traffico limitato per camion', '06:00', '20:00');
+
+-- Popolamento della tabella Varco
+INSERT INTO varco (location, ztlId) VALUES
+('Via Roma', 1),
+('Via Verdi', 1),
+('Corso Italia', 2);
 
 -- Popolamento della tabella Veicolo
 INSERT INTO veicoli (targa, tipo) VALUES
