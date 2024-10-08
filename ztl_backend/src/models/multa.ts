@@ -2,14 +2,16 @@
 import { DataTypes, Model } from 'sequelize';
 import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 import Veicolo from './veicolo';
+import Transito from './transito';
 
 
 class Multa extends Model {
   public id!: number;
-  public targaVeicolo!: string;
   public importo!: number;
-  public dataMulta!: Date;
   public pagato!: boolean;
+  public targaVeicolo!: string;
+  public transitoId!: number;
+  public dataMulta!: Date;
   public uuidPagamento!: string;
 }
 
@@ -21,6 +23,15 @@ Multa.init({
     autoIncrement: true,
     primaryKey: true,
   },
+  importo: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
+  pagato: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
   targaVeicolo: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -29,18 +40,17 @@ Multa.init({
       key: 'targa',
     },
   },
-  importo: {
-    type: DataTypes.DECIMAL(10, 2),
+  transitoId: {
+    type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: Transito,
+      key: 'id',
+    },
   },
   dataMulta: {
     type: DataTypes.DATE,
     allowNull: false,
-  },
-  pagato: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-    defaultValue: false,
   },
   uuidPagamento: {
     type: DataTypes.UUID,

@@ -7,7 +7,7 @@ import VarcoZTL from './varco';
 class Transito extends Model {
   public id!: number;
   public targaVeicolo!: string;
-  public idVarco!: number;
+  public varcoId!: number;
   public dataOraTransito!: Date;
 }
 
@@ -27,7 +27,7 @@ Transito.init({
       key: 'targa',
     },
   },
-  idVarco: {
+  varcoId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {

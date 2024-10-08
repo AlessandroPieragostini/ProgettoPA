@@ -5,10 +5,8 @@ import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 
 class Varco extends Model {
   public id!: number;
-  public nomeVarco!: string;
+  public location!: string;
   public ztlId!: number;
-  public orarioChiusura!: string;
-  public giornoSettimana!: string;
 }
 
 const sequelize = SequelizeConnection.getInstance().sequelize;
@@ -19,7 +17,7 @@ Varco.init({
     autoIncrement: true,
     primaryKey: true,
   },
-  locazione: {
+  location: {
     type: DataTypes.STRING,
     allowNull: false,
   },

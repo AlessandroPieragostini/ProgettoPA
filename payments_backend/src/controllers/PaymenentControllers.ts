@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { User } from '../models/User';  
+import User from '../models/User';  
 import { Fine } from '../models/Fine';  
 import { generateQRCode } from '../utils/qrcode';  
 import { createPDF } from '../utils/pdf';  
