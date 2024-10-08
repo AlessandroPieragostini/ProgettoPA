@@ -2,33 +2,35 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-export const authMiddleware = (req: Request, res: Response, next: NextFunction): void => {
-  const token = req.header('Authorization')?.replace('Bearer ', '');
+export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
+  const token = req.headers['authorization']?.split(' ')[1];
+
   if (!token) {
-    res.status(401).send('Access Denied'); // Non restituire, usa return solo se serve.
-    return; // Aggiungi un return per evitare di continuare
+    res.sendStatus(401);
+    return;
+   } // Unauthorized
+
+  const secret = process.env.JWT_SECRET;
+
+  if (!secret) {
+    res.status(500).send('Server error: JWT secret is not defined.');
+    return;
   }
 
-  try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET!);
-    req.user = verified; // Aggiungi i dati dell'utente a req
+  jwt.verify(token, secret, (err, user) => {
+    if (err) return res.sendStatus(403); // Forbidden
+    req.user = user; // Aggiungi l'utente decodificato alla richiesta
     next();
-  } catch (err) {
-    res.status(400).send('Invalid Token'); // Non restituire, usa return solo se serve.
-    return; // Aggiungi un return per evitare di continuare
-  }
+  });
 };
 
-
-// import { Request, Response, NextFunction } from 'express';
-// import jwt from 'jsonwebtoken';
-
-// export const authenticateOperator = (req: Request, res: Response, next: NextFunction) => {
-//     // Logica per autenticare l'operatore con JWT
-//     next();
-// };
-
-// export const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
-//     // Logica per autenticare l'utente (automobilista) con JWT
-//     next();
-// };
+export const authorizeRole = (roles: string[]) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const userRole = req.user.role;
+    if (roles.includes(userRole)) {
+      next(); // Permetti l'accesso
+    } else {
+      res.sendStatus(403); // Forbidden
+    }
+  };
+};

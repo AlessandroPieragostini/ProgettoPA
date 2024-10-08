@@ -1,19 +1,24 @@
+// src/routes/transitoRoutes.ts
+
 import { Router } from 'express';
+import { authenticateToken, authorizeRole } from '../middleware/authMiddleware'; // Importa i middleware per l'autenticazione e autorizzazione
 import { 
   createTransito, 
   getTransitiByVeicolo, 
+  getTransitiByVarco, 
   getTransitoById, 
-  deleteTransito, 
-  updateTransito 
-} from '../controllers/transitoController';
-import { authMiddleware } from '../middleware/authMiddleware';
+  updateTransito, 
+  deleteTransito 
+} from '../controllers/transitoController'; // Importa le funzioni dal TransitoController
 
 const router = Router();
 
-// Rotte CRUD per la gestione dei transiti
-router.post('/', createTransito); // Inserimento transito
-router.get('/:id', authMiddleware, getTransitoById); // Ottieni transito per ID
-router.put('/:id', authMiddleware, updateTransito); // Aggiorna transito
-router.delete('/:id', authMiddleware, deleteTransito); // Elimina transito
+// Rotte per la gestione dei transiti
+router.post('/', authenticateToken, authorizeRole(['operatore', 'varco']), createTransito); // Crea un nuovo transito
+router.get('/veicolo/:targa', authenticateToken, authorizeRole(['operatore', 'automobilista']), getTransitiByVeicolo); // Ottieni transiti per un veicolo
+router.get('/varco/:varcoId', authenticateToken, authorizeRole(['operatore']), getTransitiByVarco); // Ottieni transiti per un varco
+router.get('/:id', authenticateToken, authorizeRole(['operatore']), getTransitoById); // Ottieni un transito specifico
+router.put('/:id', authenticateToken, authorizeRole(['operatore']), updateTransito); // Aggiorna un transito
+router.delete('/:id', authenticateToken, authorizeRole(['operatore']), deleteTransito); // Elimina un transito
 
 export default router;

@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS ztl (
     openingTime VARCHAR(10) NOT NULL,
     closingTime VARCHAR(10) NOT NULL,
     day VARCHAR(10) NOT NULL,
-    CONSTRAINT chk_giornoSettimana CHECK (day IN ('Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato'))
+    CONSTRAINT chk_day CHECK (day IN ('Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato')),
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
