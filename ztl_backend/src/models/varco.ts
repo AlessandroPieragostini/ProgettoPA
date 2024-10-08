@@ -24,7 +24,7 @@ Varco.init({
     allowNull: false,
   },
   ztlId: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: ZTL, // Nome del modello ZTL

@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS ztl_db;
+
 -- Creazione della tabella ZTL (Zone a Traffico Limitato)
 CREATE TABLE IF NOT EXISTS ztl (
     id SERIAL PRIMARY KEY,
@@ -118,5 +120,5 @@ INSERT INTO whitelist (veicoloId, varcoId) VALUES
 
 -- Popolamento della tabella Users
 INSERT INTO users (username, password, role) VALUES
-('admin', 'password123', 'admin'),
-('user1', 'password123', 'user');
+('op1', 'password123', 'operatore'),
+('user1', 'password123', 'utente');
