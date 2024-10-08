@@ -1,23 +1,21 @@
-# src/Dockerfile (per il backend dei pagamenti)
+# Usa l'immagine base di Node.js
 FROM node:18-alpine
 
 # Imposta la directory di lavoro
-WORKDIR /payments_backend
+WORKDIR /app
 
-# Copia i file package.json e package-lock.json
+# Copia package.json e installa le dipendenze
 COPY package*.json ./
-
-# Installa le dipendenze
 RUN npm install
 
-# Copia tutti i file del progetto
+# Copia il codice sorgente
 COPY . .
 
-# Compila TypeScript in JavaScript
+# Compila TypeScript
 RUN npm run build
 
-# Espone la porta 4000 (o la porta che il tuo server dei pagamenti usa)
-EXPOSE 4000
+# Espone la porta dell'applicazione
+EXPOSE 3000
 
-# Comando di avvio
-CMD ["npm", "start"]
+# Esegue l'applicazione
+CMD ["npm", "run", "start"]
