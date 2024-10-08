@@ -50,3 +50,5 @@ Fine.init({
 
 User.hasMany(Fine, { foreignKey: 'userId', as: 'fines' });
 Fine.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+
+export default Fine;
