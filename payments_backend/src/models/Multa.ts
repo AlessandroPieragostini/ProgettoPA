@@ -1,4 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
+import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 
 class Multa extends Model {
     public id!: number;
@@ -6,6 +7,8 @@ class Multa extends Model {
     public importo!: number;
     public pagamentoEffettuato!: boolean;
 }
+
+const sequelize = SequelizeConnection.getInstance().sequelize;
 
 Multa.init({
     id: {

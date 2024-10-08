@@ -1,70 +1,68 @@
-import { DataTypes, Model, Optional } from 'sequelize';
-import bcrypt from 'bcrypt';
+import { DataTypes, Model } from 'sequelize';
+import { SequelizeConnection } from '../syncDB/SequelizeConnection';
+import { UserRole } from "../static";
 
-// Definizione dei campi opzionali per il Model User
-interface UserAttributes {
-    id: number;
-    username: string;
-    password: string;
-    credit: number;
-    createdAt?: Date;
-    updatedAt?: Date;
+export default class User extends Model {
+
+  declare id: number;
+  
+  declare username: string;
+  
+  declare email: string;
+
+  declare token: number;
+
+  declare role: string;
+
+  declare credit: number;
+
 }
 
-// Definiamo i campi che possono essere opzionali alla creazione di un utente
-interface UserCreationAttributes extends Optional<UserAttributes, 'id'> { }
+const sequelize = SequelizeConnection.getInstance().sequelize;
 
-class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
-    public id!: number;
-    public username!: string;
-    public password!: string;
-    public credit!: number;
-
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
-
-    // Funzione per verificare la password hashata
-    public validPassword(password: string): boolean {
-        return bcrypt.compareSync(password, this.password);
-    }
-}
-
-// Inizializziamo il modello User con le sue colonne
-User.init({
+User.init(
+  {
     id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+      autoIncrement: true
     },
     username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
+    token: {
+      type: DataTypes.DECIMAL,
+      allowNull: false
+    },
+    role: {
+        type: DataTypes.ENUM,
+        values: Object.values(UserRole),
+        allowNull: false,
+        defaultValue: UserRole.USER
     },
     credit: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         defaultValue: 0.0
     },
-}, {
-    sequelize,
-    modelName: 'User',
-    tableName: 'users',
-    hooks: {
-        // Hook per hashare la password prima di salvare o aggiornare
-        beforeCreate: async (user) => {
-            user.password = await bcrypt.hash(user.password, 10);
-        },
-        beforeUpdate: async (user) => {
-            if (user.changed('password')) {
-                user.password = await bcrypt.hash(user.password, 10);
-            }
-        }
-    }
-});
 
-export default User;
+  },
+  {
+    sequelize,
+    modelName: "User",
+    tableName: "users",
+    timestamps: true,
+    underscored: true,
+    createdAt: 'created_at', 
+    updatedAt: 'updated_at'
+  },
+);
+
+

@@ -1,6 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
-import { sequelize } from '../config/database'; 
-import { User } from './User'; 
+import { SequelizeConnection } from '../syncDB/SequelizeConnection';
+import User from './User'; 
 
 export class Fine extends Model {
   public id!: number;
@@ -12,6 +12,8 @@ export class Fine extends Model {
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
+
+const sequelize = SequelizeConnection.getInstance().sequelize;
 
 Fine.init({
   id: {
