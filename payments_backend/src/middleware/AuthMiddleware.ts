@@ -1,19 +1,17 @@
-import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import config from '../config/config';
+import { Request, Response, NextFunction } from 'express';
 
-export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
+export const checkJWT = (req: Request, res: Response, next: NextFunction) => {
+   const token = req.headers.authorization?.split(' ')[1];
+   if (!token) {
+      return res.status(401).json({ error: 'Token missing' });
+   }
 
-    if (!token) {
-        return res.status(403).json({ error: 'Accesso negato. Nessun token fornito.' });
-    }
-
-    try {
-        const decoded = jwt.verify(token, config.jwtSecret);
-        req.user = decoded;
-        next();
-    } catch (error) {
-        return res.status(401).json({ error: 'Token non valido.' });
-    }
+   jwt.verify(token, process.env.JWT_SECRET!, (err, decoded) => {
+      if (err) {
+         return res.status(403).json({ error: 'Invalid token' });
+      }
+      req.user = decoded;  // Assuming JWT contains user info
+      next();
+   });
 };

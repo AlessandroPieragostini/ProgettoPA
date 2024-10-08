@@ -1,11 +1,19 @@
-import { Router } from 'express';
-import PaymentController from '../controllers/PaymenentControllers';
-import { authenticateToken } from '../middleware/AuthMiddleware';
+import express from 'express';
+import { checkJWT } from '../middleware/AuthMiddleware';
+import { rechargeCredit, checkCredit, payFine, downloadReceipt } from '../controllers/PaymenentControllers';
 
-const router = Router();
+const router = express.Router();
 
-router.post('/pay', authenticateToken, PaymentController.payFine);
-router.post('/recharge', authenticateToken, PaymentController.rechargeCredit);
-router.get('/credit/:userId', authenticateToken, PaymentController.checkCredit);
+// Ricarica credito (solo admin)
+router.post('/recharge', checkJWT, rechargeCredit);
+
+// Verifica credito utente
+router.get('/check-credit', checkJWT, checkCredit);
+
+// Pagamento multa
+router.post('/pay-fine', checkJWT, payFine);
+
+// Download ricevuta
+router.get('/download-receipt/:uuid', checkJWT, downloadReceipt);
 
 export default router;
