@@ -1,5 +1,6 @@
 import express from 'express';
 import ZTLRoutes from './routes/ztlRoutes';
+import VarcoRoutes from './routes/varcoRoutes'
 import TransitoRoutes from './routes/transitoRoutes';
 import MulteRoutes from './routes/multeRoutes';
 import {syncDb} from "./syncDB/dbSync";
@@ -13,9 +14,10 @@ app.listen(3000)
 syncDb().then(():void=>{console.log("\t--> SYNC DB DONE")})
 
 // Configura le rotte
-app.use('/api/ztl', ZTLRoutes);
-app.use('/api/transito', TransitoRoutes);
-app.use('/api/multe', MulteRoutes);
+app.use('/ztl', ZTLRoutes);
+app.use('/varco', VarcoRoutes);
+app.use('/transito', TransitoRoutes);
+app.use('/multe', MulteRoutes);
 app.get('/', (req, res) => {
     res.send('Hello, World!!!!!');
 });
