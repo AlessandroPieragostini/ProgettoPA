@@ -17,6 +17,7 @@ export const createMulta = async (transito: Transito, veicolo: Veicolo) => {
     
     // Controlla se il veicolo è nella white list
     const isWhiteListed = await Whitelist.findOne({ where: { targa: veicolo.targa } });
+              
     if (isWhiteListed) {
       console.log(`Veicolo con targa ${veicolo.targa} è nella whitelist. Nessuna multa creata.`);
       return;
@@ -24,7 +25,7 @@ export const createMulta = async (transito: Transito, veicolo: Veicolo) => {
 
     const giorno = getGiorno(transito.dataOraTransito);
     const orario = getOrario(transito.dataOraTransito);
-    const varco = await Varco.findOne({ where: { id: transito.idVarco } });
+    const varco = await Varco.findOne({ where: { id: transito.varcoId } });
     const ztl = await ZTL.findOne({ where: { id: varco?.ztlId } });
 
     if (ztl?.giorniAttivi.includes(giorno) && orario > ztl.orarioInizio && orario < ztl.orarioFine) {

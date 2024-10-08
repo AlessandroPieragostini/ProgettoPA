@@ -1,6 +1,3 @@
-CREATE DATABASE IF NOT EXISTS ztl_db;
-
-
 
 -- Creazione della tabella ZTL (Zone a Traffico Limitato)
 CREATE TABLE IF NOT EXISTS ztl (
