@@ -7,6 +7,7 @@ class ZTL extends Model {
   public descrizione?: string;
   public orarioInizio!: string;
   public orarioFine!: string;
+  public giorniAttivi!: string[];
   public createdAt!: Date;
   public updatedAt!: Date;
 }
@@ -34,8 +35,8 @@ ZTL.init(
       type: DataTypes.TIME,
       allowNull: false,
     },
-    giornoSettimana: {
-      type: DataTypes.STRING,
+    giorniAttivi: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: false,
       validate: {
         isIn: [["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"]],

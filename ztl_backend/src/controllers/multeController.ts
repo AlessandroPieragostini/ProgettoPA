@@ -1,9 +1,12 @@
+// src/controllers/multeController.ts
+
 import { Request, Response } from 'express';
-import Multa from '../models/multa'; 
+import MultaDAO from '../dao/multaDAO'; // Importa il DAO
 import Transito from '../models/transito';
 import Veicolo from '../models/veicolo';
-import VarcoZTL from '../models/varco';
-import Whitelist from '../models/whitelist'; 
+import ZTL from '../models/ztl';
+import Varco from '../models/varco';
+import Whitelist from '../models/whitelist';
 import { generatePDF } from '../utils/pdfGenerator'; // Funzione per generare PDF
 import { getGiorno, getOrario } from '../utils/manipolaData';
 import { calcolaImportoMulta } from '../utils/calcolaMulta';
@@ -11,29 +14,24 @@ import moment from 'moment';
 
 export const createMulta = async (transito: Transito, veicolo: Veicolo) => {
   try {
-
-    // Controlla se il veicolo è nella white list (non viene multato)
-    const isWhiteListed = await Whitelist.findOne({
-      where: { targa: veicolo.targa }
-    });
-
+    
+    // Controlla se il veicolo è nella white list
+    const isWhiteListed = await Whitelist.findOne({ where: { targa: veicolo.targa } });
     if (isWhiteListed) {
       console.log(`Veicolo con targa ${veicolo.targa} è nella whitelist. Nessuna multa creata.`);
       return;
     }
 
-    
     const giorno = getGiorno(transito.dataOraTransito);
     const orario = getOrario(transito.dataOraTransito);
-    const varcoId = transito.idVarco
-    
-    const ztl = await VarcoZTL.findOne({ where: { varcoId } });
-    if (ztl?.giornoSettimana == giorno && orario > ztl?.orarioApertura && orario < ztl?.orarioChiusura) {
-      
+    const varco = await Varco.findOne({ where: { id: transito.idVarco } });
+    const ztl = await ZTL.findOne({ where: { id: varco?.ztlId } });
+
+    if (ztl?.giorniAttivi.includes(giorno) && orario > ztl.orarioInizio && orario < ztl.orarioFine) {
       const importoMulta = calcolaImportoMulta(veicolo, moment(transito.dataOraTransito));
-      
-      // Crea la multa
-      const multa = await Multa.create({
+
+      // Crea la multa usando il DAO
+      const multa = await MultaDAO.create({
         importo: importoMulta,
         veicoloId: veicolo.targa,
         transitoId: transito.id
@@ -41,9 +39,6 @@ export const createMulta = async (transito: Transito, veicolo: Veicolo) => {
 
       console.log(`Multa creata con successo. Importo: €${multa.importo}`);
     }
-
-    
-
   } catch (error) {
     console.error('Errore nella creazione della multa:', error);
   }
@@ -51,16 +46,16 @@ export const createMulta = async (transito: Transito, veicolo: Veicolo) => {
 
 export const checkMulte = async (req: Request, res: Response) => {
   try {
-    const multe = await Multa.findAll({ where: { targaVeicolo: req.params.id } }); 
+    const multe = await MultaDAO.findAllByVeicolo(req.params.id);
     res.status(200).json(multe);
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching fines' });
+    res.status(500).json({ error: 'Errore nel recupero delle multe' });
   }
 };
 
 export const downloadBolletino = async (req: Request, res: Response) => {
   try {
-    const multa = await Multa.findByPk(req.params.id);
+    const multa = await MultaDAO.findById(Number(req.params.id));
     if (!multa) {
       res.status(404).json({ error: 'Multa non trovata' });
       return;
@@ -71,28 +66,28 @@ export const downloadBolletino = async (req: Request, res: Response) => {
       'Content-Type': 'application/pdf',
       'Content-Disposition': `attachment; filename=bollettino-${multa.id}.pdf`,
     });
-    
-    res.send(pdfBuffer); // Restituisci il buffer PDF
+
+    res.send(pdfBuffer);
   } catch (error) {
-    console.error(error); // Aggiungi log per aiutarti a debuggare
+    console.error('Errore nella generazione del PDF:', error);
     res.status(500).json({ error: 'Errore nella generazione del PDF' });
   }
 };
 
-
 export const payMulta = async (req: Request, res: Response) => {
   try {
     const { uuid } = req.body; // UUID della multa
-    const multa = await Multa.findOne({ where: { uuid } });
+    const multa = await MultaDAO.findByUUID(uuid);
     if (!multa) {
-      res.status(404).json({ error: 'Multa not found' });
+      res.status(404).json({ error: 'Multa non trovata' });
       return;
     }
 
     // Logica di pagamento (es. verifica dei crediti, ecc.)
+    await MultaDAO.update(multa.id, { pagata: true });
 
     res.status(200).json({ message: 'Multa pagata con successo' });
   } catch (error) {
-    res.status(500).json({ error: 'Error processing payment' });
+    res.status(500).json({ error: 'Errore nel processamento del pagamento' });
   }
 };
