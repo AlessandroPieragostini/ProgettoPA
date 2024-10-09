@@ -44,7 +44,11 @@ User.init(
         values: Object.values(UserRole),
         allowNull: false,
         defaultValue: UserRole.USER
-    }
+    },
+    credit: {
+      type: DataTypes.DECIMAL,
+      allowNull: false
+    },
   },
   {
     sequelize,

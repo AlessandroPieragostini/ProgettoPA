@@ -78,6 +78,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) UNIQUE NOT NULL,
     token DECIMAL NOT NULL,
     role VARCHAR(50) NOT NULL CHECK (role IN ('utente', 'operatore')), -- Modifica a seconda dei ruoli definiti in UserRole
+    credit DECIMAL NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -130,7 +131,7 @@ INSERT INTO tariffa (tipo_veicolo, fascia_oraria, giorno_festivo, costo) VALUES
 ('furgone', 'notte', true, 4.00);
 
 -- Popolamento della tabella users
-INSERT INTO users (username, email, token, role) VALUES
-('john_doe', 'john@example.com', 1234567890, 'USER'),
-('jane_smith', 'jane@example.com', 9876543210, 'ADMIN'),
-('alice_jones', 'alice@example.com', 5432167890, 'SUPER_ADMIN');
+INSERT INTO users (username, email, token, role, credit) VALUES
+('john_doe', 'john@example.com', 1234567890, 'utente', 0),
+('jane_smith', 'jane@example.com', 9876543210, 'operatore', 0),
+('alice_jones', 'alice@example.com', 5432167890, 'operatore', 0);
