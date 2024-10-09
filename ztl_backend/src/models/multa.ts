@@ -34,6 +34,7 @@ Multa.init({
   },
   targaVeicolo: {
     type: DataTypes.STRING,
+    field: 'targa_veicolo',
     allowNull: false,
     references: {
       model: Veicolo,
@@ -42,6 +43,7 @@ Multa.init({
   },
   transitoId: {
     type: DataTypes.INTEGER,
+    field: 'transito_id',
     allowNull: false,
     references: {
       model: Transito,
@@ -50,17 +52,22 @@ Multa.init({
   },
   dataMulta: {
     type: DataTypes.DATE,
+    field: 'data_multa',
     allowNull: false,
   },
   uuidPagamento: {
     type: DataTypes.UUID,
+    field: 'uuid_pagamento',
     allowNull: false,
     defaultValue: DataTypes.UUIDV4,
   },
 }, {
   sequelize,
   modelName: 'Multa',
-  tableName: 'multa'
+  tableName: 'multa',
+  timestamps: true,
+  createdAt: 'created_at', 
+  updatedAt: 'updated_at',
 });
 
 Veicolo.hasMany(Multa, { foreignKey: 'targaVeicolo' });

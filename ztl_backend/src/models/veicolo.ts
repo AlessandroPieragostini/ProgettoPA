@@ -17,6 +17,7 @@ Veicolo.init({
   },
   tipoVeicolo: {
     type: DataTypes.STRING,
+    field: 'tipo_veicolo',
     allowNull: false,
     validate: {
       isIn: [['elettrico', 'benzina', 'diesel', 'ibrido', 'moto', 'furgone']],
@@ -25,7 +26,10 @@ Veicolo.init({
 }, {
   sequelize,
   modelName: 'Veicolo',
-  tableName: 'veicolo'
+  tableName: 'veicolo',
+  timestamps: true,
+  createdAt: 'created_at', 
+  updatedAt: 'updated_at',
 });
 
 export default Veicolo;

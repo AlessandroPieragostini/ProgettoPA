@@ -21,6 +21,7 @@ Transito.init({
   },
   targaVeicolo: {
     type: DataTypes.STRING,
+    field: 'targa_veicolo',
     allowNull: false,
     references: {
       model: Veicolo,
@@ -29,6 +30,7 @@ Transito.init({
   },
   varcoId: {
     type: DataTypes.INTEGER,
+    field: 'varco_id',
     allowNull: false,
     references: {
       model: VarcoZTL,
@@ -37,12 +39,16 @@ Transito.init({
   },
   dataOraTransito: {
     type: DataTypes.DATE,
+    field: 'data_ora_transito',
     allowNull: false,
   },
 }, {
   sequelize,
   modelName: 'Transito',
-  tableName: 'transito'
+  tableName: 'transito',
+  timestamps: true,
+  createdAt: 'created_at', 
+  updatedAt: 'updated_at',
 });
 
 Veicolo.hasMany(Transito, { foreignKey: 'veicoloId' });

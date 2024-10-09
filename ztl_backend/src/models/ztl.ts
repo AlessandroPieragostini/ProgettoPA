@@ -30,18 +30,30 @@ ZTL.init(
       allowNull: true,
     },
     orarioInizio: {
-      type: DataTypes.TIME,
+      type: DataTypes.STRING,
+      field: 'orario_inizio', // Specifica il campo nel database
       allowNull: false,
     },
     orarioFine: {
-      type: DataTypes.TIME,
+      type: DataTypes.STRING,
+      field: 'orario_fine', // Specifica il campo nel database
       allowNull: false,
     },
     giorniAttivi: {
       type: DataTypes.ARRAY(DataTypes.STRING),
+      field: 'giorni_attivi',
       allowNull: false,
       validate: {
-        isIn: [["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"]],
+        isValidDays(value: string[]) {
+          const validDays = ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"];
+          // Verifica se ogni giorno nell'array è valido
+          for (const day of value) {
+            if (!validDays.includes(day)) {
+              console.error(`Il giorno "${day}" non è valido. Deve essere uno dei seguenti: ${validDays.join(', ')}`);
+              throw new Error(`Errore di validazione: giorni non validi.`);
+            }
+          }
+        },
       },
     },
   },
@@ -50,6 +62,8 @@ ZTL.init(
     modelName: 'ZTL',
     tableName: 'ztl',
     timestamps: true,
+    createdAt: 'created_at', 
+    updatedAt: 'updated_at',
   }
 );
 

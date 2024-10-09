@@ -23,6 +23,7 @@ Varco.init({
   },
   ztlId: {
     type: DataTypes.INTEGER,
+    field: 'ztl_id',
     allowNull: false,
     references: {
       model: ZTL, // Nome del modello ZTL
@@ -32,7 +33,10 @@ Varco.init({
 }, {
   sequelize,
   modelName: 'Varco',
-  tableName: 'varco'
+  tableName: 'varco',
+  timestamps: true,
+  createdAt: 'created_at', 
+  updatedAt: 'updated_at',
 });
 
 Varco.belongsTo(ZTL, { foreignKey: 'ztlId', as: 'ztl' });

@@ -13,6 +13,7 @@ const sequelize = SequelizeConnection.getInstance().sequelize;
 Whitelist.init({
   targaVeicolo: {
     type: DataTypes.STRING,
+    field: 'targa_veicolo',
     primaryKey: true,
     references: {
       model: Veicolo,
@@ -21,12 +22,16 @@ Whitelist.init({
   },
   dataScadenza: {
     type: DataTypes.DATE,
+    field: 'data_scadenza',
     allowNull: true,
   },
 }, {
   sequelize,
   modelName: 'Whitelist',
-  tableName: 'whitelist'
+  tableName: 'whitelist',
+  timestamps: true,
+  createdAt: 'created_at', 
+  updatedAt: 'updated_at',
 });
 
 export default Whitelist;
