@@ -2,10 +2,10 @@
 FROM node:18-alpine
 
 # Imposta la directory di lavoro
-WORKDIR /app
+WORKDIR /pagamenti_backend
 
 # Copia package.json e installa le dipendenze
-COPY package*.json ./
+COPY ../package*.json ./
 RUN npm install
 
 # Copia il codice sorgente

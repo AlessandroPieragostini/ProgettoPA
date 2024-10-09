@@ -5,7 +5,7 @@ FROM node:18-alpine
 WORKDIR /ztl_backend
 
 # Copia i file package.json e package-lock.json
-COPY package*.json ./
+COPY ../package*.json ./
 
 # Installa le dipendenze
 RUN npm install
