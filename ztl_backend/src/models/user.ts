@@ -14,6 +14,8 @@ export default class User extends Model {
 
   declare role: string;
 
+  declare credit: number;
+
 }
 
 const sequelize = SequelizeConnection.getInstance().sequelize;

@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS ztl (
     orario_inizio VARCHAR(10) NOT NULL,
     orario_fine VARCHAR(10) NOT NULL,
     giorni_attivi VARCHAR(10) NOT NULL,
-    CONSTRAINT chk_day CHECK (day IN ('Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato')),
+    CONSTRAINT chk_day CHECK (giorni_attivi IN ('Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS multa (
 CREATE TABLE IF NOT EXISTS whitelist (
     targa_veicolo VARCHAR(255) PRIMARY KEY,
     data_scadenza TIMESTAMP NULL,
-    FOREIGN KEY (targaVeicolo) REFERENCES veicolo(targa),
+    FOREIGN KEY (targa_veicolo) REFERENCES veicolo(targa),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS whitelist (
 
 CREATE TABLE IF NOT EXISTS tariffa (
     id_tariffa SERIAL PRIMARY KEY,
-    tipo_veicolo VARCHAR(50) NOT NULL CHECK (tipoVeicolo IN ('elettrico', 'benzina', 'diesel', 'ibrido', 'moto', 'furgone')),
-    fascia_oraria VARCHAR(20) NOT NULL CHECK (fasciaOraria IN ('giorno', 'notte', 'ore_punta')),
+    tipo_veicolo VARCHAR(50) NOT NULL CHECK (tipo_veicolo IN ('elettrico', 'benzina', 'diesel', 'ibrido', 'moto', 'furgone')),
+    fascia_oraria VARCHAR(20) NOT NULL CHECK (fascia_oraria IN ('giorno', 'notte', 'ore_punta')),
     giorno_festivo BOOLEAN NOT NULL,
     costo DECIMAL(10, 2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -117,7 +117,7 @@ INSERT INTO multa (importo, pagato, targa_veicolo, transito_id, data_multa, uuid
 (200.00, false, 'DEF456', 3, '2024-01-18 16:45:00', 12347);
 
 -- Popolamento della tabella whitelist
-INSERT INTO whitelist (targaVeicolo, dataScadenza) VALUES
+INSERT INTO whitelist (targa_veicolo, data_scadenza) VALUES
 ('ABC123', '2024-12-31'),
 ('XYZ789', NULL);
 

@@ -44,10 +44,15 @@ services:
     depends_on:
       database:
         condition: service_healthy
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:3000/health"]  # O qualsiasi endpoint di health
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 5
   
   backend-pagamenti:
     build:
-      context: ./payments_backend
+      context: ./pagamenti_backend
       dockerfile: Dockerfile
     container_name: backend-pagamenti
     env_file:
@@ -60,6 +65,8 @@ services:
     networks:
       - private-ntwk
     depends_on:
+      # backend-transiti:
+      #   condition: service_healthy
       database:
         condition: service_healthy
 
