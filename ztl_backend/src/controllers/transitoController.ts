@@ -3,6 +3,10 @@
 import { Request, Response } from 'express';
 import TransitoDAO from '../dao/transitoDAO'; // Importa il DAO
 import Veicolo from '../models/veicolo';
+import Whitelist from '../models/whitelist';
+import ZTL from '../models/ztl';
+import Varco from '../models/varco';
+import { getGiorno, getOrario } from '../utils/manipolaData';
 import { createMulta } from './multeController';
 
 export const createTransito = async (req: Request, res: Response): Promise<void> => {
@@ -22,9 +26,23 @@ export const createTransito = async (req: Request, res: Response): Promise<void>
       varcoId,
       dataOraPassaggio
     });
-    
+
+    const isWhiteListed = await Whitelist.findOne({ where: { targa: veicolo.targa } });
+              
+    if (isWhiteListed) {
+      console.log(`Veicolo con targa ${veicolo.targa} è nella whitelist. Nessuna multa creata.`);
+      return;
+    }
+
+    const giorno = getGiorno(nuovoTransito.dataOraTransito);
+    const orario = getOrario(nuovoTransito.dataOraTransito);
+    const varco = await Varco.findOne({ where: { id: nuovoTransito.varcoId } });
+    const ztl = await ZTL.findOne({ where: { id: varco?.ztlId } });
+
     // Richiama la creazione della multa, se necessario
-    await createMulta(nuovoTransito, veicolo);
+    if (ztl?.giorniAttivi.includes(giorno) && orario > ztl.orarioInizio && orario < ztl.orarioFine) {
+      await createMulta(nuovoTransito, veicolo);
+    };
 
     res.status(201).json(nuovoTransito);
   } catch (error) {

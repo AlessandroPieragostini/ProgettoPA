@@ -13,33 +13,18 @@ import { calcolaImportoMulta } from '../utils/calcolaMulta';
 import moment from 'moment';
 
 export const createMulta = async (transito: Transito, veicolo: Veicolo) => {
-  try {
+  try {  
+    const importoMulta = calcolaImportoMulta(veicolo, moment(transito.dataOraTransito));
+
+    // Crea la multa usando il DAO
+    const multa = await MultaDAO.create({
+      importo: importoMulta,
+      veicoloId: veicolo.targa,
+      transitoId: transito.id
+    });
+
+    console.log(`Multa creata con successo. Importo: €${multa.importo}`);
     
-    // Controlla se il veicolo è nella white list
-    const isWhiteListed = await Whitelist.findOne({ where: { targa: veicolo.targa } });
-              
-    if (isWhiteListed) {
-      console.log(`Veicolo con targa ${veicolo.targa} è nella whitelist. Nessuna multa creata.`);
-      return;
-    }
-
-    const giorno = getGiorno(transito.dataOraTransito);
-    const orario = getOrario(transito.dataOraTransito);
-    const varco = await Varco.findOne({ where: { id: transito.varcoId } });
-    const ztl = await ZTL.findOne({ where: { id: varco?.ztlId } });
-
-    if (ztl?.giorniAttivi.includes(giorno) && orario > ztl.orarioInizio && orario < ztl.orarioFine) {
-      const importoMulta = calcolaImportoMulta(veicolo, moment(transito.dataOraTransito));
-
-      // Crea la multa usando il DAO
-      const multa = await MultaDAO.create({
-        importo: importoMulta,
-        veicoloId: veicolo.targa,
-        transitoId: transito.id
-      });
-
-      console.log(`Multa creata con successo. Importo: €${multa.importo}`);
-    }
   } catch (error) {
     console.error('Errore nella creazione della multa:', error);
   }
