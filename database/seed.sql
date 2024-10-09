@@ -6,8 +6,7 @@ CREATE TABLE IF NOT EXISTS ztl (
     descrizione TEXT,
     orario_inizio VARCHAR(10) NOT NULL,
     orario_fine VARCHAR(10) NOT NULL,
-    giorni_attivi VARCHAR(10) NOT NULL,
-    CONSTRAINT chk_day CHECK (giorni_attivi IN ('Domenica', 'Lunedì', 'Martedì', 'Mercoledì', 'Giovedì', 'Venerdì', 'Sabato')),
+    giorni_attivi JSONB NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -85,10 +84,16 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- Popolamento iniziale delle tabelle con dati di esempio
 -- Popolamento della tabella ztl
-INSERT INTO ztl (nome, descrizione, orario_inizio, orario_fine, giorni_attivi) VALUES
-('Centro Storico', 'Zona a traffico limitato nel centro città', '08:00', '20:00', 'Lunedì'),
-('Zona Universitaria', 'Zona a traffico limitato per il campus universitario', '07:00', '19:00', 'Martedì'),
-('Mercato', 'Zona a traffico limitato durante il mercato settimanale', '06:00', '14:00', 'Sabato');
+INSERT INTO ztl (nome, descrizione, orario_inizio, orario_fine, giorni_attivi)
+VALUES 
+('Centro Storico', 'Zona a traffico limitato nel centro città', '08:00', '20:00', '["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]'),
+('Zona Universitaria', 'Zona a traffico limitato per il campus universitario', '07:00', '19:00', '["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]'),
+('Mercato', 'Zona a traffico limitato durante il mercato settimanale', '06:00', '14:00', '["Sabato", "Domenica"]'),
+('Zona Turistica', 'Zona a traffico limitato nelle aree turistiche', '09:00', '22:00', '["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"]'),
+('Viale dei Giardini', 'Zona a traffico limitato nel parco cittadino', '10:00', '18:00', '["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]'),
+('Stazione Centrale', 'Zona a traffico limitato intorno alla stazione', '05:00', '23:00', '["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato", "Domenica"]'),
+('Centro Commerciale', 'Zona a traffico limitato intorno al centro commerciale', '10:00', '21:00', '["Sabato", "Domenica"]'),
+('Zona Artigianale', 'Zona a traffico limitato nelle aree artigianali', '08:00', '17:00', '["Martedì", "Giovedì", "Venerdì"]');
 
 -- Popolamento della tabella varco
 INSERT INTO varco (location, ztl_id) VALUES
