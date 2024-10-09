@@ -19,7 +19,7 @@ app.use('/varco', VarcoRoutes);
 app.use('/transito', TransitoRoutes);
 app.use('/multe', MulteRoutes);
 app.get('/', (req, res) => {
-    res.send('Hello, World!!!!!');
+    res.send('Backend dei transiti!');
 });
 
 export default app;

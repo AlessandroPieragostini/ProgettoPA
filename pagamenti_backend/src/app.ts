@@ -13,13 +13,13 @@ app.listen(4000)
 
 // Configura le rotte
 // Rotte per i pagamenti
-app.use('/pagamenti', pagamentoRoutes);
+app.use('/pagamento', pagamentoRoutes);
 
 // Rotte per la gestione del credito
 app.use('/crediti', creditoRoutes); // Registriamo le nuove rotte
 
 app.get('/', (req, res) => {
-    res.send('Hello, World!!!!!');
+    res.send('Backend per pagamenti e crediti!');
 });
 
 export default app;
