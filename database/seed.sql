@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS varco (
 -- Creazione della tabella Veicolo (veicolo che transitano attraverso i varchi)
 CREATE TABLE IF NOT EXISTS veicolo (
     targa VARCHAR(50) PRIMARY KEY UNIQUE NOT NULL,
-    tipo_veicolo VARCHAR(50) NOT NULL,
+    tipo_veicolo VARCHAR(50) NOT NULL CHECK (tipo_veicolo IN ('elettrico', 'benzina', 'diesel', 'ibrido', 'moto', 'furgone')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -43,9 +43,9 @@ CREATE TABLE IF NOT EXISTS multa (
     id SERIAL PRIMARY KEY,
     importo DECIMAL(10, 2) NOT NULL,
     pagato BOOLEAN DEFAULT FALSE,
-    targa_veicolo VARCHAR(255) REFERENCES veicolo(targa) ON DELETE CASCADE,
-    transito_id INT REFERENCES transito(id) ON DELETE CASCADE,
-    data_multa TIMESTAMP,
+    targa_veicolo VARCHAR(255) NOT NULL REFERENCES veicolo(targa) ON DELETE CASCADE,
+    transito_id INT NOT NULL REFERENCES transito(id) ON DELETE CASCADE,
+    data_multa TIMESTAMP NOT NULL,
     uuid_pagamento INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS whitelist (
 
 
 CREATE TABLE IF NOT EXISTS tariffa (
-    id_tariffa SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     tipo_veicolo VARCHAR(50) NOT NULL CHECK (tipo_veicolo IN ('elettrico', 'benzina', 'diesel', 'ibrido', 'moto', 'furgone')),
     fascia_oraria VARCHAR(20) NOT NULL CHECK (fascia_oraria IN ('giorno', 'notte', 'ore_punta')),
     giorno_festivo BOOLEAN NOT NULL,
