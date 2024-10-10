@@ -11,7 +11,8 @@ export class CreditoController {
       const user = await UserDAO.getUserById(userId);
 
       if (!user) {
-        return res.status(404).json({ messaggio: 'Utente non trovato' });
+        res.status(404).json({ messaggio: 'Utente non trovato' });
+        return;
       }
 
       // Restituisce il credito dell'utente
@@ -29,14 +30,16 @@ export class CreditoController {
 
       // Controlla se l'importo di ricarica è valido
       if (importoRicarica <= 0) {
-        return res.status(400).json({ messaggio: 'Importo di ricarica non valido' });
+        res.status(400).json({ messaggio: 'Importo di ricarica non valido' });
+        return;
       }
 
       // Ottieni l'utente dal DAO
       const user = await UserDAO.getUserById(userId);
 
       if (!user) {
-        return res.status(404).json({ messaggio: 'Utente non trovato' });
+        res.status(404).json({ messaggio: 'Utente non trovato' });
+        return;
       }
 
       // Aggiungi l'importo di ricarica al credito attuale dell'utente

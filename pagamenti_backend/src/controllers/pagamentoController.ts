@@ -15,15 +15,24 @@ export class PagamentoController {
       const multa = await MultaDAO.getMultaByUuid(uuidPagamento);
       
       if (!user) {
-        return res.status(404).json({ messaggio: 'Multa non trovata' });
+        res.status(404).json({ messaggio: 'Utente non trovato' });
+        return;
       }
 
       if (!multa) {
-        return res.status(404).json({ messaggio: 'Multa non trovata' });
+        res.status(404).json({ messaggio: 'Multa non trovata' });
+        return
+      }
+      
+      // Controlla se la multa è già stata pagata
+      if (multa.pagato) {
+        res.status(400).json({ messaggio: 'La multa è già stata pagata' });
+        return
       }
 
       if (user.credit < multa.importo) {
-        return res.status(400).json({ messaggio: 'Credito insufficiente' });
+        res.status(400).json({ messaggio: 'Credito insufficiente' });
+        return;
       }
 
       // Aggiorna la multa come pagata
@@ -52,7 +61,8 @@ export class PagamentoController {
       const multa = await MultaDAO.getMultaByUuid(uuidPagamento);
 
       if (!multa || !multa.pagato) {
-        return res.status(400).json({ messaggio: 'La multa non è stata pagata o non esiste' });
+        res.status(400).json({ messaggio: 'La multa non è stata pagata o non esiste' });
+        return;
       }
 
       const doc = new PDFDocument();
