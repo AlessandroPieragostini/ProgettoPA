@@ -1,21 +1,20 @@
-import axiosClient from '../services/axiosClient';
+import User from '../models/user';
 
 export class UserDAO {
   static async getUserById(id: number) {
     try {
-      const response = await axiosClient.get(`/users/${id}`);
-      return response.data;
+      return await User.findByPk(id);
     } catch (error) {
       throw new Error('Errore durante il recupero dell\'utente');
     }
   }
 
-  static async aggiornaCredito(userId: number, nuovoCredito: number) {
+  static async aggiornaCredito(id: number, nuovoCredito: number) {
     try {
-      const response = await axiosClient.put(`/users/${userId}/credito`, {
-        credito: nuovoCredito,
-      });
-      return response.data;
+      return await User.update(
+        { credit: nuovoCredito },
+        { where: { id }, returning: true }
+      );
     } catch (error) {
       throw new Error('Errore durante l\'aggiornamento del credito');
     }

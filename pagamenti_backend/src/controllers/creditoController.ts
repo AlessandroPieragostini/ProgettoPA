@@ -2,32 +2,54 @@ import { Request, Response } from 'express';
 import { UserDAO } from '../dao/userDAO';
 
 export class CreditoController {
-  // Funzione per ricaricare il credito di un utente
-  static async ricaricaCredito(req: Request, res: Response) {
+  // Funzione per ottenere il credito disponibile dell'utente
+  static async getCredito(req: Request, res: Response) {
     try {
-      const { userId } = req.params; // L'ID dell'utente viene passato tramite l'URL
-      const { importo } = req.body; // L'importo da ricaricare è nel corpo della richiesta
+      const userId = req.user.id; // Supponendo che l'ID utente sia nel token JWT
 
-      // Ottieni l'utente
-      const user = await UserDAO.getUserById(parseInt(userId));
+      // Ottieni l'utente dal DAO
+      const user = await UserDAO.getUserById(userId);
 
       if (!user) {
-        res.status(404).json({ messaggio: 'Utente non trovato' });
-        return ;
+        return res.status(404).json({ messaggio: 'Utente non trovato' });
       }
 
-      // Aggiorna il credito dell'utente
-      const nuovoCredito = user.credito + importo;
-      const utenteAggiornato = await UserDAO.aggiornaCredito(parseInt(userId), nuovoCredito);
+      // Restituisce il credito dell'utente
+      res.json({ credito: user.credit });
+    } catch (error) {
+      res.status(500).json({ messaggio: 'Errore durante il recupero del credito' });
+    }
+  }
 
+  // Funzione per ricaricare il credito dell'utente
+  static async ricaricaCredito(req: Request, res: Response) {
+    try {
+      const userId = req.user.id;
+      const { importoRicarica } = req.body;
+
+      // Controlla se l'importo di ricarica è valido
+      if (importoRicarica <= 0) {
+        return res.status(400).json({ messaggio: 'Importo di ricarica non valido' });
+      }
+
+      // Ottieni l'utente dal DAO
+      const user = await UserDAO.getUserById(userId);
+
+      if (!user) {
+        return res.status(404).json({ messaggio: 'Utente non trovato' });
+      }
+
+      // Aggiungi l'importo di ricarica al credito attuale dell'utente
+      const nuovoCredito = user.credit + importoRicarica;
+      await UserDAO.aggiornaCredito(userId, nuovoCredito);
+
+      // Restituisce il nuovo credito aggiornato
       res.json({
-        messaggio: 'Credito ricaricato con successo',
-        utente: utenteAggiornato,
+        messaggio: 'Ricarica effettuata con successo',
+        creditoAggiornato: nuovoCredito,
       });
-      return ;
     } catch (error) {
       res.status(500).json({ messaggio: 'Errore durante la ricarica del credito' });
-      return ;
     }
   }
 }

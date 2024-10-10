@@ -13,7 +13,7 @@ const router = Router();
 // Rotte CRUD per la gestione delle ZTL
 router.post('/', authenticateToken, authorizeRole(['operatore']), createZTL);
 router.get('/', authenticateToken, authorizeRole(['operatore', 'utente']), getZTLs);
-router.get('/:id', authenticateToken, authorizeRole(['operatore']), getZTLById);
+router.get('/:id', authenticateToken, authorizeRole(['operatore', 'utente']), getZTLById);
 router.put('/:id', authenticateToken, authorizeRole(['operatore']), updateZTL);
 router.delete('/:id', authenticateToken, authorizeRole(['operatore']), deleteZTL);
 

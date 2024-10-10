@@ -1,7 +1,7 @@
 import express from 'express';
 import pagamentoRoutes from './routes/pagamentoRoutes';
 import creditoRoutes from './routes/creditoRoutes';
-// import {syncDb} from "./syncDB/dbSync";
+import {syncDb} from "./syncDB/dbSync";
 
 const app = express();
 app.use(express.json());
@@ -9,7 +9,7 @@ app.use(express.json());
 app.listen(4000)
 
 // sync db
-// syncDb().then(():void=>{console.log("\t--> SYNC DB DONE")})
+syncDb().then(():void=>{console.log("\t--> SYNC DB DONE")})
 
 // Configura le rotte
 // Rotte per i pagamenti
