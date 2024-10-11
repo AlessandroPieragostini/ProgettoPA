@@ -1,37 +1,34 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { UserDAO } from '../dao/userDAO';
 import { MultaDAO } from '../dao/multaDAO';
 import PDFDocument from 'pdfkit';
 import { v4 as uuidv4 } from 'uuid'; 
+import { ErrorFactory, ErrorTypes } from '../utils/errorFactory'; // Assicurati di avere il percorso corretto
 
 export class PagamentoController {
   // Funzione per pagare una multa
-  static async pagaMulta(req: Request, res: Response) {
+  static async pagaMulta(req: Request, res: Response, next: NextFunction) {
     try {
       const { uuidPagamento } = req.params;
       const userId = req.user.id;
+
       const user = await UserDAO.getUserById(userId);
-      const multa = await MultaDAO.getMultaByUuid(uuidPagamento);
-      
       if (!user) {
-        res.status(404).json({ messaggio: 'Utente non trovato' });
-        return;
+        return next(ErrorFactory.createError(ErrorTypes.NotFound, 'Utente non trovato'));
       }
 
+      const multa = await MultaDAO.getMultaByUuid(uuidPagamento);
       if (!multa) {
-        res.status(404).json({ messaggio: 'Multa non trovata' });
-        return
+        return next(ErrorFactory.createError(ErrorTypes.NotFound, 'Multa non trovata'));
       }
-      
+
       // Controlla se la multa è già stata pagata
       if (multa.pagato) {
-        res.status(400).json({ messaggio: 'La multa è già stata pagata' });
-        return
+        return next(ErrorFactory.createError(ErrorTypes.BadRequest, 'La multa è già stata pagata'));
       }
 
       if (user.credit < multa.importo) {
-        res.status(400).json({ messaggio: 'Credito insufficiente' });
-        return;
+        return next(ErrorFactory.createError(ErrorTypes.BadRequest, 'Credito insufficiente'));
       }
 
       // Aggiorna la multa come pagata
@@ -46,20 +43,18 @@ export class PagamentoController {
         pagamento: pagamento,
       });
     } catch (error) {
-      res.status(500).json({ messaggio: 'Errore durante il pagamento della multa' });
+      return next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante il pagamento della multa'));
     }
   }
 
   // Funzione per stampare la ricevuta
-  static async stampaRicevuta(req: Request, res: Response) {
+  static async stampaRicevuta(req: Request, res: Response, next: NextFunction) {
     try {
       const { uuidPagamento } = req.params;
 
       const multa = await MultaDAO.getMultaByUuid(uuidPagamento);
-
       if (!multa || !multa.pagato) {
-        res.status(400).json({ messaggio: 'La multa non è stata pagata o non esiste' });
-        return;
+        return next(ErrorFactory.createError(ErrorTypes.BadRequest, 'La multa non è stata pagata o non esiste'));
       }
 
       const doc = new PDFDocument();
@@ -85,7 +80,7 @@ export class PagamentoController {
 
       doc.end();
     } catch (error) {
-      res.status(500).json({ messaggio: 'Errore durante la generazione della ricevuta' });
+      return next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante la generazione della ricevuta'));
     }
   }
 }

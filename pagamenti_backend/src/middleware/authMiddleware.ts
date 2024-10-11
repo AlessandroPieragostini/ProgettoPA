@@ -1,24 +1,24 @@
-// src/middleware/authMiddleware.ts
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { ErrorFactory, ErrorTypes } from '../utils/errorFactory'; // Importa la fabbrica degli errori
 
 export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers['authorization']?.split(' ')[1];
 
   if (!token) {
-    res.sendStatus(401);
-    return;
-   } // Unauthorized
+    return next(ErrorFactory.createError(ErrorTypes.Unauthorized, 'Token di accesso mancante')); // Errore 401
+  }
 
   const secret = process.env.JWT_SECRET;
 
   if (!secret) {
-    res.status(500).send('Server error: JWT secret is not defined.');
-    return;
+    return next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore server: JWT secret non definito')); // Errore 500
   }
 
   jwt.verify(token, secret, (err, user) => {
-    if (err) return res.sendStatus(403); // Forbidden
+    if (err) {
+      return next(ErrorFactory.createError(ErrorTypes.Forbidden, 'Token non valido o scaduto')); // Errore 403
+    }
     req.user = user; // Aggiungi l'utente decodificato alla richiesta
     next();
   });
@@ -26,11 +26,16 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
 
 export const authorizeRole = (roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const userRole = req.user.role;
+    const userRole = req.user?.role;
+    
+    if (!userRole) {
+      return next(ErrorFactory.createError(ErrorTypes.Unauthorized, 'Ruolo utente mancante')); // Errore 401
+    }
+
     if (roles.includes(userRole)) {
       next(); // Permetti l'accesso
     } else {
-      res.sendStatus(403); // Forbidden
+      return next(ErrorFactory.createError(ErrorTypes.Forbidden, 'Accesso negato: ruolo non autorizzato')); // Errore 403
     }
   };
 };
