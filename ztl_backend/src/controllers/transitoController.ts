@@ -11,7 +11,7 @@ import { createMulta } from './multeController';
 
 export const createTransito = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { targa, varcoId, dataOraPassaggio } = req.body;
+    const { targa, varcoId, dataOraTransito } = req.body;
     
     // Controlla se il veicolo esiste
     const veicolo = await Veicolo.findOne({ where: { targa } });
@@ -22,13 +22,13 @@ export const createTransito = async (req: Request, res: Response): Promise<void>
 
     // Crea il transito
     const nuovoTransito = await TransitoDAO.create({
-      veicoloId: veicolo.targa,
+      targaVeicolo: veicolo.targa,
       varcoId,
-      dataOraPassaggio
+      dataOraTransito
     });
 
-    const isWhiteListed = await Whitelist.findOne({ where: { targa: veicolo.targa } });
-              
+    const isWhiteListed = await Whitelist.findOne({ where: { targaVeicolo: veicolo.targa } });
+    
     if (isWhiteListed) {
       console.log(`Veicolo con targa ${veicolo.targa} è nella whitelist. Nessuna multa creata.`);
       return;
@@ -42,7 +42,9 @@ export const createTransito = async (req: Request, res: Response): Promise<void>
     // Richiama la creazione della multa, se necessario
     if (ztl?.giorniAttivi.includes(giorno) && orario > ztl.orarioInizio && orario < ztl.orarioFine) {
       await createMulta(nuovoTransito, veicolo);
-    };
+    } else {
+      console.log(`ZTL non attiva questo giorno. Nessuna multa creata.`);
+    }
 
     res.status(201).json(nuovoTransito);
   } catch (error) {
@@ -103,9 +105,9 @@ export const getTransitoById = async (req: Request, res: Response): Promise<void
 export const updateTransito = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { varcoId, dataOraPassaggio } = req.body;
+    const { targaVeicolo, varcoId, dataOraTransito} = req.body;
 
-    const transito = await TransitoDAO.update(Number(id), { varcoId, dataOraPassaggio });
+    const transito = await TransitoDAO.update(Number(id), { targaVeicolo, varcoId, dataOraTransito });
     res.status(200).json(transito);
   } catch (error) {
     res.status(500).json({ error: 'Errore nell\'aggiornamento del transito' });
@@ -116,9 +118,15 @@ export const deleteTransito = async (req: Request, res: Response): Promise<void>
   try {
     const { id } = req.params;
 
-    await TransitoDAO.delete(Number(id));
-    res.status(204).send();
+    const transitoEliminato = await TransitoDAO.delete(Number(id));
+
+    if (!transitoEliminato) {
+      res.status(404).json({ error: 'Transito non trovato' });
+      return;  
+    }
+
+    res.status(200).json({ message: 'Transito eliminato con successo', transito: transitoEliminato });
   } catch (error) {
-    res.status(500).json({ error: 'Errore nell\'eliminazione del transito' });
+    res.status(500).json({ error: 'Errore durante l\'eliminazione del transito' });
   }
 };

@@ -51,8 +51,8 @@ Transito.init({
   updatedAt: 'updated_at',
 });
 
-Veicolo.hasMany(Transito, { foreignKey: 'veicoloId' });
-Transito.belongsTo(Veicolo, { foreignKey: 'veicoloId' });
+Veicolo.hasMany(Transito, { foreignKey: 'targaVeicolo' });
+Transito.belongsTo(Veicolo, { foreignKey: 'targaVeicolo' });
 
 VarcoZTL.hasMany(Transito, { foreignKey: 'varcoId' });
 Transito.belongsTo(VarcoZTL, { foreignKey: 'varcoId' });

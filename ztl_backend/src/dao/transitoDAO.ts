@@ -30,9 +30,10 @@ class TransitoDAO {
   public async delete(id: number) {
     const transito = await Transito.findByPk(id);
     if (!transito) {
-      throw new Error('Transito not found');
+      return null;  // Restituisci null se il transito non viene trovato
     }
-    return transito.destroy();
+    await transito.destroy();
+    return transito;
   }
 }
 
