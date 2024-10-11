@@ -2,7 +2,7 @@ import { param, body } from 'express-validator';
 import validateRequest from './validateRequestMiddlaware';
 
 export const validateHandleTariffaRequests = [
-    param('id').optional().isInt({ min: 1 }).withMessage('ID deve essere un intero positivo'),
+    param('id').isInt({ min: 1 }).withMessage('ID deve essere un intero positivo'),
     validateRequest
 ];
 
