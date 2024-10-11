@@ -5,7 +5,7 @@ export class CreditoController {
   // Funzione per ottenere il credito disponibile dell'utente
   static async getCredito(req: Request, res: Response) {
     try {
-      const userId = req.user.id; // Supponendo che l'ID utente sia nel token JWT
+      const userId = req.user.id; // ID deve essere nel token JWT
 
       // Ottieni l'utente dal DAO
       const user = await UserDAO.getUserById(userId);
@@ -43,7 +43,7 @@ export class CreditoController {
       }
 
       // Aggiungi l'importo di ricarica al credito attuale dell'utente
-      const nuovoCredito = user.credit + importoRicarica;
+      const nuovoCredito = Number(user.credit) + Number(importoRicarica);
       await UserDAO.aggiornaCredito(userId, nuovoCredito);
 
       // Restituisce il nuovo credito aggiornato

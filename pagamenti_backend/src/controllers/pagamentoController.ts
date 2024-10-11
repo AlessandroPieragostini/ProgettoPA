@@ -10,7 +10,6 @@ export class PagamentoController {
     try {
       const { uuidPagamento } = req.params;
       const userId = req.user.id;
-
       const user = await UserDAO.getUserById(userId);
       const multa = await MultaDAO.getMultaByUuid(uuidPagamento);
       
@@ -55,9 +54,7 @@ export class PagamentoController {
   static async stampaRicevuta(req: Request, res: Response) {
     try {
       const { uuidPagamento } = req.params;
-      const userId = req.user.id;
 
-      const user = await UserDAO.getUserById(userId);
       const multa = await MultaDAO.getMultaByUuid(uuidPagamento);
 
       if (!multa || !multa.pagato) {
@@ -66,7 +63,6 @@ export class PagamentoController {
       }
 
       const doc = new PDFDocument();
-      const ricevutaId = uuidv4();
       const buffer: Buffer[] = [];
 
       doc.on('data', buffer.push.bind(buffer));
@@ -79,7 +75,6 @@ export class PagamentoController {
       // Genera il contenuto del PDF
       doc.fontSize(25).text('Ricevuta di Pagamento', { align: 'center' });
       doc.moveDown();
-      doc.fontSize(14).text(`ID Ricevuta: ${ricevutaId}`);
       doc.text(`Targa: ${multa.targaVeicolo}`);
       doc.text(`Importo: €${multa.importo}`);
       doc.text(`Data di Pagamento: ${new Date().toLocaleString()}`);
