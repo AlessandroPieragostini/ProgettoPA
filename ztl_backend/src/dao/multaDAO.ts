@@ -1,10 +1,15 @@
 // src/dao/MultaDAO.ts
 
 import Multa from '../models/multa';
+import Veicolo from '../models/veicolo';
 
 class MultaDAO {
   public async create(data: any) {
     return Multa.create(data);
+  }
+
+  public async findAllVeicoloByUser(utente_id: number) {
+    return Veicolo.findAll({ where: { utente_id } });
   }
 
   public async findAllByVeicolo(targaVeicolo: string) {

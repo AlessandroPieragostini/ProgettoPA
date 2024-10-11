@@ -1,3 +1,13 @@
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    token DECIMAL NOT NULL,
+    role VARCHAR(50) NOT NULL CHECK (role IN ('utente', 'operatore')), -- Modifica a seconda dei ruoli definiti in UserRole
+    credit DECIMAL NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 -- Creazione della tabella ZTL (Zone a Traffico Limitato)
 CREATE TABLE IF NOT EXISTS ztl (
@@ -72,18 +82,13 @@ CREATE TABLE IF NOT EXISTS tariffa (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    token DECIMAL NOT NULL,
-    role VARCHAR(50) NOT NULL CHECK (role IN ('utente', 'operatore')), -- Modifica a seconda dei ruoli definiti in UserRole
-    credit DECIMAL NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
--- Popolamento iniziale delle tabelle con dati di esempio
+-- Popolamento della tabella users
+INSERT INTO users (username, email, token, role, credit) VALUES
+('john_doe', 'john@example.com', 1234567890, 'utente', 0),
+('jane_smith', 'jane@example.com', 9876543210, 'operatore', 0),
+('alice_jones', 'alice@example.com', 5432167890, 'operatore', 0);
+
 -- Popolamento della tabella ztl
 INSERT INTO ztl (nome, descrizione, orario_inizio, orario_fine, giorni_attivi)
 VALUES 
@@ -106,8 +111,8 @@ INSERT INTO varco (location, ztl_id) VALUES
 INSERT INTO veicolo (targa, utente_id, tipo_veicolo) VALUES
 ('ABC123', 2, 'elettrico'),
 ('XYZ789', 3, 'benzina'),
-('DEF456', 1, 'diesel'),
-('GHI789', 2, 'ibrido');
+('DEF456', 2, 'diesel'),
+('GHI789', 1, 'ibrido');
 
 -- Popolamento della tabella transito
 INSERT INTO transito (targa_veicolo, varco_id, data_ora_transito) VALUES
@@ -136,8 +141,4 @@ INSERT INTO tariffa (tipo_veicolo, fascia_oraria, giorno_festivo, costo) VALUES
 ('moto', 'giorno', false, 1.50),
 ('furgone', 'notte', true, 4.00);
 
--- Popolamento della tabella users
-INSERT INTO users (username, email, token, role, credit) VALUES
-('john_doe', 'john@example.com', 1234567890, 'utente', 0),
-('jane_smith', 'jane@example.com', 9876543210, 'operatore', 0),
-('alice_jones', 'alice@example.com', 5432167890, 'operatore', 0);
+

@@ -4,11 +4,7 @@ import { Request, Response } from 'express';
 import MultaDAO from '../dao/multaDAO'; // Importa il DAO
 import Transito from '../models/transito';
 import Veicolo from '../models/veicolo';
-import ZTL from '../models/ztl';
-import Varco from '../models/varco';
-import Whitelist from '../models/whitelist';
 import { generatePDF } from '../utils/pdfGenerator'; // Funzione per generare PDF
-import { getGiorno, getOrario } from '../utils/manipolaData';
 import { calcolaImportoMulta } from '../utils/calcolaMulta';
 import moment from 'moment';
 
@@ -32,7 +28,15 @@ export const createMulta = async (transito: Transito, veicolo: Veicolo) => {
 
 export const checkMulte = async (req: Request, res: Response) => {
   try {
-    const multe = await MultaDAO.findAllByVeicolo(req.params.id);
+    const veicoli = await MultaDAO.findAllVeicoloByUser(Number(req.params.id));
+    // Scorri ciascun veicolo e trova tutte le multe associate
+    let multe: any[] = [];
+
+    for (const veicolo of veicoli) {
+      const multeVeicolo = await MultaDAO.findAllByVeicolo(veicolo.targa);
+      multe = multe.concat(multeVeicolo);
+    }
+    
     res.status(200).json(multe);
   } catch (error) {
     res.status(500).json({ error: 'Errore nel recupero delle multe' });
