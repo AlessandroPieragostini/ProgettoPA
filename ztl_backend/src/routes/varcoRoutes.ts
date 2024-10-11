@@ -13,10 +13,10 @@ import {
 const router = Router();
 
 // Rotte per la gestione dei varchi
-router.post('/', authenticateToken, authorizeRole(['operatore']), createVarco); // Crea un nuovo varco
+router.post('/crea_varco', authenticateToken, authorizeRole(['operatore']), createVarco); // Crea un nuovo varco
 router.get('/', authenticateToken, authorizeRole(['operatore', 'utente']), getVarchi); // Ottieni tutti i varchi
 router.get('/:id', authenticateToken, authorizeRole(['operatore', 'utente']), getVarcoById); // Ottieni un varco specifico
-router.put('/:id', authenticateToken, authorizeRole(['operatore']), updateVarco); // Aggiorna un varco
-router.delete('/:id', authenticateToken, authorizeRole(['operatore']), deleteVarco); // Elimina un varco
+router.put('/aggiorna_varco/:id', authenticateToken, authorizeRole(['operatore']), updateVarco); // Aggiorna un varco
+router.delete('/elimina_varco/:id', authenticateToken, authorizeRole(['operatore']), deleteVarco); // Elimina un varco
 
 export default router;

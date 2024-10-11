@@ -20,18 +20,4 @@ router.delete('/elimina_ztl/:id', authenticateToken, authorizeRole(['operatore']
 export default router;
 
 
-// // src/routes/ztlRoutes.ts
-// import { Router } from 'express';
-// import { authenticateToken, authorizeRole } from '../middleware/authMiddleware';
-// import ZtlController from '../controllers/ztlController';
 
-// const router = Router();
-
-// // CRUD per la gestione delle ZTL
-// router.post('/', authenticateToken, authorizeRole(['operatore']), ZtlController.createZtl);
-// router.get('/', authenticateToken, authorizeRole(['operatore', 'automobilista']), ZtlController.getAllZtl);
-// router.get('/:id', authenticateToken, authorizeRole(['operatore']), ZtlController.getZtlById);
-// router.put('/:id', authenticateToken, authorizeRole(['operatore']), ZtlController.updateZtl);
-// router.delete('/:id', authenticateToken, authorizeRole(['operatore']), ZtlController.deleteZtl);
-
-// export default router;
