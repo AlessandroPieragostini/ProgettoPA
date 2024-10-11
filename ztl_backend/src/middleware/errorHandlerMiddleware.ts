@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { HttpError } from '../utils/errorFractory';
+import { HttpError } from '../utils/errorFactory';
 
 export const errorHandler = (err: HttpError, req: Request, res: Response, next: NextFunction) => {
     const statusCode = err.statusCode || 500;
