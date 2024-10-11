@@ -40,7 +40,7 @@ ZTL.init(
       allowNull: false,
     },
     giorniAttivi: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.JSONB,
       field: 'giorni_attivi',
       allowNull: false,
       validate: {
