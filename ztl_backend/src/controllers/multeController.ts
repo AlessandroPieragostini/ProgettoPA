@@ -7,6 +7,7 @@ import Veicolo from '../models/veicolo';
 import { generatePDF } from '../utils/pdfGenerator'; // Funzione per generare PDF
 import { calcolaImportoMulta } from '../utils/calcolaMulta';
 import moment from 'moment';
+import { v4 as uuidv4 } from 'uuid';
 
 export const createMulta = async (transito: Transito, veicolo: Veicolo) => {
   try {  
@@ -15,8 +16,10 @@ export const createMulta = async (transito: Transito, veicolo: Veicolo) => {
     // Crea la multa usando il DAO
     const multa = await MultaDAO.create({
       importo: importoMulta,
-      veicoloId: veicolo.targa,
-      transitoId: transito.id
+      targaVeicolo: veicolo.targa,
+      transitoId: transito.id,
+      dataMulta: transito.dataOraTransito,
+      uuidPagamento: uuidv4()
     });
 
     console.log(`Multa creata con successo. Importo: €${multa.importo}`);
@@ -36,7 +39,7 @@ export const checkMulte = async (req: Request, res: Response) => {
       const multeVeicolo = await MultaDAO.findAllByVeicolo(veicolo.targa);
       multe = multe.concat(multeVeicolo);
     }
-    
+
     res.status(200).json(multe);
   } catch (error) {
     res.status(500).json({ error: 'Errore nel recupero delle multe' });

@@ -42,14 +42,14 @@ export const calcolaImportoMulta = (veicolo: Veicolo, dataOraTransito: moment.Mo
   }
 
   // Se vuoi aggiungere una tariffa specifica per i giorni festivi
-  if (èFestivo(dataOraTransito)) {
+  if (festivo(dataOraTransito)) {
     baseRate += 25;  // Sovrapprezzo per i giorni festivi
   }
 
   return baseRate;  // Restituisce l'importo finale della multa
 };
 
-const èFestivo = (data: moment.Moment): boolean => {
+const festivo = (data: moment.Moment): boolean => {
   const festeNazionali = [
     '01-01', // Capodanno
     '25-12', // Natale

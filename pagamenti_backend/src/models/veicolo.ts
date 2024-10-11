@@ -42,4 +42,9 @@ Veicolo.init({
   updatedAt: 'updated_at',
 });
 
+
+User.hasMany(Veicolo, { foreignKey: 'utenteId' });
+Veicolo.belongsTo(User, { foreignKey: 'utenteId' });
+
+
 export default Veicolo;

@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS multa (
     targa_veicolo VARCHAR(255) NOT NULL REFERENCES veicolo(targa) ON DELETE CASCADE,
     transito_id INT NOT NULL REFERENCES transito(id) ON DELETE CASCADE,
     data_multa TIMESTAMP NOT NULL,
-    uuid_pagamento INT NOT NULL,
+    uuid_pagamento VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
