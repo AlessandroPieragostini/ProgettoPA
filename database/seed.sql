@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     token DECIMAL NOT NULL,
-    role VARCHAR(50) NOT NULL CHECK (role IN ('utente', 'operatore')), -- Modifica a seconda dei ruoli definiti in UserRole
+    role VARCHAR(50) NOT NULL CHECK (role IN ('utente', 'operatore', 'admin')), -- Modifica a seconda dei ruoli definiti in UserRole
     credit DECIMAL NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -74,9 +74,9 @@ CREATE TABLE IF NOT EXISTS whitelist (
 
 -- Popolamento della tabella users
 INSERT INTO users (username, email, token, role, credit) VALUES
-('john_doe', 'john@example.com', 1234567890, 'utente', 0),
-('jane_smith', 'jane@example.com', 9876543210, 'operatore', 0),
-('alice_jones', 'alice@example.com', 5432167890, 'operatore', 0);
+('john_doe', 'john@example.com', 1234567890, 'operatore', 0),
+('jane_smith', 'jane@example.com', 9876543210, 'utente', 0),
+('alice_jones', 'alice@example.com', 5432167890, 'admin', 0);
 
 -- Popolamento della tabella ztl
 INSERT INTO ztl (nome, descrizione, orario_inizio, orario_fine, giorni_attivi)

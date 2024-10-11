@@ -9,6 +9,7 @@
 export const UserRole = {
     USER:   'utente',
     OP:  'operatore',
+    ADMIN: 'admin'
   };
   
 export const StatusCode = {
