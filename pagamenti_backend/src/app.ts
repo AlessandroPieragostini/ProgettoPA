@@ -2,6 +2,7 @@ import express from 'express';
 import pagamentoRoutes from './routes/pagamentoRoutes';
 import creditoRoutes from './routes/creditoRoutes';
 import {syncDb} from "./syncDB/dbSync";
+import { errorHandler } from './middleware/errorHandlerMiddleware';
 
 const app = express();
 app.use(express.json());
@@ -21,6 +22,9 @@ app.use('/crediti', creditoRoutes); // Registriamo le nuove rotte
 app.get('/', (req, res) => {
     res.send('Backend per pagamenti e crediti!');
 });
+
+// Middleware per la gestione degli errori
+app.use(errorHandler);
 
 export default app;
 

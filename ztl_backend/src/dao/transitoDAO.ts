@@ -1,6 +1,5 @@
-// src/dao/TransitoDAO.ts
-
 import Transito from '../models/transito';
+import { ErrorFactory, ErrorTypes } from '../utils/errorFactory';
 
 class TransitoDAO {
   public async create(data: any) {
@@ -16,13 +15,17 @@ class TransitoDAO {
   }
 
   public async findById(id: number) {
-    return Transito.findByPk(id);
+    const transito = await Transito.findByPk(id);
+    if (!transito) {
+      throw ErrorFactory.createError(ErrorTypes.NotFound, 'Transito non trovato');
+    }
+    return transito;
   }
 
   public async update(id: number, data: any) {
     const transito = await Transito.findByPk(id);
     if (!transito) {
-      throw new Error('Transito not found');
+      throw ErrorFactory.createError(ErrorTypes.NotFound, 'Transito non trovato');
     }
     return transito.update(data);
   }
@@ -30,10 +33,11 @@ class TransitoDAO {
   public async delete(id: number) {
     const transito = await Transito.findByPk(id);
     if (!transito) {
-      return null;  // Restituisci null se il transito non viene trovato
+      throw ErrorFactory.createError(ErrorTypes.NotFound, 'Transito non trovato, impossibile eliminare.');
     }
+    
     await transito.destroy();
-    return transito;
+    return { message: 'Transito eliminato con successo', transito }; // Restituisce un messaggio di conferma
   }
 }
 

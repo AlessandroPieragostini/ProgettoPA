@@ -1,7 +1,6 @@
-// src/dao/MultaDAO.ts
-
 import Multa from '../models/multa';
 import Veicolo from '../models/veicolo';
+import { ErrorFactory, ErrorTypes } from '../utils/errorFactory'; // Importa ErrorFactory
 
 class MultaDAO {
   public async create(data: any) {
@@ -17,17 +16,25 @@ class MultaDAO {
   }
 
   public async findById(id: number) {
-    return Multa.findByPk(id);
+    const multa = await Multa.findByPk(id);
+    if (!multa) {
+      throw ErrorFactory.createError(ErrorTypes.NotFound, 'Multa non trovata');
+    }
+    return multa;
   }
 
   public async findByUUID(uuid: string) {
-    return Multa.findOne({ where: { uuid } });
+    const multa = await Multa.findOne({ where: { uuid } });
+    if (!multa) {
+      throw ErrorFactory.createError(ErrorTypes.NotFound, 'Multa non trovata con UUID specificato');
+    }
+    return multa;
   }
 
   public async update(id: number, data: any) {
     const multa = await Multa.findByPk(id);
     if (!multa) {
-      throw new Error('Multa not found');
+      throw ErrorFactory.createError(ErrorTypes.NotFound, 'Multa non trovata');
     }
     return multa.update(data);
   }

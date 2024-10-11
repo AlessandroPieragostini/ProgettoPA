@@ -1,6 +1,5 @@
-// src/dao/ZtlDAO.ts
-
 import ZTL from '../models/ztl';
+import { ErrorFactory, ErrorTypes } from '../utils/errorFactory'; // Importa la fabbrica degli errori
 
 class ztlDAO {
   public async create(data: any) {
@@ -12,13 +11,17 @@ class ztlDAO {
   }
 
   public async findById(id: number) {
-    return ZTL.findByPk(id);
+    const ztl = await ZTL.findByPk(id);
+    if (!ztl) {
+      throw ErrorFactory.createError(ErrorTypes.NotFound, 'ZTL non trovata');
+    }
+    return ztl;
   }
 
   public async update(id: number, data: any) {
     const ztl = await ZTL.findByPk(id);
     if (!ztl) {
-      throw new Error('ZTL not found');
+      throw ErrorFactory.createError(ErrorTypes.NotFound, 'ZTL non trovata');
     }
     return ztl.update(data);
   }
@@ -26,9 +29,10 @@ class ztlDAO {
   public async delete(id: number) {
     const ztl = await ZTL.findByPk(id);
     if (!ztl) {
-      throw new Error('ZTL not found');
+      throw ErrorFactory.createError(ErrorTypes.NotFound, 'ZTL non trovata');
     }
-    return ztl.destroy();
+    await ztl.destroy();
+    return true;
   }
 }
 

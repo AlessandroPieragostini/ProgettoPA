@@ -1,6 +1,4 @@
-// src/controllers/multeController.ts
-
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import MultaDAO from '../dao/multaDAO'; // Importa il DAO
 import Transito from '../models/transito';
 import Veicolo from '../models/veicolo';
@@ -8,9 +6,10 @@ import { generatePDF } from '../utils/pdfGenerator'; // Funzione per generare PD
 import { calcolaImportoMulta } from '../utils/calcolaMulta';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
+import { ErrorFactory, ErrorTypes } from '../utils/errorFactory'; // Importa l'ErrorFactory
 
-export const createMulta = async (transito: Transito, veicolo: Veicolo) => {
-  try {  
+export const createMulta = async (transito: Transito, veicolo: Veicolo, next: NextFunction) => {
+  try {
     const importoMulta = calcolaImportoMulta(veicolo, moment(transito.dataOraTransito));
 
     // Crea la multa usando il DAO
@@ -25,16 +24,20 @@ export const createMulta = async (transito: Transito, veicolo: Veicolo) => {
     console.log(`Multa creata con successo. Importo: €${multa.importo}`);
     
   } catch (error) {
-    console.error('Errore nella creazione della multa:', error);
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore nella creazione della multa')); // Passa l'errore al middleware
   }
 };
 
-export const checkMulte = async (req: Request, res: Response) => {
+export const checkMulte = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const veicoli = await MultaDAO.findAllVeicoloByUser(Number(req.params.id));
+
+    if (!veicoli || veicoli.length === 0) {
+      return next(ErrorFactory.createError(ErrorTypes.NotFound, 'Nessun veicolo trovato per questo utente'));
+    }
+
     // Scorri ciascun veicolo e trova tutte le multe associate
     let multe: any[] = [];
-
     for (const veicolo of veicoli) {
       const multeVeicolo = await MultaDAO.findAllByVeicolo(veicolo.targa);
       multe = multe.concat(multeVeicolo);
@@ -42,16 +45,16 @@ export const checkMulte = async (req: Request, res: Response) => {
 
     res.status(200).json(multe);
   } catch (error) {
-    res.status(500).json({ error: 'Errore nel recupero delle multe' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore nel recupero delle multe')); // Passa l'errore al middleware
   }
 };
 
-export const downloadBolletino = async (req: Request, res: Response) => {
+export const downloadBolletino = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const multa = await MultaDAO.findById(Number(req.params.id));
+
     if (!multa) {
-      res.status(404).json({ error: 'Multa non trovata' });
-      return;
+      return next(ErrorFactory.createError(ErrorTypes.NotFound, 'Multa non trovata'));
     }
 
     const pdfBuffer = await generatePDF(multa); // Genera il PDF
@@ -62,9 +65,6 @@ export const downloadBolletino = async (req: Request, res: Response) => {
 
     res.send(pdfBuffer);
   } catch (error) {
-    console.error('Errore nella generazione del PDF:', error);
-    res.status(500).json({ error: 'Errore nella generazione del PDF' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore nella generazione del PDF')); // Passa l'errore al middleware
   }
 };
-
-

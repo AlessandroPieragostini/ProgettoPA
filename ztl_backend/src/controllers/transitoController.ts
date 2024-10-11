@@ -1,6 +1,6 @@
 // src/controllers/transitoController.ts
 
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import TransitoDAO from '../dao/transitoDAO'; // Importa il DAO
 import Veicolo from '../models/veicolo';
 import Whitelist from '../models/whitelist';
@@ -8,16 +8,17 @@ import ZTL from '../models/ztl';
 import Varco from '../models/varco';
 import { getGiorno, getOrario } from '../utils/manipolaData';
 import { createMulta } from './multeController';
+import { ErrorFactory, ErrorTypes } from '../utils/errorFactory'; // Importa l'ErrorFactory
 
-export const createTransito = async (req: Request, res: Response): Promise<void> => {
+export const createTransito = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { targa, varcoId, dataOraTransito } = req.body;
-    
+
     // Controlla se il veicolo esiste
     const veicolo = await Veicolo.findOne({ where: { targa } });
     if (!veicolo) {
-      res.status(404).json({ error: 'Veicolo non trovato' });
-      return;
+      const error = ErrorFactory.createError(ErrorTypes.NotFound, 'Veicolo non trovato');
+      return next(error); // Passa l'errore al middleware
     }
 
     // Crea il transito
@@ -28,10 +29,11 @@ export const createTransito = async (req: Request, res: Response): Promise<void>
     });
 
     const isWhiteListed = await Whitelist.findOne({ where: { targaVeicolo: veicolo.targa } });
-    
+
     if (isWhiteListed) {
       console.log(`Veicolo con targa ${veicolo.targa} è nella whitelist. Nessuna multa creata.`);
-      return;
+      res.status(201).json(nuovoTransito); // Invia la risposta
+      return; // Esci dalla funzione
     }
 
     const giorno = getGiorno(nuovoTransito.dataOraTransito);
@@ -41,92 +43,98 @@ export const createTransito = async (req: Request, res: Response): Promise<void>
 
     // Richiama la creazione della multa, se necessario
     if (ztl?.giorniAttivi.includes(giorno) && orario > ztl.orarioInizio && orario < ztl.orarioFine) {
-      await createMulta(nuovoTransito, veicolo);
+      await createMulta(nuovoTransito, veicolo, next); // Passa next alla funzione createMulta
     } else {
       console.log(`ZTL non attiva questo giorno. Nessuna multa creata.`);
     }
 
-    res.status(201).json(nuovoTransito);
+    res.status(201).json(nuovoTransito); // Invia la risposta
   } catch (error) {
-    res.status(500).json({ error: 'Errore nella creazione del transito' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore nella creazione del transito'));
   }
 };
 
-export const getTransitiByVeicolo = async (req: Request, res: Response): Promise<void> => {
+export const getTransitiByVeicolo = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { targa } = req.params;
 
     const veicolo = await Veicolo.findOne({ where: { targa } });
     if (!veicolo) {
-      res.status(404).json({ error: 'Veicolo non trovato' });
-      return;
+      const error = ErrorFactory.createError(ErrorTypes.NotFound, 'Veicolo non trovato');
+      return next(error); // Passa l'errore al middleware
     }
 
     const transiti = await TransitoDAO.findAllByVeicolo(veicolo.targa);
-    res.status(200).json(transiti);
+    res.status(200).json(transiti); // Invia la risposta
   } catch (error) {
-    res.status(500).json({ error: 'Errore nel recupero dei transiti' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore nel recupero dei transiti'));
   }
 };
 
-export const getTransitiByVarco = async (req: Request, res: Response): Promise<void> => {
+export const getTransitiByVarco = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { varcoId } = req.params;
 
     const transiti = await TransitoDAO.findAllByVarco(Number(varcoId));
-    
+
     if (transiti.length === 0) {
-      res.status(404).json({ error: 'Nessun transito trovato per questo varco' });
-      return;
+      const error = ErrorFactory.createError(ErrorTypes.NotFound, 'Nessun transito trovato per questo varco');
+      return next(error); // Passa l'errore al middleware
     }
 
-    res.status(200).json(transiti);
+    res.status(200).json(transiti); // Invia la risposta
   } catch (error) {
-    res.status(500).json({ error: 'Errore nel recupero dei transiti per il varco' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore nel recupero dei transiti per il varco'));
   }
 };
 
-export const getTransitoById = async (req: Request, res: Response): Promise<void> => {
+export const getTransitoById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { id } = req.params;
 
     const transito = await TransitoDAO.findById(Number(id));
     if (!transito) {
-      res.status(404).json({ error: 'Transito non trovato' });
-      return;
+      const error = ErrorFactory.createError(ErrorTypes.NotFound, 'Transito non trovato');
+      return next(error); // Passa l'errore al middleware
     }
 
-    res.status(200).json(transito);
+    res.status(200).json(transito); // Invia la risposta
   } catch (error) {
-    res.status(500).json({ error: 'Errore nel recupero del transito' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore nel recupero del transito'));
   }
 };
 
-export const updateTransito = async (req: Request, res: Response): Promise<void> => {
+export const updateTransito = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { id } = req.params;
-    const { targaVeicolo, varcoId, dataOraTransito} = req.body;
+    const { targaVeicolo, varcoId, dataOraTransito } = req.body;
 
     const transito = await TransitoDAO.update(Number(id), { targaVeicolo, varcoId, dataOraTransito });
-    res.status(200).json(transito);
+    
+    if (!transito) {
+      const error = ErrorFactory.createError(ErrorTypes.NotFound, 'Transito non trovato');
+      return next(error); // Passa l'errore al middleware
+    }
+
+    res.status(200).json(transito); // Invia la risposta
   } catch (error) {
-    res.status(500).json({ error: 'Errore nell\'aggiornamento del transito' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore nell\'aggiornamento del transito'));
   }
 };
 
-export const deleteTransito = async (req: Request, res: Response): Promise<void> => {
+export const deleteTransito = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { id } = req.params;
 
     const transitoEliminato = await TransitoDAO.delete(Number(id));
 
     if (!transitoEliminato) {
-      res.status(404).json({ error: 'Transito non trovato' });
-      return;  
+      const error = ErrorFactory.createError(ErrorTypes.NotFound, 'Transito non trovato');
+      return next(error); // Passa l'errore al middleware
     }
 
-    res.status(200).json({ message: 'Transito eliminato con successo', transito: transitoEliminato });
+    res.status(200).json({ message: 'Transito eliminato con successo', transito: transitoEliminato }); // Invia la risposta
   } catch (error) {
-    res.status(500).json({ error: 'Errore durante l\'eliminazione del transito' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante l\'eliminazione del transito'));
   }
 };

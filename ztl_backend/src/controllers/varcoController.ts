@@ -1,54 +1,59 @@
 // src/controllers/VarcoController.ts
 
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import VarcoDAO from '../dao/varcoDAO'; // Importa il DAO
+import { ErrorFactory, ErrorTypes } from '../utils/errorFactory'; // Importa l'ErrorFactory
 
-export const createVarco = async (req: Request, res: Response): Promise<void> => {
+export const createVarco = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const newVarco = await VarcoDAO.create(req.body);
-    res.status(201).json(newVarco);
+    res.status(201).json(newVarco); // Invia la risposta
   } catch (error) {
-    res.status(500).json({ error: 'Error creating varco' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante la creazione del varco')); // Passa l'errore al middleware
   }
 };
 
-export const getVarchi = async (req: Request, res: Response): Promise<void> => {
+export const getVarchi = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const Varco = await VarcoDAO.findAll();
-    res.status(200).json(Varco);
+    const varchi = await VarcoDAO.findAll();
+    res.status(200).json(varchi); // Invia la risposta
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching varchi' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante il recupero dei varchi')); // Passa l'errore al middleware
   }
 };
 
-export const getVarcoById = async (req: Request, res: Response): Promise<void> => {
+export const getVarcoById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const varco = await VarcoDAO.findById(Number(req.params.id));
     if (!varco) {
-      res.status(404).json({ error: 'Varco not found' });
-      return;
+      return next(ErrorFactory.createError(ErrorTypes.NotFound, 'Varco non trovato')); // Passa l'errore al middleware
     }
-    res.status(200).json(varco);
+    res.status(200).json(varco); // Invia la risposta
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching varco' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante il recupero del varco')); // Passa l'errore al middleware
   }
 };
 
-export const updateVarco = async (req: Request, res: Response): Promise<void> => {
+export const updateVarco = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const varco = await VarcoDAO.update(Number(req.params.id), req.body);
-    res.status(200).json(varco);
+    if (!varco) {
+      return next(ErrorFactory.createError(ErrorTypes.NotFound, 'Varco non trovato')); // Passa l'errore al middleware
+    }
+    res.status(200).json(varco); // Invia la risposta
   } catch (error) {
-    res.status(500).json({ error: 'Error updating varco' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante l\'aggiornamento del varco')); // Passa l'errore al middleware
   }
 };
 
-export const deleteVarco = async (req: Request, res: Response): Promise<void> => {
+export const deleteVarco = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    await VarcoDAO.delete(Number(req.params.id));
-    res.status(204).send();
+    const deletedVarco = await VarcoDAO.delete(Number(req.params.id));
+    if (!deletedVarco) {
+      return next(ErrorFactory.createError(ErrorTypes.NotFound, 'Varco non trovato')); // Passa l'errore al middleware
+    }
+    res.status(204).json({ message: 'Varco eliminato con successo' });
   } catch (error) {
-    res.status(500).json({ error: 'Error deleting varco' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante l\'eliminazione del varco')); // Passa l'errore al middleware
   }
 };
-

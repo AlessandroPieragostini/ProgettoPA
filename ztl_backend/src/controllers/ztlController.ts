@@ -1,53 +1,59 @@
 // src/controllers/ztlController.ts
 
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import ztlDAO from '../dao/ztlDAO'; // Importa il DAO
+import { ErrorFactory, ErrorTypes } from '../utils/errorFactory'; // Importa l'ErrorFactory
 
-export const createZTL = async (req: Request, res: Response): Promise<void> => {
+export const createZTL = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const newZTL = await ztlDAO.create(req.body);
-    res.status(201).json(newZTL);
+    res.status(201).json(newZTL); // Invia la risposta
   } catch (error) {
-    res.status(500).json({ error: 'Error creating ZTL' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante la creazione della ZTL')); // Passa l'errore al middleware
   }
 };
 
-export const getZTLs = async (req: Request, res: Response): Promise<void> => {
+export const getZTLs = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const ztls = await ztlDAO.findAll();
-    res.status(200).json(ztls);
+    res.status(200).json(ztls); // Invia la risposta
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching ZTLs' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante il recupero delle ZTL')); // Passa l'errore al middleware
   }
 };
 
-export const getZTLById = async (req: Request, res: Response): Promise<void> => {
+export const getZTLById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const ztl = await ztlDAO.findById(Number(req.params.id));
     if (!ztl) {
-      res.status(404).json({ error: 'ZTL not found' });
-      return;
+      return next(ErrorFactory.createError(ErrorTypes.NotFound, 'ZTL non trovata')); // Passa l'errore al middleware
     }
-    res.status(200).json(ztl);
+    res.status(200).json(ztl); // Invia la risposta
   } catch (error) {
-    res.status(500).json({ error: 'Error fetching ZTL' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante il recupero della ZTL')); // Passa l'errore al middleware
   }
 };
 
-export const updateZTL = async (req: Request, res: Response): Promise<void> => {
+export const updateZTL = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const ztl = await ztlDAO.update(Number(req.params.id), req.body);
-    res.status(200).json(ztl);
+    if (!ztl) {
+      return next(ErrorFactory.createError(ErrorTypes.NotFound, 'ZTL non trovata')); // Passa l'errore al middleware
+    }
+    res.status(200).json(ztl); // Invia la risposta
   } catch (error) {
-    res.status(500).json({ error: 'Error updating ZTL' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante l\'aggiornamento della ZTL')); // Passa l'errore al middleware
   }
 };
 
-export const deleteZTL = async (req: Request, res: Response): Promise<void> => {
+export const deleteZTL = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    await ztlDAO.delete(Number(req.params.id));
-    res.status(204).send();
+    const deletedZTL = await ztlDAO.delete(Number(req.params.id));
+    if (!deletedZTL) {
+      return next(ErrorFactory.createError(ErrorTypes.NotFound, 'ZTL non trovata')); // Passa l'errore al middleware
+    }
+    res.status(200).json({ message: 'ZTL eliminata con successo' }); // Invia la risposta di successo
   } catch (error) {
-    res.status(500).json({ error: 'Error deleting ZTL' });
+    next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante l\'eliminazione della ZTL')); // Passa l'errore al middleware
   }
 };
