@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS varco (
 -- Creazione della tabella Veicolo (veicolo che transitano attraverso i varchi)
 CREATE TABLE IF NOT EXISTS veicolo (
     targa VARCHAR(50) PRIMARY KEY UNIQUE NOT NULL,
+    utente_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     tipo_veicolo VARCHAR(50) NOT NULL CHECK (tipo_veicolo IN ('elettrico', 'benzina', 'diesel', 'ibrido', 'moto', 'furgone')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -102,11 +103,11 @@ INSERT INTO varco (location, ztl_id) VALUES
 ('Viale Università', 2);
 
 -- Popolamento della tabella veicolo
-INSERT INTO veicolo (targa, tipo_veicolo) VALUES
-('ABC123', 'elettrico'),
-('XYZ789', 'benzina'),
-('DEF456', 'diesel'),
-('GHI789', 'ibrido');
+INSERT INTO veicolo (targa, utente_id, tipo_veicolo) VALUES
+('ABC123', 2, 'elettrico'),
+('XYZ789', 3, 'benzina'),
+('DEF456', 1, 'diesel'),
+('GHI789', 2, 'ibrido');
 
 -- Popolamento della tabella transito
 INSERT INTO transito (targa_veicolo, varco_id, data_ora_transito) VALUES

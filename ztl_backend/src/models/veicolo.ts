@@ -1,6 +1,7 @@
 // src/models/Veicolo.ts
 import { DataTypes, Model } from 'sequelize';
 import { SequelizeConnection } from '../syncDB/SequelizeConnection';
+import User from './user';
 
 class Veicolo extends Model {
   public targa!: string;
@@ -14,6 +15,15 @@ Veicolo.init({
     type: DataTypes.STRING,
     primaryKey: true,
     allowNull: false,
+  },
+  utenteId: {
+    type: DataTypes.INTEGER,
+    field: 'utente_id',
+    allowNull: false,
+    references: {
+      model: User, // Nome del modello ZTL
+      key: 'id',
+    },
   },
   tipoVeicolo: {
     type: DataTypes.STRING,

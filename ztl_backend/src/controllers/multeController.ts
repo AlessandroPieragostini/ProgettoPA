@@ -60,20 +60,4 @@ export const downloadBolletino = async (req: Request, res: Response) => {
   }
 };
 
-// export const payMulta = async (req: Request, res: Response) => {
-//   try {
-//     const { uuid } = req.body; // UUID della multa
-//     const multa = await MultaDAO.findByUUID(uuid);
-//     if (!multa) {
-//       res.status(404).json({ error: 'Multa non trovata' });
-//       return;
-//     }
 
-//     // Logica di pagamento (es. verifica dei crediti, ecc.)
-//     await MultaDAO.update(multa.id, { pagata: true });
-
-//     res.status(200).json({ message: 'Multa pagata con successo' });
-//   } catch (error) {
-//     res.status(500).json({ error: 'Errore nel processamento del pagamento' });
-//   }
-// };
