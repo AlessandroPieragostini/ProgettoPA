@@ -72,17 +72,6 @@ CREATE TABLE IF NOT EXISTS whitelist (
 );
 
 
-CREATE TABLE IF NOT EXISTS tariffa (
-    id SERIAL PRIMARY KEY,
-    tipo_veicolo VARCHAR(50) NOT NULL CHECK (tipo_veicolo IN ('elettrico', 'benzina', 'diesel', 'ibrido', 'moto', 'furgone')),
-    fascia_oraria VARCHAR(20) NOT NULL CHECK (fascia_oraria IN ('giorno', 'notte', 'ore_punta')),
-    giorno_festivo BOOLEAN NOT NULL,
-    costo DECIMAL(10, 2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
 -- Popolamento della tabella users
 INSERT INTO users (username, email, token, role, credit) VALUES
 ('john_doe', 'john@example.com', 1234567890, 'utente', 0),
@@ -131,14 +120,5 @@ INSERT INTO multa (importo, pagato, targa_veicolo, transito_id, data_multa, uuid
 INSERT INTO whitelist (targa_veicolo, data_scadenza) VALUES
 ('ABC123', '2024-12-31'),
 ('XYZ789', NULL);
-
--- Popolamento della tabella tariffa
-INSERT INTO tariffa (tipo_veicolo, fascia_oraria, giorno_festivo, costo) VALUES
-('elettrico', 'giorno', false, 2.50),
-('benzina', 'notte', true, 3.00),
-('diesel', 'giorno', false, 2.80),
-('ibrido', 'ore_punta', true, 3.50),
-('moto', 'giorno', false, 1.50),
-('furgone', 'notte', true, 4.00);
 
 

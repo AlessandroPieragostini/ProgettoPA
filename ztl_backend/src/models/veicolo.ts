@@ -5,6 +5,7 @@ import User from './user';
 
 class Veicolo extends Model {
   public targa!: string;
+  public utenteId!: number;
   public tipoVeicolo!: string;
 }
 

@@ -4,7 +4,6 @@ import Veicolo from '../models/veicolo';
 import Transito from '../models/transito';
 import Multa from '../models/multa';
 import Whitelist from '../models/whitelist';
-import Tariffa from '../models/tariffa';
 import User from '../models/user';
 
 const syncDb = async () => {
@@ -14,8 +13,7 @@ const syncDb = async () => {
       await Transito.sync();
       await Multa.sync();
       await Whitelist.sync();
-      await Tariffa.sync();
       await User.sync();
 };
   
-export { ZTL, Varco,Veicolo, Transito, Multa, Whitelist, Tariffa, User, syncDb};
+export { ZTL, Varco,Veicolo, Transito, Multa, Whitelist, User, syncDb};

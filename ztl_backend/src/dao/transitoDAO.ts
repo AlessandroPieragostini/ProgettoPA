@@ -7,8 +7,8 @@ class TransitoDAO {
     return Transito.create(data);
   }
 
-  public async findAllByVeicolo(veicoloId: string) {
-    return Transito.findAll({ where: { veicoloId } });
+  public async findAllByVeicolo(targaVeicolo: string) {
+    return Transito.findAll({ where: { targaVeicolo } });
   }
 
   public async findAllByVarco(varcoId: number) {
