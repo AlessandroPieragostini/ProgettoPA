@@ -10,13 +10,14 @@ import {
   updateTransito, 
   deleteTransito 
 } from '../controllers/transitoController'; // Importa le funzioni dal TransitoController
+import { validateHandleTransitoRequests } from '../middleware/validate/transitoValidate';
 
 const router = Router();
 
 // Rotte per la gestione dei transiti
 router.post('/crea_transito', authenticateToken, authorizeRole(['operatore', 'varco']), createTransito); // Crea un nuovo transito NB!! deve poterlo creare anche il varco
 router.get('/veicolo/:targa', authenticateToken, authorizeRole(['operatore', 'utente']), getTransitiByVeicolo); // Ottieni transiti per un veicolo
-router.get('/varco/:varcoId', authenticateToken, authorizeRole(['operatore']), getTransitiByVarco); // Ottieni transiti per un varco
+router.get('/varco/:varcoId', authenticateToken, authorizeRole(['operatore']), validateHandleTransitoRequests, getTransitiByVarco); // Ottieni transiti per un varco
 router.get('/:id', authenticateToken, authorizeRole(['operatore']), getTransitoById); // Ottieni un transito specifico
 router.put('/aggiorna/:id', authenticateToken, authorizeRole(['operatore']), updateTransito); // Aggiorna un transito
 router.delete('/elimina/:id', authenticateToken, authorizeRole(['operatore']), deleteTransito); // Elimina un transito

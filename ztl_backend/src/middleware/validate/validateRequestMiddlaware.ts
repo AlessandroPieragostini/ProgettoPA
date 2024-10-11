@@ -1,6 +1,6 @@
 import { validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
-import { ErrorFactory, ErrorTypes } from '../../utils/errorFractory';
+import { ErrorFactory, ErrorTypes } from '../../utils/errorFactory';
 
 const validateRequest = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req); // recupero gli errori di validazione
