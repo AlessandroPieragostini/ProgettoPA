@@ -1,17 +1,19 @@
-// src/models/Transito.ts
 import { DataTypes, Model } from 'sequelize';
 import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 import Veicolo from './veicolo';
 import VarcoZTL from './varco';
 
+// Definizione di un modello che rappresenta un transito di un veicolo attraverso un varco ZTL
 class Transito extends Model {
-  public id!: number;
-  public targaVeicolo!: string;
-  public varcoId!: number;
-  public dataOraTransito!: Date;
+  public id!: number;             
+  public targaVeicolo!: string;   
+  public varcoId!: number;        
+  public dataOraTransito!: Date;  
 }
 
+
 const sequelize = SequelizeConnection.getInstance().sequelize;
+
 
 Transito.init({
   id: {
@@ -46,15 +48,22 @@ Transito.init({
   sequelize,
   modelName: 'Transito',
   tableName: 'transito',
-  timestamps: true,
-  createdAt: 'created_at', 
-  updatedAt: 'updated_at',
+  timestamps: true,          
+  createdAt: 'created_at',   
+  updatedAt: 'updated_at',   
 });
 
+// Relazione tra Veicolo e Transito: un veicolo può avere molti transiti
 Veicolo.hasMany(Transito, { foreignKey: 'targaVeicolo' });
+
+// Relazione tra Transito e Veicolo: un transito appartiene a un veicolo
 Transito.belongsTo(Veicolo, { foreignKey: 'targaVeicolo' });
 
+// Relazione tra VarcoZTL e Transito: un varco può registrare molti transiti
 VarcoZTL.hasMany(Transito, { foreignKey: 'varcoId' });
+
+// Relazione tra Transito e VarcoZTL: un transito appartiene a un varco
 Transito.belongsTo(VarcoZTL, { foreignKey: 'varcoId' });
 
 export default Transito;
+

@@ -1,6 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 
+// Definizione del modello ZTL
 class ZTL extends Model {
   public id!: number;
   public nome!: string;
@@ -14,6 +15,7 @@ class ZTL extends Model {
 
 const sequelize = SequelizeConnection.getInstance().sequelize;
 
+// Inizializzazione del modello ZTL
 ZTL.init(
   {
     id: {
@@ -31,12 +33,12 @@ ZTL.init(
     },
     orarioInizio: {
       type: DataTypes.STRING,
-      field: 'orario_inizio', // Specifica il campo nel database
+      field: 'orario_inizio', 
       allowNull: false,
     },
     orarioFine: {
       type: DataTypes.STRING,
-      field: 'orario_fine', // Specifica il campo nel database
+      field: 'orario_fine',
       allowNull: false,
     },
     giorniAttivi: {

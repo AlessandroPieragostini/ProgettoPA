@@ -1,8 +1,8 @@
-// src/models/Veicolo.ts
 import { DataTypes, Model } from 'sequelize';
 import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 import User from './user';
 
+// Definizione del modello Veicolo
 class Veicolo extends Model {
   public targa!: string;
   public tipoVeicolo!: string;
@@ -10,6 +10,7 @@ class Veicolo extends Model {
 
 const sequelize = SequelizeConnection.getInstance().sequelize;
 
+// Inizializzazione del modello Veicolo con i campi: targa, utenteId, tipoVeicolo
 Veicolo.init({
   targa: {
     type: DataTypes.STRING,
@@ -42,7 +43,7 @@ Veicolo.init({
   updatedAt: 'updated_at',
 });
 
-
+// Definizione delle relazioni tra Veicolo e User
 User.hasMany(Veicolo, { foreignKey: 'utenteId' });
 Veicolo.belongsTo(User, { foreignKey: 'utenteId' });
 

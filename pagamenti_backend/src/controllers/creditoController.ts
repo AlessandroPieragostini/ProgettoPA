@@ -1,18 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserDAO } from '../dao/userDAO';
-import { ErrorFactory, ErrorTypes } from '../utils/errorFactory'; // Assicurati di avere il percorso corretto
+import { ErrorFactory, ErrorTypes } from '../utils/errorFactory';
 
 export class CreditoController {
   // Funzione per ottenere il credito disponibile dell'utente
   static async getCredito(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = req.user.id; // ID deve essere nel token JWT
+      const userId = req.user.id; 
 
-      const user = await UserDAO.getUserById(userId);
+      const user = await UserDAO.getUserById(userId); 
       if (!user) {
-        return next(ErrorFactory.createError(ErrorTypes.NotFound, 'Utente non trovato'));
+        return next(ErrorFactory.createError(ErrorTypes.NotFound, 'Utente non trovato')); 
       }
 
+      // Restituisce il credito dell'utente in formato JSON
       res.json({ credito: user.credit });
     } catch (error) {
       return next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante il recupero del credito'));
@@ -25,24 +26,28 @@ export class CreditoController {
       const userId = req.user.id;
       const { importoRicarica } = req.body;
 
+      // Verifica che l'importo di ricarica sia valido (maggiore di 0)
       if (importoRicarica <= 0) {
-        return next(ErrorFactory.createError(ErrorTypes.BadRequest, 'Importo di ricarica non valido'));
+        return next(ErrorFactory.createError(ErrorTypes.BadRequest, 'Importo di ricarica non valido')); 
       }
 
       const user = await UserDAO.getUserById(userId);
       if (!user) {
-        return next(ErrorFactory.createError(ErrorTypes.NotFound, 'Utente non trovato'));
+        return next(ErrorFactory.createError(ErrorTypes.NotFound, 'Utente non trovato')); 
       }
 
+      // Calcola il nuovo credito sommando l'importo ricaricato
       const nuovoCredito = Number(user.credit) + Number(importoRicarica);
+      // Aggiorna il credito dell'utente nel database
       await UserDAO.aggiornaCredito(userId, nuovoCredito);
 
+      // Restituisce un messaggio di successo e il nuovo saldo del credito
       res.json({
-        messaggio: 'Ricarica effettuata con successo',
-        creditoAggiornato: nuovoCredito,
+        messaggio: 'Ricarica effettuata con successo', 
+        creditoAggiornato: nuovoCredito, 
       });
     } catch (error) {
-      return next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante la ricarica del credito'));
+      return next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante la ricarica del credito')); 
     }
   }
 }

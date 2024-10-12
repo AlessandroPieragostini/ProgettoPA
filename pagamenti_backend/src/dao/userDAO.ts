@@ -1,7 +1,8 @@
 import User from '../models/user';
-import { ErrorFactory, ErrorTypes } from '../utils/errorFactory'; // Assicurati di avere il percorso corretto
+import { ErrorFactory, ErrorTypes } from '../utils/errorFactory';
 
 export class UserDAO {
+  // Funzione per recuperare un utente tramite il suo ID
   static async getUserById(id: number) {
     try {
       const user = await User.findByPk(id);
@@ -10,7 +11,6 @@ export class UserDAO {
       }
       return user;
     } catch (error) {
-      // Riempiamo l'errore se l'errore non è già un HttpError
       if (!(error instanceof ErrorFactory)) {
         throw ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante il recupero dell\'utente');
       }
@@ -18,6 +18,7 @@ export class UserDAO {
     }
   }
 
+  // Funzione per aggiornare il credito di un utente
   static async aggiornaCredito(id: number, nuovoCredito: number) {
     try {
       const [updatedCount, updatedUsers] = await User.update(
@@ -27,9 +28,8 @@ export class UserDAO {
       if (updatedCount === 0) {
         throw ErrorFactory.createError(ErrorTypes.NotFound, 'Utente non trovato per l\'aggiornamento del credito');
       }
-      return updatedUsers[0]; // Restituisci l'utente aggiornato
+      return updatedUsers[0];
     } catch (error) {
-      // Riempiamo l'errore se l'errore non è già un HttpError
       if (!(error instanceof ErrorFactory)) {
         throw ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante l\'aggiornamento del credito');
       }

@@ -3,6 +3,7 @@ import { DataTypes, Model } from 'sequelize';
 import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 import Veicolo from './veicolo';
 
+// Definizione del modello WHithelist
 class Whitelist extends Model {
   public targaVeicolo!: string;
   public dataScadenza!: Date | null;
@@ -10,6 +11,7 @@ class Whitelist extends Model {
 
 const sequelize = SequelizeConnection.getInstance().sequelize;
 
+// Inizializzazione del modello Whithelist
 Whitelist.init({
   targaVeicolo: {
     type: DataTypes.STRING,
