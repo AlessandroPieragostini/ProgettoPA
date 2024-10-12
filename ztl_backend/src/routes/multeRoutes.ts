@@ -5,13 +5,13 @@ import { authenticateToken, authorizeRole } from '../middleware/authMiddleware';
 import { 
   checkMulte, 
   downloadBolletino, 
- // payMulta 
 } from '../controllers/multeController'; // Importa le funzioni dal MulteController
+import { validateCheckMulteRequests, validateBollettinoRequests } from '../middleware/validate/multaValidate';
 
 const router = Router();
 
 // Rotte per la gestione delle multe
-router.get('/:id', authenticateToken, authorizeRole(['utente', 'operatore']), checkMulte); // Controlla le multe di un veicolo
-router.get('/download/:id', authenticateToken, authorizeRole(['utente', 'operatore']), downloadBolletino); // Scarica il bollettino della multa
+router.get('/:id', authenticateToken, authorizeRole(['utente', 'operatore']), validateCheckMulteRequests, checkMulte); // Controlla le multe di un veicolo
+router.get('/download/:id', authenticateToken, authorizeRole(['utente', 'operatore']), validateBollettinoRequests,downloadBolletino); // Scarica il bollettino della multa
 
 export default router;

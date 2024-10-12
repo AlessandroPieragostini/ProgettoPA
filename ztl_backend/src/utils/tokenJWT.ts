@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import { ErrorFactory, ErrorTypes } from './errorFactory';
 
 /**
- * enerazione e validazione dei JWT
+ * Generazione e validazione dei JWT
  */
 
 dotenv.config();
