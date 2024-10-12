@@ -18,6 +18,13 @@ git clone https://github.com/AlessandroPieragostini/ProgettoPA.git
 
 # Vai nella cartella del progetto
 cd ProgettoPA
+
+# Importa il file '.env' all'interno della directory principale 
+
+# Avvia il progetto (assicurandoti di aver precendentemente installato Docker e docker-compose)
+docker-compose up --build
+
+#L'applicazione ora è in ascolto all'indirizzo http://127.0.0.1:3000
 ```
 ## Struttura Progetto
 ```
@@ -59,6 +66,7 @@ ProgettoPA
 │   └── tsconfig.json
 ├──.env
 ├──docker-compose.yml
+├──README.md
 └──tsconfig.json
 ```
 ## Pattern Utilizzati
@@ -103,9 +111,10 @@ Grazie a questo pattern, la gestione degli errori è risultata centralizzata, mo
 
 ### 6. **Singleton Pattern**
 
-Il pattern **Singleton** è stato utilizzato per la gestione della connessione al database. In un sistema multi-backend come quello sviluppato, è cruciale avere una singola istanza di connessione al database per evitare conflitti e garantire la consistenza dei dati. Il pattern Singleton garantisce che venga creata un'unica connessione condivisa tra i diversi moduli, ottimizzando l'uso delle risorse.
+Il pattern **Singleton** è stato utilizzato per gestire componenti che devono essere istanziati una sola volta durante il ciclo di vita dell'applicazione:
 
----
+Connessione al database: la connessione a Sequelize è gestita come un singleton, garantendo che esista una sola connessione attiva, migliorando l'efficienza dell'applicazione.
+Configurazione delle chiavi JWT: la gestione delle chiavi segrete per la firma dei token JWT è centralizzata in un singleton per garantire un accesso sicuro e uniforme in tutta l'applicazione.
 
 L'adozione di questi design pattern ha permesso di sviluppare un sistema robusto, manutenibile e scalabile, rispondendo efficacemente ai requisiti del progetto e facilitando future estensioni.
 
@@ -120,10 +129,29 @@ Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indic
 ![DATABASE](./images/database_schema.png)
 
 ## Rotte API
-| a  | b  | c |
-|-------------|-------------|-----------------|
-| a    | b | c |
-| D    | e  | f |
+
+DA MODIFICARE NON SONO LE NOSTRE è SOLO PER LA STRUTTURA!!!
+^
+| Tipo    | Rotta                        | Autenticazione | Autorizzazione         |
+|---------|------------------------------|----------------|------------------------|
+| *POST*    | `/login`                      | SI              |                        |
+| *GET*    | `/varcoZtl/:id/?transiti?`    | SI              | Operatore              |
+| *POST*    | `/varcoZtl`                   | SI              | Operatore              |
+| *PUT*     | `/varcoZtl/:id`               | SI              | Operatore              |
+| *DELETE*  | `/varcoZtl/:id`               | SI              | Operatore              |
+| *GET*    | `/zonaZtl/:id/?transiti?`     | SI              | Operatore              |
+| *POST*    | `/zonaZtl`                    | SI              | Operatore              |
+| *PUT*     | `/zonaZtl/:id`                | SI              | Operatore              |
+| *DELETE*  | `/zonaZtl/:id`                | SI              | Operatore              |
+| *GET*     | `/transito/:id?`              | SI              | Operatore              |
+| *POST*    | `/transito`                   | SI              | Operatore, Varco        |
+| *PUT*     | `/transito/:id`               | SI              | Operatore              |
+| *DELETE*  | `/transito/:id`               | SI              | Operatore              |
+| *GET*    | `/multe/:uuid?`               | SI              | Automobilista           |
+| *GET*     | `/tokenresidui`               | SI              | Automobilista           |
+| *POST*    | `/pagamulta`                  | SI              | Automobilista           |
+| *POST*    | `/ricaricatoken/:id`          | SI              | Admin                  |
+
 
 ## Strumenti utilizzati
 Per lo sviluppo dell'applicazione presentata sono stati utilizzati i seguenti strumenti di lavoro:
