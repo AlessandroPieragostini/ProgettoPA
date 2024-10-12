@@ -52,7 +52,7 @@ export const deleteZTL = async (req: Request, res: Response, next: NextFunction)
     if (!deletedZTL) {
       return next(ErrorFactory.createError(ErrorTypes.NotFound, 'ZTL non trovata')); // Passa l'errore al middleware
     }
-    res.status(200).json({ message: 'ZTL eliminata con successo' }); // Invia la risposta di successo
+    res.status(200).json({ ztl: deletedZTL }); // Invia la risposta di successo
   } catch (error) {
     next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante l\'eliminazione della ZTL')); // Passa l'errore al middleware
   }

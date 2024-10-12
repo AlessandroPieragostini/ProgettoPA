@@ -32,7 +32,7 @@ class VarcoDAO {
       throw ErrorFactory.createError(ErrorTypes.NotFound, 'Varco non trovato');
     }
     await varco.destroy();
-    return true; // Restituisce true se l'eliminazione ha successo
+    return  { message: 'Varco eliminato con successo', varco }; // Restituisce true se l'eliminazione ha successo
   }
 }
 

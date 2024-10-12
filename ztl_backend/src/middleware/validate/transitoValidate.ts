@@ -17,7 +17,7 @@ export const validateGetTransitoById = [
 ];
 
 export const validateCreateTransito = [
-    body('targaVeicolo').isString().withMessage('La targa deve essere una stringa'),
+    body('targa').isString().withMessage('La targa deve essere una stringa'),
     body('varcoId').isInt({ min: 1 }).withMessage('Varco ID deve essere un intero positivo'),
     body('dataOraTransito').isISO8601().withMessage('Data Ora deve essere una data valida'),
     validateRequest
@@ -25,7 +25,7 @@ export const validateCreateTransito = [
 
 export const validateUpdateTransito = [
     param('id').isInt({ min: 1 }).withMessage('ID deve essere un intero positivo'),
-    body('targaVeicolo').optional().isString().withMessage('La targa deve essere una stringa'),
+    body('targa').optional().isString().withMessage('La targa deve essere una stringa'),
     body('varcoId').optional().isInt({ min: 1 }).withMessage('VarcoId deve essere un intero positivo'),
     body('dataOraTransito').optional().isISO8601().withMessage('Data Ora deve essere una data valida'),
     validateRequest

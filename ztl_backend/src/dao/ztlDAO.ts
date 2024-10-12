@@ -32,7 +32,7 @@ class ztlDAO {
       throw ErrorFactory.createError(ErrorTypes.NotFound, 'ZTL non trovata');
     }
     await ztl.destroy();
-    return true;
+    return  { message: 'ZTL eliminata con successo', ztl };
   }
 }
 

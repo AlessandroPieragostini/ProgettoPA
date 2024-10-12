@@ -5,6 +5,7 @@ import TransitoRoutes from './routes/transitoRoutes';
 import MulteRoutes from './routes/multeRoutes';
 import {syncDb} from "./syncDB/dbSync";
 import loginRoutes from './routes/loginRoutes';
+import { errorHandler } from './middleware/errorHandlerMiddleware';
 
 const app = express();
 app.use(express.json());
@@ -23,5 +24,8 @@ app.use('/login', loginRoutes)
 app.get('/', (req, res) => {
     res.send('Backend dei transiti!');
 });
+
+// Middleware per la gestione degli errori
+app.use(errorHandler);
 
 export default app;
