@@ -52,7 +52,7 @@ export const deleteVarco = async (req: Request, res: Response, next: NextFunctio
     if (!deletedVarco) {
       return next(ErrorFactory.createError(ErrorTypes.NotFound, 'Varco non trovato')); // Passa l'errore al middleware
     }
-    res.status(200).json({ varco: deletedVarco }); // Invia la risposta
+    res.status(200).json({ data: deletedVarco }); // Invia la risposta
   } catch (error) {
     next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante l\'eliminazione del varco')); // Passa l'errore al middleware
   }

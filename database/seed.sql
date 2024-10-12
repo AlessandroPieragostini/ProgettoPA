@@ -112,9 +112,9 @@ INSERT INTO transito (targa_veicolo, varco_id, data_ora_transito) VALUES
 
 -- Popolamento della tabella multa
 INSERT INTO multa (importo, pagato, targa_veicolo, transito_id, data_multa, uuid_pagamento) VALUES
-(100.00, false, 'ABC123', 1, '2024-01-16 12:00:00', 12345),
-(150.00, true, 'XYZ789', 2, '2024-01-17 14:30:00', 12346),
-(200.00, false, 'DEF456', 3, '2024-01-18 16:45:00', 12347);
+(100.00, false, 'ABC123', 1, '2024-01-16 12:00:00', 'f47ac10b-58cc-4372-a567-0e02b2c3d479'),
+(150.00, true, 'XYZ789', 2, '2024-01-17 14:30:00', '9e107d9d-372b-4984-b9d2-67d9a5f57487'),
+(200.00, false, 'DEF456', 3, '2024-01-18 16:45:00', 'fa17cb9a-eeb1-40e7-bfab-13f587d1b6cc');
 
 -- Popolamento della tabella whitelist
 INSERT INTO whitelist (targa_veicolo, data_scadenza) VALUES

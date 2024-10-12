@@ -133,7 +133,7 @@ export const deleteTransito = async (req: Request, res: Response, next: NextFunc
       return next(error); // Passa l'errore al middleware
     }
 
-    res.status(200).json({ transito: transitoEliminato }); // Invia la risposta
+    res.status(200).json({ data: transitoEliminato }); // Invia la risposta
   } catch (error) {
     next(ErrorFactory.createError(ErrorTypes.InternalServerError, 'Errore durante l\'eliminazione del transito'));
   }
