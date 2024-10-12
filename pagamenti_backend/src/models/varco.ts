@@ -1,8 +1,8 @@
-// src/models/VarcoZTL.ts
 import { DataTypes, Model } from 'sequelize';
 import ZTL from './ztl';
 import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 
+// Definizione del modello Varco, che rappresenta un varco ZTL
 class Varco extends Model {
   public id!: number;
   public location!: string;
@@ -11,6 +11,7 @@ class Varco extends Model {
 
 const sequelize = SequelizeConnection.getInstance().sequelize;
 
+// Definizione del modello Varco, che rappresenta un varco ZTL
 Varco.init({
   id: {
     type: DataTypes.INTEGER,
@@ -26,7 +27,7 @@ Varco.init({
     field: 'ztl_id',
     allowNull: false,
     references: {
-      model: ZTL, // Nome del modello ZTL
+      model: ZTL,
       key: 'id',
     },
   },
@@ -39,6 +40,7 @@ Varco.init({
   updatedAt: 'updated_at',
 });
 
+// Definizione delle relazioni tra Varco e ZTL
 Varco.belongsTo(ZTL, { foreignKey: 'ztlId', as: 'ztl' });
 ZTL.hasMany(Varco, { foreignKey: 'ztlId', as: 'varchi' });
 

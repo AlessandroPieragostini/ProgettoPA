@@ -2,24 +2,19 @@ import { DataTypes, Model } from 'sequelize';
 import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 import { UserRole } from "../static";
 
+// Definizione del modello User che rappresenta la tabella "users" nel database
 export default class User extends Model {
-
-  declare id: number;
-  
-  declare username: string;
-  
+  declare id: number;  
+  declare username: string;  
   declare email: string;
-
   declare token: number;
-
   declare role: string;
-
   declare credit: number;
-
 }
 
 const sequelize = SequelizeConnection.getInstance().sequelize;
 
+// Inizializzazione del modello User con i campi principali: id, username, email, token, role, credit
 User.init(
   {
     id: {
@@ -42,10 +37,10 @@ User.init(
       allowNull: false
     },
     role: {
-        type: DataTypes.ENUM,
-        values: Object.values(UserRole),
-        allowNull: false,
-        defaultValue: UserRole.USER
+      type: DataTypes.ENUM,
+      values: Object.values(UserRole),
+      allowNull: false,
+      defaultValue: UserRole.USER
     },
     credit: {
       type: DataTypes.DECIMAL,
@@ -53,6 +48,7 @@ User.init(
     },
   },
   {
+    // Configurazione del modello User, compresa la mappatura dei campi con il database
     sequelize,
     modelName: "User",
     tableName: "users",
