@@ -1,5 +1,5 @@
 import { body, param } from 'express-validator';
-import validateRequest from './validateRequestMiddlaware';
+import validateRequest from './validateRequestMiddleware';
 
 export const validateHandleVarcoZtlRequests = [
     param('id').isInt({ min: 1 }).withMessage('ID deve essere un intero positivo'),

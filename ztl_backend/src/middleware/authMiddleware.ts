@@ -29,13 +29,13 @@ export const authorizeRole = (roles: string[]) => {
     const userRole = req.user?.role;
     
     if (!userRole) {
-      return next(ErrorFactory.createError(ErrorTypes.Unauthorized, 'Ruolo utente mancante')); // Errore 401
+      return next(ErrorFactory.createError(ErrorTypes.Forbidden, 'Ruolo utente mancante')); // Errore 401
     }
 
     if (roles.includes(userRole)) {
       next(); // Permetti l'accesso
     } else {
-      return next(ErrorFactory.createError(ErrorTypes.Forbidden, 'Accesso negato: ruolo non autorizzato')); // Errore 403
+      return next(ErrorFactory.createError(ErrorTypes.Unauthorized, 'Accesso negato: ruolo non autorizzato')); // Errore 403
     }
   };
 };

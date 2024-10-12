@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { ErrorFactory, ErrorTypes } from '../utils/errorFactory'; // Importa la fabbrica degli errori
 
 export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
-  const token = req.headers['authorization']?.split(' ')[1];
+  const token = req.header('Authorization')?.replace('Bearer ', ''); 
 
   if (!token) {
     return next(ErrorFactory.createError(ErrorTypes.Unauthorized, 'Token di accesso mancante')); // Errore 401
