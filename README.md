@@ -1,7 +1,7 @@
 # PROGETTO PROGRAMMAZIONE AVANZATA
 ![GESTIONE ZTL](./images/logo.png)
 
-## Introduzione
+## Obiettivo
 Questo progetto, sviluppato per il corso di Programmazione Avanzata dell'Anno Accademico 2023/2024, ha come obiettivo la realizzazione di un sistema backend per la gestione delle Zone a Traffico Limitato (ZTL) di una città. Il sistema consente il monitoraggio dei transiti dei veicoli attraverso varchi ZTL, calcolando in modo automatico le multe per i veicoli che violano le restrizioni di accesso. Il progetto si articola in due backend distinti:
 
 Backend di gestione transiti, che permette di monitorare i varchi ZTL, inserire i transiti dei veicoli, e calcolare automaticamente le multe in base alla tipologia del veicolo, alla fascia oraria e al giorno della settimana.
@@ -61,24 +61,92 @@ ProgettoPA
 ├──docker-compose.yml
 └──tsconfig.json
 ```
-## PATTERN UTIIZZATI
+## Pattern Utilizzati
+Durante lo sviluppo del progetto, abbiamo adottato diversi design patterns per garantire un'architettura solida, scalabile e manutenibile. Di seguito vengono descritti i principali pattern utilizzati e le motivazioni dietro la loro scelta.
+### 1. **Model-View-Controller (MVC)**
 
-### MVC
+Il pattern **Model-View-Controller (MVC)**  è stato utilizzato per strutturare l'applicazione in modo da separare la logica di business, la gestione dei dati e la presentazione:
 
-## DIAGRAMMI UML
+- **Model**: Gestisce l'accesso ai dati e la rappresentazione degli oggetti del database tramite **Sequelize**, garantendo una mappatura chiara delle entità come ZTL, Varco, Veicolo, e Transito.
+- **Controller**: Contiene la logica applicativa, orchestrando le operazioni tra i modelli e le rotte API per gestire le richieste dell'utente (come l'inserimento dei transiti o il calcolo delle multe).
+- **View**: gestisce le interazioni tra l'utente e il sistema. I controller ricevono le richieste HTTP, chiamano i servizi appropriati e restituiscono i risultati. Per fornire una visualizzazione dei dati si utilizza **Postman** che restituisce dati in formato JSON.
 
-### DIAGRAMMI DEI CASI D'USO
+L'adozione del pattern MVC facilita l'espandibilità del progetto e la sua manutenzione nel lungo termine.
 
-### DIAGRAMMI DELLE SEQUENZE
+### 2. **Data Access Object (DAO)**
 
-## STRUTTURA DATABASE
+Il pattern **DAO (Data Access Object)** è stato utilizzato per astrarre l'accesso ai dati. Questo approccio consente di isolare completamente il codice della logica applicativa dall'accesso ai dati, facilitando la sostituzione del meccanismo di persistenza senza influenzare altre parti del sistema. Ogni entità del sistema (come `Varco`, `Transito`, e `Veicolo`) ha il proprio DAO, che esegue le operazioni CRUD richieste dall'applicazione.
+
+L'uso del pattern DAO ha garantito una forte modularità, migliorando la manutenibilità e la testabilità del codice.
+
+### 3. **Repository Pattern**
+
+Per centralizzare la logica di accesso ai dati e semplificare l'interazione con i DAO, è stato implementato il **Repository Pattern**. Questo pattern consente di trattare le entità del database come raccolte in memoria, nascondendo i dettagli tecnici dell'accesso ai dati. I **Repository** sono utilizzati per incapsulare la logica di business necessaria a gestire le entità, come la gestione delle ZTL e dei transiti attraverso i varchi.
+
+Questa scelta ha reso il sistema più modulare e ha semplificato le interazioni tra i controller e il database, migliorando la leggibilità del codice.
+
+### 4. **Chain of Responsibility (CoR)**
+
+Il pattern **Chain of Responsibility** è stato adottato attraverso i **middleware** di **Express.js** per gestire in modo efficiente le richieste HTTP. Ogni middleware svolge un compito specifico, come l'autenticazione, la validazione delle richieste o la gestione degli errori, e può passare il controllo al successivo middleware nella catena. In particolare, sono stati implementati:
+
+- **Middleware di autenticazione**: Verifica se l'utente è autenticato tramite JWT e, in caso contrario, interrompe la catena.
+- **Middleware di validazione**: Verifica la correttezza dei dati inviati nelle richieste API.
+- **Middleware di gestione degli errori**: Cattura eventuali errori e sfrutta l'errorHandler descritto nel pattern Factory.
+
+L'utilizzo di questo pattern ha migliorato l'efficienza del flusso delle richieste, garantendo che ogni operazione venga eseguita in modo ordinato e sicuro.
+
+### 5. **Factory Pattern**
+
+Il pattern **Factory** è stato utilizzato per la gestione centralizzata degli errori tramite la creazione di errori personalizzati. L'uso di una **Error Factory** consente di generare istanze di errori HTTP in modo dinamico, semplificando la gestione e l'estensione delle classi di errore. Questo approccio è particolarmente utile per la gestione di risposte standardizzate per errori come l'autenticazione fallita, la validazione dei dati, o l'accesso non autorizzato.
+
+Grazie a questo pattern, la gestione degli errori è risultata centralizzata, modulare e facilmente estendibile.
+
+### 6. **Singleton Pattern**
+
+Il pattern **Singleton** è stato utilizzato per la gestione della connessione al database. In un sistema multi-backend come quello sviluppato, è cruciale avere una singola istanza di connessione al database per evitare conflitti e garantire la consistenza dei dati. Il pattern Singleton garantisce che venga creata un'unica connessione condivisa tra i diversi moduli, ottimizzando l'uso delle risorse.
+
+---
+
+L'adozione di questi design pattern ha permesso di sviluppare un sistema robusto, manutenibile e scalabile, rispondendo efficacemente ai requisiti del progetto e facilitando future estensioni.
+
+## Diagrammi UML
+
+### Diagrammi dei casi d'uso
+
+### Diagrammi delle sequenze
+
+## Struttura Database
 Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indicato per applicazioni backend come quella sviluppata in questo progetto, dove l'autenticazione sicura dei dati e l'efficienza nelle operazioni di lettura e scrittura sono fondamentali. Grazie alle sue prestazioni ottimizzate, PostgreSQL rappresenta una soluzione ideale per garantire la robustezza e la velocità del sistema.
 ![DATABASE](./images/database_schema.png)
 
-## AUTORI 
+## Rotte API
+| a  | b  | c |
+|-------------|-------------|-----------------|
+| a    | b | c |
+| D    | e  | f |
+
+## Strumenti utilizzati
+Per lo sviluppo dell'applicazione presentata sono stati utilizzati i seguenti strumenti di lavoro:
+
+- [Visual Studio Code](https://code.visualstudio.com/): un editor di codice leggero e altamente estensibile, utilizzato per scrivere e gestire il codice dell'applicazione;
+- [GitHub](https://github.com/): una piattaforma di versionamento e collaborazione, utilizzata per ospitare il codice sorgente del progetto e tenere traccia delle modifiche;
+- [Typescript](https://www.typescriptlang.org/): un linguaggio di programmazione che estende JavaScript aggiungendo il supporto per i tipi statici, rendendo il codice più robusto e manutenibile;
+- [Express.js](https://expressjs.com/): un framework minimalista per applicazioni web, utilizzato per semplificare la creazione di server e la gestione delle rotte HTTP in ambiente Node.js;
+- [Node.js](https://nodejs.org/): una piattaforma che permette di eseguire JavaScript lato server, usata per costruire applicazioni scalabili e gestire moduli e pacchetti;
+- [Sequelize](https://sequelize.org/): un ORM (Object Relational Mapping) che facilita l'interazione con database relazionali;
+- [Docker](https://www.docker.com/): una piattaforma di containerizzazione che permette di impacchettare l'applicazione e le sue dipendenze in ambienti isolati e portabili, semplificando il deployment e la gestione dei servizi;
+- [PostgreSQL](https://www.postgresql.org/): un sistema di database relazionale open-source, scelto per gestire e memorizzare in modo efficiente i dati dell'applicazione;
+- [Postman](https://www.postman.com/): uno strumento per testare le API, utilizzato per simulare le chiamate HTTP e verificare il corretto funzionamento delle rotte e delle risposte del server.
+
+
+
+
+
+
+## Autori 
 | Nome e Cognome  | Email  |
 |-------------|-------------|
-| Marco Barbarella    | [s1119226@studenti.univpm.it](s1119226@studenti.univpm.it) |
-| Alessandro Pieragostini    | [s1119377@studenti.univpm.it](s1119377@studenti.univpm.it)   |
+| Marco Barbarella    | [s1119226@studenti.univpm.it](mailto:s1119226@studenti.univpm.it) |
+| Alessandro Pieragostini    | [s1119377@studenti.univpm.it](mailto:s1119377@studenti.univpm.it)   |
 
 
