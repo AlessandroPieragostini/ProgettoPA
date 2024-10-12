@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import { UserDAO } from '../dao/userDAO';
 import { MultaDAO } from '../dao/multaDAO';
 import PDFDocument from 'pdfkit';
-import { v4 as uuidv4 } from 'uuid'; 
 import { ErrorFactory, ErrorTypes } from '../utils/errorFactory'; // Assicurati di avere il percorso corretto
 
 export class PagamentoController {
@@ -72,7 +71,6 @@ export class PagamentoController {
       doc.moveDown();
       doc.text(`Targa: ${multa.targaVeicolo}`);
       doc.text(`Importo: €${multa.importo}`);
-      doc.text(`Data di Pagamento: ${new Date().toLocaleString()}`);
       doc.text(`UUID Pagamento: ${uuidPagamento}`);
       doc.text(`ID Multa: ${multa.id}`);
       doc.moveDown();
