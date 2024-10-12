@@ -38,7 +38,7 @@ User.init(
       allowNull: false,
     },
     token: {
-      type: DataTypes.DECIMAL,
+      type: DataTypes.STRING,
       allowNull: false
     },
     role: {

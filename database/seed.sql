@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    token DECIMAL NOT NULL,
+    token VARCHAR(255) NOT NULL,
     role VARCHAR(50) NOT NULL CHECK (role IN ('utente', 'operatore', 'admin')), -- Modifica a seconda dei ruoli definiti in UserRole
     credit DECIMAL NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -74,9 +74,9 @@ CREATE TABLE IF NOT EXISTS whitelist (
 
 -- Popolamento della tabella users
 INSERT INTO users (username, email, token, role, credit) VALUES
-('john_doe', 'john@example.com', 1234567890, 'operatore', 0),
-('jane_smith', 'jane@example.com', 9876543210, 'utente', 0),
-('alice_jones', 'alice@example.com', 5432167890, 'admin', 0);
+('john_doe', 'john@example.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJlbWFpbCI6ImpvaG5AZXhhbXBsZS5jb20ifQ.9J9qgl4o9PwVO4GGbUXLLP-9-QE5ETRt7mcETL07Qno', 'operatore', 0),
+('jane_smith', 'jane@example.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJlbWFpbCI6ImphbmVAZXhhbXBsZS5jb20ifQ.-EDmzqq-7ikw_5MGOlhq4gZwE6TsBupDGqctiFN52jo', 'utente', 0),
+('alice_jones', 'alice@example.com', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMiLCJlbWFpbCI6ImFsaWNlQGV4YW1wbGUuY29tIn0.xPUz0DjC1DFGh7hIRPKeGfE4XbR7tctdSd6T50CNqls', 'admin', 0);
 
 -- Popolamento della tabella ztl
 INSERT INTO ztl (nome, descrizione, orario_inizio, orario_fine, giorni_attivi)
