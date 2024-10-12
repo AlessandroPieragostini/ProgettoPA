@@ -6,6 +6,6 @@ import { validatePagaMulta, validateStampaRicevuta } from '../middleware/validat
 const router = Router();
 
 // Rotta protetta per pagare una multa
-router.put('/paga/:uuidPagamento', authenticateToken, authorizeRole(['utente','operatore']), validatePagaMulta, PagamentoController.pagaMulta);
-router.get('/ricevuta/:uuidPagamento', authenticateToken, authorizeRole(['utente','operatore']), validateStampaRicevuta, PagamentoController.stampaRicevuta);
+router.put('/:uuidPagamento', authenticateToken, authorizeRole(['utente']), validatePagaMulta, PagamentoController.pagaMulta);
+router.get('/ricevuta/:uuidPagamento', authenticateToken, authorizeRole(['utente']), validateStampaRicevuta, PagamentoController.stampaRicevuta);
 export default router;

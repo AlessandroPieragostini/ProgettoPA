@@ -134,23 +134,29 @@ DA MODIFICARE NON SONO LE NOSTRE è SOLO PER LA STRUTTURA!!!
 ^
 | Tipo    | Rotta                        | Autenticazione | Autorizzazione         |
 |---------|------------------------------|----------------|------------------------|
-| *POST*    | `/login`                      | SI              |                        |
-| *GET*    | `/varcoZtl/:id/?transiti?`    | SI              | Operatore              |
-| *POST*    | `/varcoZtl`                   | SI              | Operatore              |
-| *PUT*     | `/varcoZtl/:id`               | SI              | Operatore              |
-| *DELETE*  | `/varcoZtl/:id`               | SI              | Operatore              |
-| *GET*    | `/zonaZtl/:id/?transiti?`     | SI              | Operatore              |
-| *POST*    | `/zonaZtl`                    | SI              | Operatore              |
-| *PUT*     | `/zonaZtl/:id`                | SI              | Operatore              |
-| *DELETE*  | `/zonaZtl/:id`                | SI              | Operatore              |
-| *GET*     | `/transito/:id?`              | SI              | Operatore              |
+| *POST*    | `/login`                   | SI              |                        |
+| *GET*     | `/varco`                    | SI              | Operatore                 |
+| *GET*     | `/varco/:id`                | SI              | Operatore                 |
+| *POST*    | `/varco`                   | SI              | Operatore              |
+| *PUT*     | `/varco/:id`               | SI              | Operatore              |
+| *DELETE*  | `/varco/:id`               | SI              | Operatore              |
+| *GET*     | `/ztl`                    | SI              | Operatore                |
+| *GET*     | `/ztl/:id`                | SI              | Operatore                 |
+| *POST*    | `/ztl`                   | SI              | Operatore              |
+| *PUT*     | `/ztl/:id`               | SI              | Operatore              |
+| *DELETE*  | `/ztl/:id`               | SI              | Operatore              |
+| *GET*     | `/transito/:id`              | SI              | Operatore              |
+| *GET*     | `/transito/veicolo/:id`              | SI              | Operatore                 |
+| *GET*     | `/transito/varco/:id`              | SI              | Operatore              |
 | *POST*    | `/transito`                   | SI              | Operatore, Varco        |
 | *PUT*     | `/transito/:id`               | SI              | Operatore              |
 | *DELETE*  | `/transito/:id`               | SI              | Operatore              |
-| *GET*    | `/multe/:uuid?`               | SI              | Automobilista           |
-| *GET*     | `/tokenresidui`               | SI              | Automobilista           |
-| *POST*    | `/pagamulta`                  | SI              | Automobilista           |
-| *POST*    | `/ricaricatoken/:id`          | SI              | Admin                  |
+| *GET*     | `/multe/:id`               | SI              | Utente           |
+| *GET*     | `/multe/download/:id`               | SI              | Utente           |
+| *PUT*     | `/pagamento/:uuidPagamento`               | SI              | Utente           |
+| *GET*     | `/pagamento/ricevuta/:uuidPagamento`               | SI              | Utente           |
+| *GET*     | `/crediti`               | SI              | Utente           |
+| *PUT*     | `/crediti/ricarica/:userId`                  | SI              | Utente           |
 
 
 ## Strumenti utilizzati

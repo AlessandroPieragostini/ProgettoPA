@@ -23,8 +23,7 @@ export class CreditoController {
   // Funzione per ricaricare il credito dell'utente
   static async ricaricaCredito(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = req.user.id;
-      const { importoRicarica } = req.body;
+      const { userId, importoRicarica } = req.body;
 
       // Verifica che l'importo di ricarica sia valido (maggiore di 0)
       if (importoRicarica <= 0) {

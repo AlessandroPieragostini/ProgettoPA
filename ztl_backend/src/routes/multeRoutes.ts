@@ -11,7 +11,7 @@ import { validateCheckMulteRequests, validateBollettinoRequests } from '../middl
 const router = Router();
 
 // Rotte per la gestione delle multe
-router.get('/:id', authenticateToken, authorizeRole(['utente', 'operatore']), validateCheckMulteRequests, checkMulte); // Controlla le multe di un veicolo
-router.get('/download/:id', authenticateToken, authorizeRole(['utente', 'operatore']), validateBollettinoRequests,downloadBolletino); // Scarica il bollettino della multa
+router.get('/:id', authenticateToken, authorizeRole(['utente']), validateCheckMulteRequests, checkMulte); // Controlla le multe di un veicolo
+router.get('/download/:id', authenticateToken, authorizeRole(['utente']), validateBollettinoRequests,downloadBolletino); // Scarica il bollettino della multa
 
 export default router;

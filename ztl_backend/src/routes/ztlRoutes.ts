@@ -11,18 +11,16 @@ import {
   validateGetZtl,
   validateCreateZtl,
   validateDeleteZtl,
-  validateUpdateZtl } from '../middleware/validate/ztlValidate';
+  validateUpdateZtl 
+} from '../middleware/validate/ztlValidate';
 
 const router = Router();
 
 // Rotte CRUD per la gestione delle ZTL
-router.post('/crea_ztl', authenticateToken, authorizeRole(['operatore']), validateCreateZtl, createZTL);
-router.get('/', authenticateToken, authorizeRole(['operatore', 'utente']), getZTLs);
-router.get('/:id', authenticateToken, authorizeRole(['operatore', 'utente']), validateGetZtl, getZTLById);
-router.put('/aggiorna_ztl/:id', authenticateToken, authorizeRole(['operatore']), validateUpdateZtl, updateZTL);
-router.delete('/elimina_ztl/:id', authenticateToken, authorizeRole(['operatore']), validateDeleteZtl, deleteZTL);
+router.post('/', authenticateToken, authorizeRole(['operatore']), validateCreateZtl, createZTL); // Crea una nuova ZTL
+router.get('/', authenticateToken, authorizeRole(['operatore']), getZTLs); // Ottieni tutte le ZTL
+router.get('/:id', authenticateToken, authorizeRole(['operatore']), validateGetZtl, getZTLById); // Ottieni una ZTL specifica
+router.put('/:id', authenticateToken, authorizeRole(['operatore']), validateUpdateZtl, updateZTL); // Aggiorna una ZTL
+router.delete('/:id', authenticateToken, authorizeRole(['operatore']), validateDeleteZtl, deleteZTL); // Elimina una ZTL
 
 export default router;
-
-
-

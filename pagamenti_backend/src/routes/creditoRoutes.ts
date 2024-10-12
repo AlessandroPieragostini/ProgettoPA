@@ -5,7 +5,7 @@ import { validateRicaricaCredito } from '../middleware/validate/creditoValidate'
 const router = Router();
 
 // Rotta per ottenere il credito disponibile
-router.get('/', authenticateToken, authorizeRole(['utente', 'operatore']), CreditoController.getCredito);
+router.get('/', authenticateToken, authorizeRole(['utente']), CreditoController.getCredito);
 
 // Rotta protetta per ricaricare il credito (solo op)
 router.put('/ricarica/:userId', authenticateToken, authorizeRole(['admin']), validateRicaricaCredito, CreditoController.ricaricaCredito);
