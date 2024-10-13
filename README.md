@@ -143,6 +143,39 @@ Nel sistema sviluppato, ci sono quattro tipologie di utenti principali: Utente, 
 
 ### Diagrammi delle sequenze
 
+* __POST /transito__
+
+Il diagramma di sequenza rappresenta il flusso di operazioni coinvolto nella creazione di un nuovo transito attraverso l'API. Di seguito una descrizione dettagliata dei principali passi:
+
+1. **Richiesta POST per la Creazione del Transito**:
+   - L'utente (ruolo `operatore` o `varco`) invia una richiesta HTTP POST all'endpoint `/transito` con il token di autenticazione e i dettagli del transito (targa, ID del varco, data e ora del transito).
+
+2. **Autenticazione e Autorizzazione**:
+   - Il middleware `authenticateToken` verifica la validità del token JWT fornito nell'header della richiesta. Se il token è mancante o invalido, viene restituito un errore.
+   - Il middleware `authorizeRole` controlla il ruolo dell'utente per assicurarsi che abbia i permessi necessari per eseguire l'operazione. Se il ruolo non è autorizzato, viene restituito un errore di accesso negato.
+
+3. **Validazione della Richiesta**:
+   - La richiesta viene validata per assicurarsi che i dati forniti rispettino i requisiti dell'API. In caso di dati non validi, viene restituito un errore di validazione.
+
+4. **Verifica del Veicolo**:
+   - Il sistema controlla se il veicolo esiste nel database (`Veicolo`). Se non esiste, viene generato un errore e l'operazione viene interrotta.
+
+5. **Creazione del Transito**:
+   - Se il veicolo è valido, viene creato un nuovo record di transito utilizzando il DAO `TransitoDAO`.
+   - Il sistema verifica poi se il veicolo è presente nella whitelist (`Whitelist`). Se il veicolo è nella lista, nessuna multa viene emessa.
+
+6. **Verifica della ZTL**:
+   - Se il veicolo non è nella whitelist, il sistema controlla se la ZTL associata al varco è attiva al momento del transito. Se è attiva, viene creata una multa tramite la funzione `createMulta`.
+
+7. **Risposta**:
+   - Il sistema restituisce una risposta HTTP con lo stato del nuovo transito creato o eventuali errori.
+
+8. **Gestione degli Errori**:
+   - Il middleware `errorHandler` gestisce eventuali errori, restituendo una risposta appropriata con un messaggio d'errore in formato JSON.
+
+
+![createTransito](./images/DS_createTransito.png)
+
 ## Database Schema
 
 Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indicato per applicazioni backend come quella sviluppata in questo progetto, dove l'autenticazione sicura dei dati e l'efficienza nelle operazioni di lettura e scrittura sono fondamentali. Grazie alle sue prestazioni ottimizzate, PostgreSQL rappresenta una soluzione ideale per garantire la robustezza e la velocità del sistema.
