@@ -140,7 +140,7 @@ Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indic
 
 | Tipo    | Rotta                        | Autenticazione  | Autorizzazione         |
 |---------|------------------------------|-----------------|------------------------|
-| *POST*    | `/login`                   | SI              |                        |
+| *POST*    | `/login`                   | NO              |                        |
 | *GET*     | `/varco`                   | SI              | Operatore              |
 | *GET*     | `/varco/:id`               | SI              | Operatore              |
 | *POST*    | `/varco`                   | SI              | Operatore              |
@@ -163,6 +163,496 @@ Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indic
 | *GET*     | `/pagamento/ricevuta/:uuidPagamento`   | SI  | Utente                 |
 | *GET*     | `/crediti`                 | SI              | Utente                 |
 | *PUT*     | `/crediti/ricarica/:userId`| SI              | Utente                 |
+
+## Login
+
+**Radice URL**: `http://127.0.0.1:3000`
+
+**Autenticazione**: Bearer {loginToken}
+
+**Script post-request**: 
+```javascript
+pm.test("Save token", function () {
+    var jsonData = pm.response.json();
+    if (jsonData.token) {
+        pm.environment.set("loginToken", jsonData.token);
+    } else {
+        console.log("Token not found in the response");
+    }
+});
+```
+
+### login_operatore
+
+**Rotta**: `/login?email=john@example.com`
+
+**Metodo**: `POST`
+
+**Scopo**: Effettua il login come operatore.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+### login_admin
+
+**Rotta**: `/login?email=alice@example.com`
+
+**Metodo**: `POST`
+
+**Scopo**: Effettua il login come admin.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+### login_utente
+
+**Rotta**: `/login?email=jane@example.com`
+
+**Metodo**: `POST`
+
+**Scopo**: Effettua il login come utente.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+## Back-end ZTL
+
+**Radice URL**: `http://127.0.0.1:3000`
+
+**Autenticazione**: Bearer {loginToken}
+
+### getZTLById
+
+**Rotta**: `/ztl/:id`
+
+**Metodo**: `GET`
+
+**Scopo**: Recupera una Zona Traffico Limitato (ZTL) specificata dall'ID.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+{
+  "id": 1,
+  "nome": "Zona Traffico Limitato Centro",
+  "descrizione": "Area ZTL nel centro della città.",
+  "orarioInizio": "08:00",
+  "orarioFine": "18:00",
+  "giorniAttivi": ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
+}
+
+```
+
+### getZTLs
+
+**Rotta**: `/ztl`
+
+**Metodo**: `GET`
+
+**Scopo**: Recupera tutte le ZTL.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+
+```
+
+### createZTL
+
+**Rotta**: `/ztl`
+
+**Metodo**: `POST`
+
+**Scopo**: Crea una nuova Zona Traffico Limitato (ZTL).
+
+**Body** (JSON):
+```json
+{
+  "nome": "Zona Traffico Limitato Centro",
+  "descrizione": "Area ZTL nel centro della città, valida per traffico limitato nei giorni lavorativi.",
+  "orarioInizio": "08:00",
+  "orarioFine": "18:00",
+  "giorniAttivi": ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
+}
+
+```
+
+**Output**:
+```json
+{
+  "id": 1,
+  "nome": "Zona Traffico Limitato Centro",
+  "descrizione": "Area ZTL nel centro della città.",
+  "orarioInizio": "08:00",
+  "orarioFine": "18:00",
+  "giorniAttivi": ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
+}
+
+```
+
+### updateZTL
+
+**Rotta**: `/ztl/:id`
+
+**Metodo**: `PUT`
+
+**Scopo**: Aggiorna una Zona Traffico Limitato (ZTL) esistente.
+
+**Body** (JSON):
+```json
+{
+  "nome": "Zona Traffico Limitato Centro",
+  "descrizione": "Area ZTL nel centro della città, valida per traffico limitato nei giorni lavorativi.",
+  "orarioInizio": "08:00",
+  "orarioFine": "18:00",
+  "giorniAttivi": ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
+}
+
+```
+
+**Output**:
+```json
+{
+  "id": 1,
+  "nome": "Zona Traffico Limitato Centro",
+  "descrizione": "Area ZTL nel centro della città.",
+  "orarioInizio": "08:00",
+  "orarioFine": "18:00",
+  "giorniAttivi": ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
+}
+
+```
+
+### deleteZTL
+
+**Rotta**: `/ztl/:id`
+
+**Metodo**: `DELETE`
+
+**Scopo**: Elimina una Zona Traffico Limitato (ZTL) specificata dall'ID.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+### downloadBollettino
+
+**Rotta**: `/multe/download/:id`
+
+**Metodo**: `GET`
+
+**Scopo**: Scarica il bollettino di una multa specificata dall'ID.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+### checkMulte
+
+**Rotta**: `/multe/:id`
+
+**Metodo**: `GET`
+
+**Scopo**: Controlla le multe associate a un veicolo specificato.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+### getTransito
+
+**Rotta**: `/transito/:id`
+
+**Metodo**: `GET`
+
+**Scopo**: Recupera un transito specificato dall'ID.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+### createTransito
+
+**Rotta**: `/transito`
+
+**Metodo**: `POST`
+
+**Scopo**: Crea un nuovo transito. Se il transito viola le regole della ZTL allora viene creata anche la multa.
+
+**Body** (JSON):
+```json
+{
+  "targa": "DEF456",
+  "varcoId": 1,
+  "dataOraTransito": "2024-12-25T10:15:00"
+} 
+
+```
+
+**Output**:
+```json
+
+```
+
+### deleteTransito
+
+**Rotta**: `/transito/:id`
+
+**Metodo**: `DELETE`
+
+**Scopo**: Elimina un transito specificato dall'ID.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+### updateTransito
+
+**Rotta**: `/transito/:id`
+
+**Metodo**: `PUT`
+
+**Scopo**: Aggiorna un transito esistente.
+
+**Body** (JSON):
+```json
+{
+  "targaVeicolo": "ABC123",
+  "varcoId": 1
+}
+
+```
+
+**Output**:
+```json
+
+```
+
+### getTransitiByVarco
+
+**Rotta**: `/transito/varco/:varcoId`
+
+**Metodo**: `GET`
+
+**Scopo**: Recupera tutti i transiti associati a un varco specificato.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+### getTransitoByVeicolo
+
+**Rotta**: `/transito/veicolo/:targa`
+
+**Metodo**: `GET`
+
+**Scopo**: Recupera tutti i transiti associati a un veicolo specificato dalla targa.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+### getVarchi
+
+**Rotta**: `/varco`
+
+**Metodo**: `GET`
+
+**Scopo**: Recupera tutti i varchi.
+
+**Body** (JSON):
+
+**Output**:
+```json
+
+```
+
+### getVarcoById
+
+**Rotta**: `/varco/:id`
+
+**Metodo**: `GET`
+
+**Scopo**: Recupera un varco specificato dall'ID. 
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+### createVarco
+
+**Rotta**: `/varco`
+
+**Metodo**: `POST`
+
+**Scopo**: Crea un nuovo varco.
+
+**Body** (JSON):
+```json
+{
+  "location": "Piazza del Duomo",
+  "ztlId": 1
+}
+
+```
+
+**Output**:
+```json
+
+```
+
+### updateVarco
+
+**Rotta**: `/varco/:id`
+
+**Metodo**: `PUT`
+
+**Scopo**: Aggiorna un varco esistente.
+
+**Body** (JSON):
+```json
+{
+  "location": "Piazza del Duomo Aggiornato",
+  "ztlId": 1
+}
+
+```
+
+**Output**:
+```json
+
+```
+
+### deleteVarco
+
+**Rotta**: `/varco/:id`
+
+**Metodo**: `DELETE`
+
+**Scopo**: Elimina un varco specificato dall'ID.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+
+## Back-end pagamenti
+
+**Radice URL**: `http://127.0.0.1:4000`
+
+**Autenticazione**: Bearer {loginToken}
+
+### pagaMulta
+
+**Rotta**: `/pagamento/:id`  
+
+**Metodo**: `PUT`  
+
+**Scopo**: Paga una multa specificata dall'ID.  
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+### getCredito
+
+**Rotta**: `/crediti`
+
+**Metodo**: `GET`
+
+**Scopo**: Recupera il credito attuale dell'utente.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+### ricaricaCredito
+
+**Rotta**: `/crediti/ricarica`
+
+**Metodo**: `PUT`
+
+**Scopo**: Ricarica il credito dell'utente.
+
+**Body** (JSON):
+```json
+{
+  "userId": 2,
+  "importoRicarica": "1000.50"
+}
+
+```
+
+**Output**:
+```json
+
+```
+
+### downloadRicevuta
+
+**Rotta**: `/pagamento/ricevuta/:id`
+
+**Metodo**: `GET`
+
+**Scopo**:  Scarica la ricevuta di un pagamento specificato dall'ID.
+
+**Body** (JSON): NO
+
+**Output**:
+```json
+
+```
+
+
+
 
 
 ## Strumenti utilizzati
