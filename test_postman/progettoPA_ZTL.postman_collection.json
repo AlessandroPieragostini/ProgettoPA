@@ -1,0 +1,983 @@
+{
+	"info": {
+		"_postman_id": "37827218-fadc-4b82-8405-d0f587996df4",
+		"name": "progettoPA_ZTL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34370447"
+	},
+	"item": [
+		{
+			"name": "backend_transiti",
+			"item": [
+				{
+					"name": "ztlRoutes",
+					"item": [
+						{
+							"name": "getZTLById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:3000/ztl/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"ztl",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getZTLs",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:3000/ztl",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"ztl"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createZTL",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nome\": \"Zona Traffico Limitato Centro\",\r\n  \"descrizione\": \"Area ZTL nel centro della città, valida per traffico limitato nei giorni lavorativi.\",\r\n  \"orarioInizio\": \"08:00\",\r\n  \"orarioFine\": \"18:00\",\r\n  \"giorniAttivi\": [\"Lunedì\", \"Martedì\", \"Mercoledì\", \"Giovedì\", \"Venerdì\"]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:3000/ztl",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"ztl"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateZTL",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nome\": \"Zona Traffico Limitato Centro\",\r\n  \"descrizione\": \"Area ZTL nel centro della città, valida per traffico limitato nei giorni lavorativi.\",\r\n  \"orarioInizio\": \"08:00\",\r\n  \"orarioFine\": \"18:00\",\r\n  \"giorniAttivi\": [\"Lunedì\", \"Martedì\", \"Mercoledì\", \"Giovedì\", \"Venerdì\"]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:3000/ztl/5",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"ztl",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteZTL",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:3000/ztl/5",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"ztl",
+										"5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "multeRoutes",
+					"item": [
+						{
+							"name": "downloadBollettino",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:3000/multe/download/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"multe",
+										"download",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "checkMulte",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:3000/multe/1.5",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"multe",
+										"1.5"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "transitoRoutes",
+					"item": [
+						{
+							"name": "getTransito",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:3000/transito/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"transito",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createTransito",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"targa\": \"DEF456\",\r\n  \"varcoId\": 1,\r\n  \"dataOraTransito\": \"2024-12-25T10:15:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:3000/transito",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"transito"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteTransito",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:3000/transito/3",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"transito",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateTransito",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"targaVeicolo\": \"ABC123\",\r\n  \"varcoId\": 1\r\n  \r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:3000/transito/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"transito",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getTransitiByVarco",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:3000/transito/varco/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"transito",
+										"varco",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getTransitoByVeicolo",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:3000/transito/veicolo/ABC123",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"transito",
+										"veicolo",
+										"ABC123"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "varcoRoutes",
+					"item": [
+						{
+							"name": "getVarchi",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:3000/varco",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"varco"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getVarcoById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:3000/varco/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"varco",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createVarco",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"location\": \"Piazza del Duomo\",\r\n  \"ztlId\": 1\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:3000/varco",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"varco"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateVarco",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"location\": \"Piazza del Duomo\",\r\n  \"ztlId\": 2\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:3000/varco//1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"varco",
+										"",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteVarco",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{loginToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:3000/varco/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "3000",
+									"path": [
+										"varco",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "backend_pagamenti",
+			"item": [
+				{
+					"name": "pagaMulta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{loginToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:4000/pagamento/f47ac10b-58cc-4372-a567-0e02b2c3d479",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"pagamento",
+								"f47ac10b-58cc-4372-a567-0e02b2c3d479"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCredito",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{loginToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:4000/crediti",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"crediti"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ricaricaCredito",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{loginToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": 2,\r\n  \"importoRicarica\": \"1000.50\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:4000/crediti/ricarica",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"crediti",
+								"ricarica"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "downloadRicevuta",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{loginToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:4000/pagamento/ricevuta/9e107d9d-372b-4984-b9d2-67d9a5f57487",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "4000",
+							"path": [
+								"pagamento",
+								"ricevuta",
+								"9e107d9d-372b-4984-b9d2-67d9a5f57487"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "login_operatore",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Save token\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    if (jsonData.token) {\r",
+									"        pm.environment.set(\"loginToken\", jsonData.token);\r",
+									"    } else {\r",
+									"        console.log(\"Token not found in the response\");\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:3000/login?email=john@example.com",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "john@example.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login_admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Save token\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    if (jsonData.token) {\r",
+									"        pm.environment.set(\"loginToken\", jsonData.token);\r",
+									"    } else {\r",
+									"        console.log(\"Token not found in the response\");\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:3000/login?email=alice@example.com",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "alice@example.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login_utente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Save token\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    if (jsonData.token) {\r",
+									"        pm.environment.set(\"loginToken\", jsonData.token);\r",
+									"    } else {\r",
+									"        console.log(\"Token not found in the response\");\r",
+									"    }\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:3000/login?email=jane@example.com",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "jane@example.com"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
