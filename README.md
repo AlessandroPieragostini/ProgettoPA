@@ -83,7 +83,7 @@ L'adozione del pattern MVC facilita l'espandibilità del progetto e la sua manut
 
 ### 2. **Data Access Object (DAO)**
 
-Il pattern **DAO (Data Access Object)** è stato utilizzato per astrarre l'accesso ai dati. Questo approccio consente di isolare completamente il codice della logica applicativa dall'accesso ai dati, facilitando la sostituzione del meccanismo di persistenza senza influenzare altre parti del sistema. Ogni entità del sistema (come `Varco`, `Transito`, e `Veicolo`) ha il proprio DAO, che esegue le operazioni CRUD richieste dall'applicazione.
+Il pattern **DAO (Data Access Object)** è stato utilizzato per astrarre l'accesso ai dati. Questo approccio consente di isolare completamente il codice della logica applicativa dall'accesso ai dati, facilitando la sostituzione del meccanismo di persistenza senza influenzare altre parti del sistema. Le entità `Varco`, `Transito`, `Veicolo`, `Multa` e `Utente`  ha il proprio DAO, che esegue le operazioni richieste dall'applicazione.
 
 L'uso del pattern DAO ha garantito una forte modularità, migliorando la manutenibilità e la testabilità del codice.
 
@@ -115,6 +115,16 @@ L'adozione di questi design pattern ha permesso di sviluppare un sistema robusto
 ## Diagrammi UML
 
 ### Diagrammi dei casi d'uso
+
+Nel sistema sviluppato, ci sono quattro tipologie di utenti principali: Utente, Operatore, Admin, e Varco. Ciascuna di queste entità interagisce con il sistema per svolgere determinate operazioni.
+
+- **Utente**: Può autenticarsi, visualizzare eventuali multe a suo carico. Può anche scaricare il bollettino per il pagamento, effettuare i pagamenti delle multe e stampare le ricevute associate ad essi.
+
+- **Operatore**: Ha il compito di monitorare e gestire le CRUD per i varchi, le ZTL e i transiti.
+
+- **Admin**: Si occupa della ricarica del credito di un utente.
+
+- **Varco**: È abilitato a registrare un transito.
 
 ![CASI_D_USO](./images/Casi_d_uso.png)
 
