@@ -118,7 +118,6 @@ L'adozione di questi design pattern ha permesso di sviluppare un sistema robusto
 
 ![CASI_D_USO](./images/casi_d_uso.png)
 
-
 ### Diagrammi delle sequenze
 
 ## Database Schema
