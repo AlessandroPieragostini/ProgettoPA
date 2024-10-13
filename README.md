@@ -116,6 +116,8 @@ L'adozione di questi design pattern ha permesso di sviluppare un sistema robusto
 
 ### Diagrammi dei casi d'uso
 
+![CASI_D_USO](./images/casi_d_uso.png)
+
 ### Diagrammi delle sequenze
 
 ## Database Schema
@@ -123,71 +125,6 @@ L'adozione di questi design pattern ha permesso di sviluppare un sistema robusto
 Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indicato per applicazioni backend come quella sviluppata in questo progetto, dove l'autenticazione sicura dei dati e l'efficienza nelle operazioni di lettura e scrittura sono fondamentali. Grazie alle sue prestazioni ottimizzate, PostgreSQL rappresenta una soluzione ideale per garantire la robustezza e la velocità del sistema.
 
 ![DATABASE](./images/database_schema.png)
-
-## Schema E-R
-
-'''mermaid
-erDiagram
-    USERS {
-        int id SERIAL PK
-        string username
-        string email UNIQUE
-        string token
-        string role
-        float credit
-    }
-
-    ZTL {
-        int id SERIAL PK
-        string nome
-        string descrizione
-        string orario_inizio
-        string orario_fine
-        jsonb giorni_attivi
-    }
-
-    VARCO {
-        int id SERIAL PK
-        string location
-        int ztl_id FK
-    }
-
-    VEICOLO {
-        string targa PK
-        int utente_id FK
-        string tipo_veicolo
-    }
-
-    TRANSITO {
-        int id SERIAL PK
-        string targa_veicolo FK
-        int varco_id FK
-        datetime data_ora_transito
-    }
-
-    MULTA {
-        int id SERIAL PK
-        decimal importo
-        bool pagato
-        string targa_veicolo FK
-        int transito_id FK
-        datetime data_multa
-        string uuid_pagamento
-    }
-
-    WHITELIST {
-        string targa_veicolo PK
-        datetime data_scadenza
-    }
-
-    USERS ||--o{ VEICOLO : "owns"
-    VEICOLO ||--o{ TRANSITO : "registers"
-    TRANSITO |o--o| MULTA : "creates"
-    ZTL ||--o{ VARCO : "includes"
-    VARCO ||--o{ TRANSITO : "crosses"
-    VEICOLO ||--o| WHITELIST : "is authorized"
-'''
-
 
 ## Rotte API
 
