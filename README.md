@@ -555,6 +555,7 @@ pm.test("Save token", function () {
 **Body** (JSON): NO
 
 **Output**:
+
 ![](./images/bollettino.png)
 
 
@@ -989,6 +990,7 @@ pm.test("Save token", function () {
 **Body** (JSON): NO
 
 **Output**:
+
 ![](ricevuta.png) 
 
 ## Strumenti utilizzati
