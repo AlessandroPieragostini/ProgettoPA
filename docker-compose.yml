@@ -42,15 +42,10 @@ services:
     networks:
       - private-ntwk
     ports:
-      - "3000:3000"
+      - "{ZTL_BACKEND_PORT}:{ZTL_BACKEND_PORT}"
     depends_on:
       database:
         condition: service_healthy
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:3000/health"]  # O qualsiasi endpoint di health
-    #   interval: 30s
-    #   timeout: 10s
-    #   retries: 5
   
   backend-pagamenti:
     build:
@@ -65,12 +60,10 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - JWT_SECRET=${JWT_SECRET}
     ports:
-      - "4000:4000"
+      - "{PAGAMENTI_BACKEND_PORT}:{PAGAMENTI_BACKEND_PORT}"
     networks:
       - private-ntwk
     depends_on:
-      # backend-transiti:
-      #   condition: service_healthy
       database:
         condition: service_healthy
 

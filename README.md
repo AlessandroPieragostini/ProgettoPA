@@ -80,8 +80,7 @@ ProgettoPA
 │   └── tsconfig.json
 ├──.env
 ├──docker-compose.yml
-├──README.md
-└──tsconfig.json
+└──README.md
 ```
 ## Pattern Utilizzati
 Durante lo sviluppo del progetto, abbiamo adottato diversi design patterns per garantire un'architettura solida, scalabile e manutenibile. Di seguito vengono descritti i principali pattern utilizzati e le motivazioni dietro la loro scelta.
