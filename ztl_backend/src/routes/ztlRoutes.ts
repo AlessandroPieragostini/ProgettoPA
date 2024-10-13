@@ -1,18 +1,7 @@
 import { Router } from 'express';
-import { 
-  createZTL, 
-  getZTLs, 
-  getZTLById, 
-  updateZTL, 
-  deleteZTL 
-} from '../controllers/ztlController';
+import { createZTL, getZTLs, getZTLById, updateZTL, deleteZTL } from '../controllers/ztlController';
 import { authenticateToken, authorizeRole } from '../middleware/authMiddleware';
-import { 
-  validateGetZtl,
-  validateCreateZtl,
-  validateDeleteZtl,
-  validateUpdateZtl 
-} from '../middleware/validate/ztlValidate';
+import { validateGetZtl, validateCreateZtl, validateDeleteZtl, validateUpdateZtl } from '../middleware/validate/ztlValidate';
 
 const router = Router();
 

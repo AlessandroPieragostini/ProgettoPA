@@ -2,24 +2,20 @@ import { DataTypes, Model } from 'sequelize';
 import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 import { UserRole } from "../static";
 
+// Definizione del modello User
 export default class User extends Model {
-
-  declare id: number;
-  
-  declare username: string;
-  
+  declare id: number;  
+  declare username: string;  
   declare email: string;
-
   declare token: number;
-
   declare role: string;
-
   declare credit: number;
-
 }
 
+// Creazione della connessione Sequelize per il modello User
 const sequelize = SequelizeConnection.getInstance().sequelize;
 
+// Inizializzazione del modello User con i campi principali e la configurazione
 User.init(
   {
     id: {

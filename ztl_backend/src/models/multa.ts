@@ -1,22 +1,23 @@
-// src/models/Multa.ts
 import { DataTypes, Model } from 'sequelize';
 import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 import Veicolo from './veicolo';
 import Transito from './transito';
 
-
+// Definizione del modello Multa, che rappresenta una multa nel sistema
 class Multa extends Model {
-  public id!: number;
-  public importo!: number;
-  public pagato!: boolean;
-  public targaVeicolo!: string;
-  public transitoId!: number;
-  public dataMulta!: Date;
-  public uuidPagamento!: string;
+  public id!: number;            
+  public importo!: number;        
+  public pagato!: boolean;        
+  public targaVeicolo!: string;   
+  public transitoId!: number;     
+  public dataMulta!: Date;        
+  public uuidPagamento!: string;  
 }
 
+// Creazione della connessione Sequelize per il modello Multa
 const sequelize = SequelizeConnection.getInstance().sequelize;
 
+// Inizializzazione del modello Multa con i suoi campi e configurazioni
 Multa.init({
   id: {
     type: DataTypes.INTEGER,
@@ -65,12 +66,13 @@ Multa.init({
   sequelize,
   modelName: 'Multa',
   tableName: 'multa',
-  timestamps: true,
-  createdAt: 'created_at', 
-  updatedAt: 'updated_at',
+  timestamps: true,          
+  createdAt: 'created_at',   
+  updatedAt: 'updated_at',   
 });
 
-Veicolo.hasMany(Multa, { foreignKey: 'targaVeicolo' });
-Multa.belongsTo(Veicolo, { foreignKey: 'targaVeicolo' });
+// Definizione delle relazioni tra Multa e Veicolo
+Veicolo.hasMany(Multa, { foreignKey: 'targaVeicolo' }); // Un veicolo può avere molte multe
+Multa.belongsTo(Veicolo, { foreignKey: 'targaVeicolo' }); // Una multa appartiene a un veicolo
 
 export default Multa;

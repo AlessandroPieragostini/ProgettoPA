@@ -12,7 +12,7 @@ app.use(express.json());
 
 app.listen(3000)
 
-// sync db
+// Sync con il db
 syncDb().then(():void=>{console.log("\t--> SYNC DB DONE")})
 
 // Configura le rotte

@@ -6,6 +6,8 @@ import Multa from '../models/multa';
 import Whitelist from '../models/whitelist';
 import User from '../models/user';
 
+
+// Funzione per sincronizzare tutti i modelli con il database
 const syncDb = async () => {
       await ZTL.sync();
       await Varco.sync();

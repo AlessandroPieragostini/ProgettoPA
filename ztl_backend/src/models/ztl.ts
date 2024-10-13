@@ -1,6 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import { SequelizeConnection } from '../syncDB/SequelizeConnection';
 
+// Definizione del modello ZTL
 class ZTL extends Model {
   public id!: number;
   public nome!: string;
@@ -12,8 +13,10 @@ class ZTL extends Model {
   public updatedAt!: Date;
 }
 
+// Creazione della connessione Sequelize per il modello ZTL
 const sequelize = SequelizeConnection.getInstance().sequelize;
 
+// Inizializzazione del modello ZTL con i campi principali e la configurazione
 ZTL.init(
   {
     id: {
@@ -31,12 +34,12 @@ ZTL.init(
     },
     orarioInizio: {
       type: DataTypes.STRING,
-      field: 'orario_inizio', // Specifica il campo nel database
+      field: 'orario_inizio',
       allowNull: false,
     },
     orarioFine: {
       type: DataTypes.STRING,
-      field: 'orario_fine', // Specifica il campo nel database
+      field: 'orario_fine',
       allowNull: false,
     },
     giorniAttivi: {
@@ -46,7 +49,6 @@ ZTL.init(
       validate: {
         isValidDays(value: string[]) {
           const validDays = ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"];
-          // Verifica se ogni giorno nell'array è valido
           for (const day of value) {
             if (!validDays.includes(day)) {
               console.error(`Il giorno "${day}" non è valido. Deve essere uno dei seguenti: ${validDays.join(', ')}`);

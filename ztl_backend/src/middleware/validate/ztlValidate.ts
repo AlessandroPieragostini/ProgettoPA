@@ -1,11 +1,13 @@
 import { param, body } from 'express-validator';
 import validateRequest from './validateRequestMiddleware';
 
+// Validazione per ottenere una ZTL tramite ID
 export const validateGetZtl = [
     param('id').isInt({ min: 1 }).withMessage('ID deve essere un intero positivo'),
     validateRequest
 ];
 
+// Validazione per creare una nuova ZTL
 export const validateCreateZtl = [
     body('nome').isString().withMessage('Nome deve essere una stringa'),
     body('descrizione').optional().isString().withMessage('Descrizione deve essere una stringa'),
@@ -16,6 +18,7 @@ export const validateCreateZtl = [
     validateRequest
 ];
 
+// Validazione per aggiornare una ZTL esistente
 export const validateUpdateZtl = [
     param('id').isInt({ min: 1 }).withMessage('ID deve essere un intero positivo'),
     body('nome').optional().isString().withMessage('Nome deve essere una stringa'),
@@ -27,6 +30,7 @@ export const validateUpdateZtl = [
     validateRequest
 ];
 
+// Validazione per eliminare una ZTL tramite ID
 export const validateDeleteZtl = [
     param('id').isInt({ min: 1 }).withMessage('ID deve essere un intero positivo'),
     validateRequest

@@ -1,21 +1,7 @@
-// src/routes/varcoRoutes.ts
-
 import { Router } from 'express';
-import { authenticateToken, authorizeRole } from '../middleware/authMiddleware'; // Importa i middleware per l'autenticazione e autorizzazione
-import { 
-  createVarco, 
-  getVarchi, 
-  getVarcoById, 
-  updateVarco, 
-  deleteVarco 
-} from '../controllers/varcoController'; // Importa le funzioni dal VarcoController
-import { 
-  validateCreateVarco,
-  validateDeleteVarco,
-  validateGetVarco,
-  validateUpdateVarco 
-} from '../middleware/validate/varcoValidate';
-
+import { authenticateToken, authorizeRole } from '../middleware/authMiddleware'; 
+import { createVarco, getVarchi, getVarcoById, updateVarco, deleteVarco } from '../controllers/varcoController'; 
+import { validateCreateVarco, validateDeleteVarco, validateGetVarco, validateUpdateVarco } from '../middleware/validate/varcoValidate';
 const router = Router();
 
 // Rotte per la gestione dei varchi

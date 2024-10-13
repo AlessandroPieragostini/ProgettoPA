@@ -1,8 +1,8 @@
 import PDFDocument from 'pdfkit';
 import { Response } from 'express';
-import Multa from '../models/multa'; // Assicurati che il modello Multa sia correttamente importato
+import Multa from '../models/multa';
 import { createWriteStream } from 'fs';
-import { v4 as uuidv4 } from 'uuid'; // Per generare UUID
+import { v4 as uuidv4 } from 'uuid'; 
 import QRCode from 'qrcode';
 
 // Funzione per generare il PDF
@@ -23,15 +23,13 @@ export const generatePDF = async (multa: Multa) => {
   doc.fontSize(16).text(`Targa: ${multa.targaVeicolo}`, { align: 'left' });
   doc.text(`Importo: €${multa.importo}`, { align: 'left' });
   doc.text(`ID Multa: ${multa.id}`, { align: 'left' });
-  doc.text(`UUID Pagamento: ${multa.uuidPagamento}`, { align: 'left' }); // Genera UUID per il pagamento
+  doc.text(`UUID Pagamento: ${multa.uuidPagamento}`, { align: 'left' }); 
   doc.moveDown();
 
-  // Genera un QR Code (puoi usare una libreria esterna per generare il QR code se necessario)
-  // Ad esempio, usando `qrcode`:
+  // Genera un QR Code 
   const qrCode = await QRCode.toDataURL(`${multa.uuidPagamento}|${multa.id}|${multa.targaVeicolo}|${multa.importo}`);
   doc.image(qrCode, { fit: [100, 100], align: 'center' });
 
-  // Finalizza il PDF
   doc.end();
   
   // Restituisci il buffer del PDF

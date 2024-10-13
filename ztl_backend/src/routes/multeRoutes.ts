@@ -1,11 +1,6 @@
-// src/routes/multeRoutes.ts
-
 import { Router } from 'express';
-import { authenticateToken, authorizeRole } from '../middleware/authMiddleware'; // Importa i middleware per l'autenticazione e autorizzazione
-import { 
-  checkMulte, 
-  downloadBolletino, 
-} from '../controllers/multeController'; // Importa le funzioni dal MulteController
+import { authenticateToken, authorizeRole } from '../middleware/authMiddleware'; 
+import { checkMulte, downloadBolletino } from '../controllers/multeController'; 
 import { validateCheckMulteRequests, validateBollettinoRequests } from '../middleware/validate/multaValidate';
 
 const router = Router();
