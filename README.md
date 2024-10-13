@@ -991,7 +991,7 @@ pm.test("Save token", function () {
 
 **Output**:
 
-![](ricevuta.png) 
+![](./images/ricevuta.png) 
 
 ## Strumenti utilizzati
 Per lo sviluppo dell'applicazione presentata sono stati utilizzati i seguenti strumenti di lavoro:
