@@ -5,26 +5,27 @@ import {syncDb} from "./syncDB/dbSync";
 import { errorHandler } from './middleware/errorHandlerMiddleware';
 
 const app = express();
+
+
 app.use(express.json());
 
-app.listen(4000)
+// Avvio del server sulla porta 4000
+app.listen(4000);
 
-// sync db
-syncDb().then(():void=>{console.log("\t--> SYNC DB DONE")})
+// Sincronizzazione del database
+syncDb().then((): void => { console.log("\t--> SYNC DB DONE") });
 
-// Configura le rotte
-// Rotte per i pagamenti
+// Rotte per la gestione dei pagamenti
 app.use('/pagamento', pagamentoRoutes);
 
-// Rotte per la gestione del credito
-app.use('/crediti', creditoRoutes); // Registriamo le nuove rotte
+// Rotte per la gestione dei crediti
+app.use('/crediti', creditoRoutes);
 
+// Rotta di base per verificare che il backend sia attivo
 app.get('/', (req, res) => {
     res.send('Backend per pagamenti e crediti!');
 });
 
-// Middleware per la gestione degli errori
 app.use(errorHandler);
 
 export default app;
-

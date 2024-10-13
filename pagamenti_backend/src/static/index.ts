@@ -1,17 +1,11 @@
-
-
-/** Enum for user roles which can be:
- *  - administrators
- *  - users
- *  - systems connected to the API
- */
-
+// Definizione dei ruoli utente nel sistema
 export const UserRole = {
     USER:   'utente',
     OP:  'operatore',
     ADMIN: 'admin'
   };
-  
+
+// Definizione dei codici di stato HTTP usati nell'applicazione  
 export const StatusCode = {
     ok: 200,
     created: 201,

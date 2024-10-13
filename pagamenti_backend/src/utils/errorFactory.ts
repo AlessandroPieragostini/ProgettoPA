@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 
+// Definizione della classe HttpError che estende la classe Error per gestire gli errori HTTP
 export class HttpError extends Error {
     statusCode: number;
     code: string;
@@ -11,6 +12,8 @@ export class HttpError extends Error {
       this.code = code;
     }
   }
+
+// Tipi di errore comuni utilizzati nell'applicazione
 export enum ErrorTypes {
     NotFound = 'NotFound',
     BadRequest = 'BadRequest',
@@ -20,7 +23,8 @@ export enum ErrorTypes {
     InvalidToken = 'InvalidToken',
     Forbidden = 'Forbidden',
   }
-  
+
+// Classe factory per la creazione di oggetti HttpError in base al tipo di errore
  export class ErrorFactory {
     static createError(type: ErrorTypes, message: string): HttpError {
       switch (type) {
