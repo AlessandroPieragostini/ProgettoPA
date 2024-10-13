@@ -116,7 +116,7 @@ L'adozione di questi design pattern ha permesso di sviluppare un sistema robusto
 
 ### Diagrammi dei casi d'uso
 
-![CASI_D_USO](./images/casi_d_uso.png)
+![CASI_D_USO](./images/Casi_d_uso.png)
 
 ### Diagrammi delle sequenze
 
