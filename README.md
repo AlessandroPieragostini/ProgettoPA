@@ -145,7 +145,7 @@ Nel sistema sviluppato, ci sono quattro tipologie di utenti principali: Utente, 
 
 * __POST /transito__
 
-Il diagramma di sequenza rappresenta il flusso di operazioni coinvolto nella creazione di un nuovo transito attraverso l'API. Di seguito una descrizione dettagliata dei principali passi:
+Il diagramma di sequenza rappresenta il flusso di operazioni coinvolto nella creazione di un nuovo transito. 
 
 1. **Richiesta POST per la Creazione del Transito**:
    - L'utente (ruolo `operatore` o `varco`) invia una richiesta HTTP POST all'endpoint `/transito` con il token di autenticazione e i dettagli del transito (targa, ID del varco, data e ora del transito).
@@ -175,6 +175,36 @@ Il diagramma di sequenza rappresenta il flusso di operazioni coinvolto nella cre
 
 
 ![createTransito](./images/DS_createTransito.png)
+
+* __GET /multe/:id__
+
+Il diagramma di sequenza rappresenta il processo per il controllo delle multe a carico di un utente attraverso. 
+
+1. **Richiesta GET per il Controllo delle Multe**:
+   - Un utente (con il ruolo `utente`) invia una richiesta HTTP GET all'endpoint `/multe/:id` con il token di autenticazione. L'ID passato nella richiesta rappresenta l'utente per il quale si vogliono controllare le multe.
+
+2. **Autenticazione e Autorizzazione**:
+   - Il middleware `authenticateToken` verifica la validità del token JWT presente nell'header della richiesta. Se il token è mancante o invalido, viene restituito un errore di autenticazione.
+   - Il middleware `authorizeRole` controlla che l'utente abbia il ruolo corretto (`utente`) per poter eseguire questa operazione. In caso contrario, viene restituito un errore di accesso negato.
+
+3. **Validazione della Richiesta**:
+   - L'ID dell'utente viene validato per assicurarsi che sia un intero valido. Se non lo è, viene restituito un errore di validazione.
+
+4. **Recupero dei Veicoli dell'Utente**:
+   - Il sistema, tramite il DAO `MultaDAO`, cerca tutti i veicoli associati all'ID dell'utente. Se non vengono trovati veicoli, viene restituito un errore che segnala che l'utente non ha veicoli associati.
+
+5. **Recupero delle Multe**:
+   - Per ciascun veicolo trovato, il sistema cerca le multe associate alla targa del veicolo e raccoglie tutte le informazioni in un array.
+   - Se vengono trovate multe, queste vengono restituite all'utente in formato JSON.
+
+6. **Risposta**:
+   - Il sistema restituisce una risposta HTTP con le multe associate ai veicoli dell'utente. Se nessuna multa viene trovata, viene restituito un errore che segnala l'assenza di multe.
+
+7. **Gestione degli Errori**:
+   - Il middleware `errorHandler` intercetta e gestisce eventuali errori, restituendo una risposta appropriata con il codice di errore e un messaggio esplicativo in formato JSON.
+
+
+![checkMulte](./images/DS_checkMulte.png)
 
 ## Database Schema
 
