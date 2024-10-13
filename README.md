@@ -208,8 +208,12 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJqb2huQGV4YW1wbGUuY29tIiwicm9sZSI6Im9wZXJhdG9yZSIsImlhdCI6MTcyODg0MjIxMiwiZXhwIjoxNzI4ODQ1ODEyfQ.WGEaGw1aQpHkAnePF8IpxGcMc-M9FDIEYI21g5qcOFc"
+}
 ```
+
+> Il token è mostrato in output soltanto a fini didattici. La rotta immette il token nella variabile {loginToken} dell'environment così da tenerlo memorizzato per eseguire successivamente le rotte.
 
 ### login_admin
 
@@ -223,8 +227,12 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhbGljZUBleGFtcGxlLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcyODg0MjQxMSwiZXhwIjoxNzI4ODQ2MDExfQ.0R6XvS2den44zPEqCdjZnu1Ab59CxGJnieY5UEMQuGQ"
+}
 ```
+
+> Il token è mostrato in output soltanto a fini didattici. La rotta immette il token nella variabile {loginToken} dell'environment così da tenerlo memorizzato per eseguire successivamente le rotte.
 
 ### login_utente
 
@@ -238,8 +246,12 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJqYW5lQGV4YW1wbGUuY29tIiwicm9sZSI6InV0ZW50ZSIsImlhdCI6MTcyODg0MjQyMywiZXhwIjoxNzI4ODQ2MDIzfQ.LQ9GSDM4AKe-6sFzS2oNPffXdEdnfwzxYQwUYheJM2I"
+}
 ```
+
+> Il token è mostrato in output soltanto a fini didattici. La rotta immette il token nella variabile {loginToken} dell'environment così da tenerlo memorizzato per eseguire successivamente le rotte.
 
 ## Back-end ZTL
 
@@ -249,7 +261,7 @@ pm.test("Save token", function () {
 
 ### getZTLById
 
-**Rotta**: `/ztl/:id`
+**Rotta**: `/ztl/:id` (e.g. id=1)
 
 **Metodo**: `GET`
 
@@ -260,14 +272,21 @@ pm.test("Save token", function () {
 **Output**:
 ```json
 {
-  "id": 1,
-  "nome": "Zona Traffico Limitato Centro",
-  "descrizione": "Area ZTL nel centro della città.",
-  "orarioInizio": "08:00",
-  "orarioFine": "18:00",
-  "giorniAttivi": ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
+    "id": 1,
+    "nome": "Centro Storico",
+    "descrizione": "Zona a traffico limitato nel centro città",
+    "orarioInizio": "08:00",
+    "orarioFine": "20:00",
+    "giorniAttivi": [
+        "Lunedì",
+        "Martedì",
+        "Mercoledì",
+        "Giovedì",
+        "Venerdì"
+    ],
+    "created_at": "2024-10-13T17:56:06.071Z",
+    "updated_at": "2024-10-13T17:56:06.071Z"
 }
-
 ```
 
 ### getZTLs
@@ -282,8 +301,132 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
-
+[
+    {
+        "id": 1,
+        "nome": "Centro Storico",
+        "descrizione": "Zona a traffico limitato nel centro città",
+        "orarioInizio": "08:00",
+        "orarioFine": "20:00",
+        "giorniAttivi": [
+            "Lunedì",
+            "Martedì",
+            "Mercoledì",
+            "Giovedì",
+            "Venerdì"
+        ],
+        "created_at": "2024-10-13T17:56:06.071Z",
+        "updated_at": "2024-10-13T17:56:06.071Z"
+    },
+    {
+        "id": 2,
+        "nome": "Zona Universitaria",
+        "descrizione": "Zona a traffico limitato per il campus universitario",
+        "orarioInizio": "07:00",
+        "orarioFine": "19:00",
+        "giorniAttivi": [
+            "Lunedì",
+            "Martedì",
+            "Mercoledì",
+            "Giovedì",
+            "Venerdì"
+        ],
+        "created_at": "2024-10-13T17:56:06.071Z",
+        "updated_at": "2024-10-13T17:56:06.071Z"
+    },
+    {
+        "id": 3,
+        "nome": "Mercato",
+        "descrizione": "Zona a traffico limitato durante il mercato settimanale",
+        "orarioInizio": "06:00",
+        "orarioFine": "14:00",
+        "giorniAttivi": [
+            "Sabato",
+            "Domenica"
+        ],
+        "created_at": "2024-10-13T17:56:06.071Z",
+        "updated_at": "2024-10-13T17:56:06.071Z"
+    },
+    {
+        "id": 4,
+        "nome": "Zona Turistica",
+        "descrizione": "Zona a traffico limitato nelle aree turistiche",
+        "orarioInizio": "09:00",
+        "orarioFine": "22:00",
+        "giorniAttivi": [
+            "Lunedì",
+            "Martedì",
+            "Mercoledì",
+            "Giovedì",
+            "Venerdì",
+            "Sabato",
+            "Domenica"
+        ],
+        "created_at": "2024-10-13T17:56:06.071Z",
+        "updated_at": "2024-10-13T17:56:06.071Z"
+    },
+    {
+        "id": 5,
+        "nome": "Viale dei Giardini",
+        "descrizione": "Zona a traffico limitato nel parco cittadino",
+        "orarioInizio": "10:00",
+        "orarioFine": "18:00",
+        "giorniAttivi": [
+            "Lunedì",
+            "Martedì",
+            "Mercoledì",
+            "Giovedì",
+            "Venerdì"
+        ],
+        "created_at": "2024-10-13T17:56:06.071Z",
+        "updated_at": "2024-10-13T17:56:06.071Z"
+    },
+    {
+        "id": 6,
+        "nome": "Stazione Centrale",
+        "descrizione": "Zona a traffico limitato intorno alla stazione",
+        "orarioInizio": "05:00",
+        "orarioFine": "23:00",
+        "giorniAttivi": [
+            "Lunedì",
+            "Martedì",
+            "Mercoledì",
+            "Giovedì",
+            "Venerdì",
+            "Sabato",
+            "Domenica"
+        ],
+        "created_at": "2024-10-13T17:56:06.071Z",
+        "updated_at": "2024-10-13T17:56:06.071Z"
+    },
+    {
+        "id": 7,
+        "nome": "Centro Commerciale",
+        "descrizione": "Zona a traffico limitato intorno al centro commerciale",
+        "orarioInizio": "10:00",
+        "orarioFine": "21:00",
+        "giorniAttivi": [
+            "Sabato",
+            "Domenica"
+        ],
+        "created_at": "2024-10-13T17:56:06.071Z",
+        "updated_at": "2024-10-13T17:56:06.071Z"
+    },
+    {
+        "id": 8,
+        "nome": "Zona Artigianale",
+        "descrizione": "Zona a traffico limitato nelle aree artigianali",
+        "orarioInizio": "08:00",
+        "orarioFine": "17:00",
+        "giorniAttivi": [
+            "Martedì",
+            "Giovedì",
+            "Venerdì"
+        ],
+        "created_at": "2024-10-13T17:56:06.071Z",
+        "updated_at": "2024-10-13T17:56:06.071Z"
+    }
+]
 ```
 
 ### createZTL
@@ -309,19 +452,26 @@ pm.test("Save token", function () {
 **Output**:
 ```json
 {
-  "id": 1,
-  "nome": "Zona Traffico Limitato Centro",
-  "descrizione": "Area ZTL nel centro della città.",
-  "orarioInizio": "08:00",
-  "orarioFine": "18:00",
-  "giorniAttivi": ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
+    "id": 9,
+    "nome": "Zona Traffico Limitato Centro",
+    "descrizione": "Area ZTL nel centro della città, valida per traffico limitato nei giorni lavorativi.",
+    "orarioInizio": "08:00",
+    "orarioFine": "18:00",
+    "giorniAttivi": [
+        "Lunedì",
+        "Martedì",
+        "Mercoledì",
+        "Giovedì",
+        "Venerdì"
+    ],
+    "updated_at": "2024-10-13T18:01:51.013Z",
+    "created_at": "2024-10-13T18:01:51.013Z"
 }
-
 ```
 
 ### updateZTL
 
-**Rotta**: `/ztl/:id`
+**Rotta**: `/ztl/:id` (e.g. id=5)
 
 **Metodo**: `PUT`
 
@@ -342,19 +492,26 @@ pm.test("Save token", function () {
 **Output**:
 ```json
 {
-  "id": 1,
-  "nome": "Zona Traffico Limitato Centro",
-  "descrizione": "Area ZTL nel centro della città.",
-  "orarioInizio": "08:00",
-  "orarioFine": "18:00",
-  "giorniAttivi": ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"]
+    "id": 5,
+    "nome": "Zona Traffico Limitato Centro",
+    "descrizione": "Area ZTL nel centro della città, valida per traffico limitato nei giorni lavorativi.",
+    "orarioInizio": "08:00",
+    "orarioFine": "18:00",
+    "giorniAttivi": [
+        "Lunedì",
+        "Martedì",
+        "Mercoledì",
+        "Giovedì",
+        "Venerdì"
+    ],
+    "created_at": "2024-10-13T17:56:06.071Z",
+    "updated_at": "2024-10-13T18:02:12.390Z"
 }
-
 ```
 
 ### deleteZTL
 
-**Rotta**: `/ztl/:id`
+**Rotta**: `/ztl/:id` (e.g. id=5)
 
 **Metodo**: `DELETE`
 
@@ -364,12 +521,32 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+{
+    "data": {
+        "message": "ZTL eliminata con successo",
+        "ztl": {
+            "id": 5,
+            "nome": "Zona Traffico Limitato Centro",
+            "descrizione": "Area ZTL nel centro della città, valida per traffico limitato nei giorni lavorativi.",
+            "orarioInizio": "08:00",
+            "orarioFine": "18:00",
+            "giorniAttivi": [
+                "Lunedì",
+                "Martedì",
+                "Mercoledì",
+                "Giovedì",
+                "Venerdì"
+            ],
+            "created_at": "2024-10-13T17:56:06.071Z",
+            "updated_at": "2024-10-13T18:02:12.390Z"
+        }
+    }
+}
 ```
 
 ### downloadBollettino
 
-**Rotta**: `/multe/download/:id`
+**Rotta**: `/multe/download/:id` (e.g. id=1)
 
 **Metodo**: `GET`
 
@@ -379,12 +556,12 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+![](./images/bollettino.png)
 ```
 
 ### checkMulte
 
-**Rotta**: `/multe/:id`
+**Rotta**: `/multe/:id` (e.g. id=2)
 
 **Metodo**: `GET`
 
@@ -394,12 +571,35 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+[
+    {
+        "id": 1,
+        "importo": "100.00",
+        "pagato": false,
+        "targaVeicolo": "ABC123",
+        "transitoId": 1,
+        "dataMulta": "2024-01-16T12:00:00.000Z",
+        "uuidPagamento": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "created_at": "2024-10-13T17:56:06.084Z",
+        "updated_at": "2024-10-13T17:56:06.084Z"
+    },
+    {
+        "id": 3,
+        "importo": "200.00",
+        "pagato": false,
+        "targaVeicolo": "DEF456",
+        "transitoId": 3,
+        "dataMulta": "2024-01-18T16:45:00.000Z",
+        "uuidPagamento": "fa17cb9a-eeb1-40e7-bfab-13f587d1b6cc",
+        "created_at": "2024-10-13T17:56:06.084Z",
+        "updated_at": "2024-10-13T17:56:06.084Z"
+    }
+]
 ```
 
 ### getTransito
 
-**Rotta**: `/transito/:id`
+**Rotta**: `/transito/:id` (e.g. id=1)
 
 **Metodo**: `GET`
 
@@ -409,7 +609,14 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+{
+    "id": 1,
+    "targaVeicolo": "ABC123",
+    "varcoId": 1,
+    "dataOraTransito": "2024-01-15T08:30:00.000Z",
+    "created_at": "2024-10-13T17:56:06.080Z",
+    "updated_at": "2024-10-13T17:56:06.080Z"
+}
 ```
 
 ### createTransito
@@ -432,12 +639,19 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+{
+    "id": 5,
+    "targaVeicolo": "DEF456",
+    "varcoId": 1,
+    "dataOraTransito": "2024-12-25T10:15:00.000Z",
+    "updated_at": "2024-10-13T18:11:28.944Z",
+    "created_at": "2024-10-13T18:11:28.944Z"
+}
 ```
 
 ### deleteTransito
 
-**Rotta**: `/transito/:id`
+**Rotta**: `/transito/:id` (e.g. id=3)
 
 **Metodo**: `DELETE`
 
@@ -447,12 +661,24 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+{
+    "data": {
+        "message": "Transito eliminato con successo",
+        "transito": {
+            "id": 3,
+            "targaVeicolo": "DEF456",
+            "varcoId": 1,
+            "dataOraTransito": "2024-01-17T14:00:00.000Z",
+            "created_at": "2024-10-13T17:56:06.080Z",
+            "updated_at": "2024-10-13T17:56:06.080Z"
+        }
+    }
+}
 ```
 
 ### updateTransito
 
-**Rotta**: `/transito/:id`
+**Rotta**: `/transito/:id` (e.g. id=1)
 
 **Metodo**: `PUT`
 
@@ -469,12 +695,19 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+{
+    "id": 1,
+    "targaVeicolo": "ABC123",
+    "varcoId": 1,
+    "dataOraTransito": "2024-01-15T08:30:00.000Z",
+    "created_at": "2024-10-13T17:56:06.080Z",
+    "updated_at": "2024-10-13T17:56:06.080Z"
+}
 ```
 
 ### getTransitiByVarco
 
-**Rotta**: `/transito/varco/:varcoId`
+**Rotta**: `/transito/varco/:varcoId` (e.g. varcoId=1)
 
 **Metodo**: `GET`
 
@@ -484,12 +717,29 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+[
+    {
+        "id": 1,
+        "targaVeicolo": "ABC123",
+        "varcoId": 1,
+        "dataOraTransito": "2024-01-15T08:30:00.000Z",
+        "created_at": "2024-10-13T17:56:06.080Z",
+        "updated_at": "2024-10-13T17:56:06.080Z"
+    },
+    {
+        "id": 5,
+        "targaVeicolo": "DEF456",
+        "varcoId": 1,
+        "dataOraTransito": "2024-12-25T10:15:00.000Z",
+        "created_at": "2024-10-13T18:11:28.944Z",
+        "updated_at": "2024-10-13T18:11:28.944Z"
+    }
+]
 ```
 
 ### getTransitoByVeicolo
 
-**Rotta**: `/transito/veicolo/:targa`
+**Rotta**: `/transito/veicolo/:targa` (e.g. targa=ABC123)
 
 **Metodo**: `GET`
 
@@ -499,7 +749,16 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+[
+    {
+        "id": 1,
+        "targaVeicolo": "ABC123",
+        "varcoId": 1,
+        "dataOraTransito": "2024-01-15T08:30:00.000Z",
+        "created_at": "2024-10-13T17:56:06.080Z",
+        "updated_at": "2024-10-13T17:56:06.080Z"
+    }
+]
 ```
 
 ### getVarchi
@@ -514,7 +773,29 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+[
+    {
+        "id": 1,
+        "location": "Via Roma",
+        "ztlId": 1,
+        "created_at": "2024-10-13T17:56:06.074Z",
+        "updated_at": "2024-10-13T17:56:06.074Z"
+    },
+    {
+        "id": 2,
+        "location": "Piazza della Libertà",
+        "ztlId": 1,
+        "created_at": "2024-10-13T17:56:06.074Z",
+        "updated_at": "2024-10-13T17:56:06.074Z"
+    },
+    {
+        "id": 3,
+        "location": "Viale Università",
+        "ztlId": 2,
+        "created_at": "2024-10-13T17:56:06.074Z",
+        "updated_at": "2024-10-13T17:56:06.074Z"
+    }
+]
 ```
 
 ### getVarcoById
@@ -529,7 +810,13 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+{
+    "id": 1,
+    "location": "Via Roma",
+    "ztlId": 1,
+    "created_at": "2024-10-13T17:56:06.074Z",
+    "updated_at": "2024-10-13T17:56:06.074Z"
+}
 ```
 
 ### createVarco
@@ -551,12 +838,18 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+{
+    "id": 4,
+    "location": "Piazza del Duomo",
+    "ztlId": 1,
+    "updated_at": "2024-10-13T18:15:17.947Z",
+    "created_at": "2024-10-13T18:15:17.947Z"
+}
 ```
 
 ### updateVarco
 
-**Rotta**: `/varco/:id`
+**Rotta**: `/varco/:id` (e.g. id=1)
 
 **Metodo**: `PUT`
 
@@ -573,12 +866,18 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+{
+    "id": 1,
+    "location": "Piazza del Duomo",
+    "ztlId": 2,
+    "created_at": "2024-10-13T17:56:06.074Z",
+    "updated_at": "2024-10-13T18:15:33.397Z"
+}
 ```
 
 ### deleteVarco
 
-**Rotta**: `/varco/:id`
+**Rotta**: `/varco/:id` (e.g. id=1)
 
 **Metodo**: `DELETE`
 
@@ -588,7 +887,18 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+{
+    "data": {
+        "message": "Varco eliminato con successo",
+        "varco": {
+            "id": 1,
+            "location": "Piazza del Duomo",
+            "ztlId": 2,
+            "created_at": "2024-10-13T17:56:06.074Z",
+            "updated_at": "2024-10-13T18:15:33.397Z"
+        }
+    }
+}
 ```
 
 
@@ -598,9 +908,10 @@ pm.test("Save token", function () {
 
 **Autenticazione**: Bearer {loginToken}
 
+
 ### pagaMulta
 
-**Rotta**: `/pagamento/:id`  
+**Rotta**: `/pagamento/:id`  (e.g. id=f47ac10b-58cc-4372-a567-0e02b2c3d479)
 
 **Metodo**: `PUT`  
 
@@ -610,7 +921,20 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+{
+    "messaggio": "Pagamento avvenuto con successo",
+    "pagamento": {
+        "id": 1,
+        "importo": "100.00",
+        "pagato": true,
+        "created_at": "2024-10-13T18:22:30.380Z",
+        "updated_at": "2024-10-13T18:24:42.054Z",
+        "targaVeicolo": "ABC123",
+        "transitoId": 1,
+        "dataMulta": "2024-01-16T12:00:00.000Z",
+        "uuidPagamento": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+    }
+}
 ```
 
 ### getCredito
@@ -625,7 +949,9 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+{
+    "credito": "700.5"
+}
 ```
 
 ### ricaricaCredito
@@ -640,19 +966,22 @@ pm.test("Save token", function () {
 ```json
 {
   "userId": 2,
-  "importoRicarica": "1000.50"
+  "importoRicarica": "300.50"
 }
 
 ```
 
 **Output**:
 ```json
-
+{
+    "messaggio": "Ricarica effettuata con successo",
+    "creditoAggiornato": 1000.5
+}
 ```
 
 ### downloadRicevuta
 
-**Rotta**: `/pagamento/ricevuta/:id`
+**Rotta**: `/pagamento/ricevuta/:id` (e.g. id=9e107d9d-372b-4984-b9d2-67d9a5f57487)
 
 **Metodo**: `GET`
 
@@ -662,7 +991,7 @@ pm.test("Save token", function () {
 
 **Output**:
 ```json
-
+![](ricevuta.png)
 ```
 
 
