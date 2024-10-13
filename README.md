@@ -87,13 +87,7 @@ Il pattern **DAO (Data Access Object)** è stato utilizzato per astrarre l'acces
 
 L'uso del pattern DAO ha garantito una forte modularità, migliorando la manutenibilità e la testabilità del codice.
 
-### 3. **Repository Pattern**
-
-Per centralizzare la logica di accesso ai dati e semplificare l'interazione con i DAO, è stato implementato il **Repository Pattern**. Questo pattern consente di trattare le entità del database come raccolte in memoria, nascondendo i dettagli tecnici dell'accesso ai dati. I **Repository** sono utilizzati per incapsulare la logica di business necessaria a gestire le entità, come la gestione delle ZTL e dei transiti attraverso i varchi.
-
-Questa scelta ha reso il sistema più modulare e ha semplificato le interazioni tra i controller e il database, migliorando la leggibilità del codice.
-
-### 4. **Chain of Responsibility (CoR)**
+### 3. **Chain of Responsibility (CoR)**
 
 Il pattern **Chain of Responsibility** è stato adottato attraverso i **middleware** di **Express.js** per gestire in modo efficiente le richieste HTTP. Ogni middleware svolge un compito specifico, come l'autenticazione, la validazione delle richieste o la gestione degli errori, e può passare il controllo al successivo middleware nella catena. In particolare, sono stati implementati:
 
@@ -103,13 +97,13 @@ Il pattern **Chain of Responsibility** è stato adottato attraverso i **middlewa
 
 L'utilizzo di questo pattern ha migliorato l'efficienza del flusso delle richieste, garantendo che ogni operazione venga eseguita in modo ordinato e sicuro.
 
-### 5. **Factory Pattern**
+### 4. **Factory Pattern**
 
 Il pattern **Factory** è stato utilizzato per la gestione centralizzata degli errori tramite la creazione di errori personalizzati. L'uso di una **Error Factory** consente di generare istanze di errori HTTP in modo dinamico, semplificando la gestione e l'estensione delle classi di errore. Questo approccio è particolarmente utile per la gestione di risposte standardizzate per errori come l'autenticazione fallita, la validazione dei dati, o l'accesso non autorizzato.
 
 Grazie a questo pattern, la gestione degli errori è risultata centralizzata, modulare e facilmente estendibile.
 
-### 6. **Singleton Pattern**
+### 5. **Singleton Pattern**
 
 Il pattern **Singleton** è stato utilizzato per gestire componenti che devono essere istanziati una sola volta durante il ciclo di vita dell'applicazione:
 
@@ -124,13 +118,79 @@ L'adozione di questi design pattern ha permesso di sviluppare un sistema robusto
 
 ### Diagrammi delle sequenze
 
-## Struttura Database
+## Database Schema
+
 Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indicato per applicazioni backend come quella sviluppata in questo progetto, dove l'autenticazione sicura dei dati e l'efficienza nelle operazioni di lettura e scrittura sono fondamentali. Grazie alle sue prestazioni ottimizzate, PostgreSQL rappresenta una soluzione ideale per garantire la robustezza e la velocità del sistema.
+
 ![DATABASE](./images/database_schema.png)
+
+## Schema E-R
+
+'''mermaid
+erDiagram
+    USERS {
+        int id SERIAL PK
+        string username
+        string email UNIQUE
+        string token
+        string role
+        float credit
+    }
+
+    ZTL {
+        int id SERIAL PK
+        string nome
+        string descrizione
+        string orario_inizio
+        string orario_fine
+        jsonb giorni_attivi
+    }
+
+    VARCO {
+        int id SERIAL PK
+        string location
+        int ztl_id FK
+    }
+
+    VEICOLO {
+        string targa PK
+        int utente_id FK
+        string tipo_veicolo
+    }
+
+    TRANSITO {
+        int id SERIAL PK
+        string targa_veicolo FK
+        int varco_id FK
+        datetime data_ora_transito
+    }
+
+    MULTA {
+        int id SERIAL PK
+        decimal importo
+        bool pagato
+        string targa_veicolo FK
+        int transito_id FK
+        datetime data_multa
+        string uuid_pagamento
+    }
+
+    WHITELIST {
+        string targa_veicolo PK
+        datetime data_scadenza
+    }
+
+    USERS ||--o{ VEICOLO : "owns"
+    VEICOLO ||--o{ TRANSITO : "registers"
+    TRANSITO |o--o| MULTA : "creates"
+    ZTL ||--o{ VARCO : "includes"
+    VARCO ||--o{ TRANSITO : "crosses"
+    VEICOLO ||--o| WHITELIST : "is authorized"
+'''
+
 
 ## Rotte API
 
-^
 | Tipo    | Rotta                        | Autenticazione  | Autorizzazione         |
 |---------|------------------------------|-----------------|------------------------|
 | *POST*    | `/login`                   | SI              |                        |
