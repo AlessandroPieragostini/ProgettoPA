@@ -555,9 +555,8 @@ pm.test("Save token", function () {
 **Body** (JSON): NO
 
 **Output**:
-```json
 ![](./images/bollettino.png)
-```
+
 
 ### checkMulte
 
@@ -990,13 +989,7 @@ pm.test("Save token", function () {
 **Body** (JSON): NO
 
 **Output**:
-```json
-![](ricevuta.png)
-```
-
-
-
-
+![](ricevuta.png) 
 
 ## Strumenti utilizzati
 Per lo sviluppo dell'applicazione presentata sono stati utilizzati i seguenti strumenti di lavoro:
