@@ -8,7 +8,7 @@ const router = Router();
 router.get('/', authenticateToken, authorizeRole(['utente']), CreditoController.getCredito);
 
 // Rotta protetta per ricaricare il credito (solo op)
-router.put('/ricarica/:userId', authenticateToken, authorizeRole(['admin']), validateRicaricaCredito, CreditoController.ricaricaCredito);
+router.put('/ricarica', authenticateToken, authorizeRole(['admin']), validateRicaricaCredito, CreditoController.ricaricaCredito);
 
 export default router;
 

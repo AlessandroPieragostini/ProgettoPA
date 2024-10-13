@@ -130,33 +130,32 @@ Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indic
 
 ## Rotte API
 
-DA MODIFICARE NON SONO LE NOSTRE è SOLO PER LA STRUTTURA!!!
 ^
-| Tipo    | Rotta                        | Autenticazione | Autorizzazione         |
-|---------|------------------------------|----------------|------------------------|
+| Tipo    | Rotta                        | Autenticazione  | Autorizzazione         |
+|---------|------------------------------|-----------------|------------------------|
 | *POST*    | `/login`                   | SI              |                        |
-| *GET*     | `/varco`                    | SI              | Operatore                 |
-| *GET*     | `/varco/:id`                | SI              | Operatore                 |
+| *GET*     | `/varco`                   | SI              | Operatore              |
+| *GET*     | `/varco/:id`               | SI              | Operatore              |
 | *POST*    | `/varco`                   | SI              | Operatore              |
 | *PUT*     | `/varco/:id`               | SI              | Operatore              |
 | *DELETE*  | `/varco/:id`               | SI              | Operatore              |
-| *GET*     | `/ztl`                    | SI              | Operatore                |
-| *GET*     | `/ztl/:id`                | SI              | Operatore                 |
-| *POST*    | `/ztl`                   | SI              | Operatore              |
-| *PUT*     | `/ztl/:id`               | SI              | Operatore              |
-| *DELETE*  | `/ztl/:id`               | SI              | Operatore              |
-| *GET*     | `/transito/:id`              | SI              | Operatore              |
-| *GET*     | `/transito/veicolo/:id`              | SI              | Operatore                 |
-| *GET*     | `/transito/varco/:id`              | SI              | Operatore              |
-| *POST*    | `/transito`                   | SI              | Operatore, Varco        |
-| *PUT*     | `/transito/:id`               | SI              | Operatore              |
-| *DELETE*  | `/transito/:id`               | SI              | Operatore              |
-| *GET*     | `/multe/:id`               | SI              | Utente           |
-| *GET*     | `/multe/download/:id`               | SI              | Utente           |
-| *PUT*     | `/pagamento/:uuidPagamento`               | SI              | Utente           |
-| *GET*     | `/pagamento/ricevuta/:uuidPagamento`               | SI              | Utente           |
-| *GET*     | `/crediti`               | SI              | Utente           |
-| *PUT*     | `/crediti/ricarica/:userId`                  | SI              | Utente           |
+| *GET*     | `/ztl`                     | SI              | Operatore              |
+| *GET*     | `/ztl/:id`                 | SI              | Operatore              |
+| *POST*    | `/ztl`                     | SI              | Operatore              |
+| *PUT*     | `/ztl/:id`                 | SI              | Operatore              |
+| *DELETE*  | `/ztl/:id`                 | SI              | Operatore              |
+| *GET*     | `/transito/:id`            | SI              | Operatore              |
+| *GET*     | `/transito/veicolo/:id`    | SI              | Operatore              |
+| *GET*     | `/transito/varco/:id`      | SI              | Operatore              |
+| *POST*    | `/transito`                | SI              | Operatore, Varco       |
+| *PUT*     | `/transito/:id`            | SI              | Operatore              |
+| *DELETE*  | `/transito/:id`            | SI              | Operatore              |
+| *GET*     | `/multe/:id`               | SI              | Utente                 |
+| *GET*     | `/multe/download/:id`      | SI              | Utente                 |
+| *PUT*     | `/pagamento/:uuidPagamento`            | SI  | Utente                 |
+| *GET*     | `/pagamento/ricevuta/:uuidPagamento`   | SI  | Utente                 |
+| *GET*     | `/crediti`                 | SI              | Utente                 |
+| *PUT*     | `/crediti/ricarica/:userId`| SI              | Utente                 |
 
 
 ## Strumenti utilizzati
