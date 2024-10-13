@@ -83,7 +83,7 @@ L'adozione del pattern MVC facilita l'espandibilità del progetto e la sua manut
 
 ### 2. **Data Access Object (DAO)**
 
-Il pattern **DAO (Data Access Object)** è stato utilizzato per astrarre l'accesso ai dati. Questo approccio consente di isolare completamente il codice della logica applicativa dall'accesso ai dati, facilitando la sostituzione del meccanismo di persistenza senza influenzare altre parti del sistema. Ogni entità del sistema (come `Varco`, `Transito`, e `Veicolo`) ha il proprio DAO, che esegue le operazioni CRUD richieste dall'applicazione.
+Il pattern **DAO (Data Access Object)** è stato utilizzato per astrarre l'accesso ai dati. Questo approccio consente di isolare completamente il codice della logica applicativa dall'accesso ai dati, facilitando la sostituzione del meccanismo di persistenza senza influenzare altre parti del sistema. Le entità `Varco`, `Transito`, `Veicolo`, `Multa` e `Utente`  ha il proprio DAO, che esegue le operazioni richieste dall'applicazione.
 
 L'uso del pattern DAO ha garantito una forte modularità, migliorando la manutenibilità e la testabilità del codice.
 
@@ -116,6 +116,18 @@ L'adozione di questi design pattern ha permesso di sviluppare un sistema robusto
 
 ### Diagrammi dei casi d'uso
 
+Nel sistema sviluppato, ci sono quattro tipologie di utenti principali: Utente, Operatore, Admin, e Varco. Ciascuna di queste entità interagisce con il sistema per svolgere determinate operazioni.
+
+- **Utente**: Può autenticarsi, visualizzare eventuali multe a suo carico. Può anche scaricare il bollettino per il pagamento, effettuare i pagamenti delle multe e stampare le ricevute associate ad essi.
+
+- **Operatore**: Ha il compito di monitorare e gestire le CRUD per i varchi, le ZTL e i transiti.
+
+- **Admin**: Si occupa della ricarica del credito di un utente.
+
+- **Varco**: È abilitato a registrare un transito.
+
+![CASI_D_USO](./images/Casi_d_uso.png)
+
 ### Diagrammi delle sequenze
 
 ## Database Schema
@@ -123,71 +135,6 @@ L'adozione di questi design pattern ha permesso di sviluppare un sistema robusto
 Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indicato per applicazioni backend come quella sviluppata in questo progetto, dove l'autenticazione sicura dei dati e l'efficienza nelle operazioni di lettura e scrittura sono fondamentali. Grazie alle sue prestazioni ottimizzate, PostgreSQL rappresenta una soluzione ideale per garantire la robustezza e la velocità del sistema.
 
 ![DATABASE](./images/database_schema.png)
-
-## Schema E-R
-
-'''mermaid
-erDiagram
-    USERS {
-        int id SERIAL PK
-        string username
-        string email UNIQUE
-        string token
-        string role
-        float credit
-    }
-
-    ZTL {
-        int id SERIAL PK
-        string nome
-        string descrizione
-        string orario_inizio
-        string orario_fine
-        jsonb giorni_attivi
-    }
-
-    VARCO {
-        int id SERIAL PK
-        string location
-        int ztl_id FK
-    }
-
-    VEICOLO {
-        string targa PK
-        int utente_id FK
-        string tipo_veicolo
-    }
-
-    TRANSITO {
-        int id SERIAL PK
-        string targa_veicolo FK
-        int varco_id FK
-        datetime data_ora_transito
-    }
-
-    MULTA {
-        int id SERIAL PK
-        decimal importo
-        bool pagato
-        string targa_veicolo FK
-        int transito_id FK
-        datetime data_multa
-        string uuid_pagamento
-    }
-
-    WHITELIST {
-        string targa_veicolo PK
-        datetime data_scadenza
-    }
-
-    USERS ||--o{ VEICOLO : "owns"
-    VEICOLO ||--o{ TRANSITO : "registers"
-    TRANSITO |o--o| MULTA : "creates"
-    ZTL ||--o{ VARCO : "includes"
-    VARCO ||--o{ TRANSITO : "crosses"
-    VEICOLO ||--o| WHITELIST : "is authorized"
-'''
-
 
 ## Rotte API
 
