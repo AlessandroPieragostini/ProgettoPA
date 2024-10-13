@@ -1,6 +1,20 @@
 # PROGETTO PROGRAMMAZIONE AVANZATA
 ![GESTIONE ZTL](./images/logo.png)
 
+# Indice
+
+- [Progetto Programmazione Avanzata](#progetto-programmazione-avanzata)
+- [Indice](#Indice)
+- [Obiettivo](#Obiettivo)
+- [Installazione](#installazione)
+- [Struttura Progetto](#struttura-progetto)
+- [Pattern Utilizzati](#pattern-utilizzati)
+- [Diagrammi UML](#diagrammi-uml)
+- [Rotte API](#rotte-api)
+- [Strumenti Utilizzati](#strumenti-utilizzati)
+- [Autori](#autori) 
+
+
 ## Obiettivo
 Questo progetto, sviluppato per il corso di Programmazione Avanzata dell'Anno Accademico 2023/2024, ha come obiettivo la realizzazione di un sistema backend per la gestione delle Zone a Traffico Limitato (ZTL) di una città. Il sistema consente il monitoraggio dei transiti dei veicoli attraverso varchi ZTL, calcolando in modo automatico le multe per i veicoli che violano le restrizioni di accesso. Il progetto si articola in due backend distinti:
 
