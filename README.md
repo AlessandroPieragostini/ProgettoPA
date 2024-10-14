@@ -142,20 +142,20 @@ Nel sistema sviluppato, ci sono quattro tipologie di utenti principali: Utente, 
 
 Il diagramma di sequenza rappresenta il flusso di operazioni coinvolto nella creazione di un nuovo transito. 
 
-1. **Richiesta POST per la Creazione del Transito**:
+1. **Richiesta POST per la creazione del transito**:
    - L'utente (ruolo `operatore` o `varco`) invia una richiesta HTTP POST all'endpoint `/transito` con il token di autenticazione e i dettagli del transito (targa, ID del varco, data e ora del transito).
 
 2. **Autenticazione e Autorizzazione**:
    - Il middleware `authenticateToken` verifica la validità del token JWT fornito nell'header della richiesta. Se il token è mancante o invalido, viene restituito un errore.
    - Il middleware `authorizeRole` controlla il ruolo dell'utente per assicurarsi che abbia i permessi necessari per eseguire l'operazione. Se il ruolo non è autorizzato, viene restituito un errore di accesso negato.
 
-3. **Validazione della Richiesta**:
+3. **Validazione della richiesta**:
    - La richiesta viene validata per assicurarsi che i dati forniti rispettino i requisiti dell'API. In caso di dati non validi, viene restituito un errore di validazione.
 
-4. **Verifica del Veicolo**:
+4. **Verifica del veicolo**:
    - Il sistema controlla se il veicolo esiste nel database (`Veicolo`). Se non esiste, viene generato un errore e l'operazione viene interrotta.
 
-5. **Creazione del Transito**:
+5. **Creazione del transito**:
    - Se il veicolo è valido, viene creato un nuovo record di transito utilizzando il DAO `TransitoDAO`.
    - Il sistema verifica poi se il veicolo è presente nella whitelist (`Whitelist`). Se il veicolo è nella lista, nessuna multa viene emessa.
 
@@ -165,7 +165,7 @@ Il diagramma di sequenza rappresenta il flusso di operazioni coinvolto nella cre
 7. **Risposta**:
    - Il sistema restituisce una risposta HTTP con lo stato del nuovo transito creato o eventuali errori.
 
-8. **Gestione degli Errori**:
+8. **Gestione degli errori**:
    - Il middleware `errorHandler` gestisce eventuali errori, restituendo una risposta appropriata con un messaggio d'errore in formato JSON.
 
 
@@ -175,29 +175,28 @@ Il diagramma di sequenza rappresenta il flusso di operazioni coinvolto nella cre
 
 Il diagramma di sequenza rappresenta il processo per il controllo delle multe a carico di un utente. 
 
-1. **Richiesta GET per il Controllo delle Multe**:
+1. **Richiesta GET per il controllo delle multe**:
    - Un utente (con il ruolo `utente`) invia una richiesta HTTP GET all'endpoint `/multe/:id` con il token di autenticazione. L'ID passato nella richiesta rappresenta l'utente per il quale si vogliono controllare le multe.
 
 2. **Autenticazione e Autorizzazione**:
    - Il middleware `authenticateToken` verifica la validità del token JWT presente nell'header della richiesta. Se il token è mancante o invalido, viene restituito un errore di autenticazione.
    - Il middleware `authorizeRole` controlla che l'utente abbia il ruolo corretto (`utente`) per poter eseguire questa operazione. In caso contrario, viene restituito un errore di accesso negato.
 
-3. **Validazione della Richiesta**:
+3. **Validazione della richiesta**:
    - L'ID dell'utente viene validato per assicurarsi che sia un intero valido. Se non lo è, viene restituito un errore di validazione.
 
-4. **Recupero dei Veicoli dell'Utente**:
+4. **Recupero dei veicoli dell'utente**:
    - Il sistema, tramite il DAO `MultaDAO`, cerca tutti i veicoli associati all'ID dell'utente. Se non vengono trovati veicoli, viene restituito un errore che segnala che l'utente non ha veicoli associati.
 
-5. **Recupero delle Multe**:
+5. **Recupero delle multe**:
    - Per ciascun veicolo trovato, il sistema cerca le multe associate alla targa del veicolo e raccoglie tutte le informazioni in un array.
    - Se vengono trovate multe, queste vengono restituite all'utente in formato JSON.
 
 6. **Risposta**:
    - Il sistema restituisce una risposta HTTP con le multe associate ai veicoli dell'utente. Se nessuna multa viene trovata, viene restituito un errore che segnala l'assenza di multe.
 
-7. **Gestione degli Errori**:
+7. **Gestione degli errori**:
    - Il middleware `errorHandler` intercetta e gestisce eventuali errori, restituendo una risposta appropriata con il codice di errore e un messaggio esplicativo in formato JSON.
-
 
 ![checkMulte](./images/DS_checkMulte.png)
 
@@ -205,33 +204,33 @@ Il diagramma di sequenza rappresenta il processo per il controllo delle multe a 
 
 Il diagramma di sequenza rappresenta il processo di pagamento di una multa da parte di un utente autenticato.
 
-1. **Richiesta PUT per il Pagamento della Multa**:
+1. **Richiesta PUT per il pagamento della multa**:
    - L'utente (con il ruolo `utente`) invia una richiesta HTTP PUT all'endpoint `/pagamento/:uuidPagamento` con il token di autenticazione. Il parametro `uuidPagamento` rappresenta la multa da pagare.
 
 2. **Autenticazione e Autorizzazione**:
    - Il middleware `authenticateToken` verifica la validità del token JWT fornito nell'header della richiesta. Se il token è mancante o invalido, viene restituito un errore di autenticazione.
    - Il middleware `authorizeRole` verifica che l'utente abbia il ruolo corretto (`utente`) per eseguire questa operazione. In caso contrario, viene restituito un errore di accesso negato.
 
-3. **Validazione della Richiesta**:
+3. **Validazione della richiesta**:
    - Il parametro `uuidPagamento` viene validato per assicurarsi che sia un UUID valido. In caso di errore, viene restituito un errore di validazione.
 
-4. **Recupero dell'Utente**:
+4. **Recupero dell'utente**:
    - Il sistema utilizza il DAO `UserDAO` per recuperare i dettagli dell'utente in base all'ID associato al token JWT. Se l'utente non viene trovato, viene restituito un errore che segnala che l'utente non esiste.
 
-5. **Recupero della Multa**:
+5. **Recupero della multa**:
    - Il sistema utilizza il DAO `MultaDAO` per cercare la multa corrispondente all'`uuidPagamento`. Se la multa non esiste o è già stata pagata, viene restituito un errore.
 
-6. **Verifica del Credito Disponibile**:
+6. **Verifica del credito disponibile**:
    - Il sistema verifica che l'utente abbia sufficiente credito per pagare la multa. Se il credito non è sufficiente, viene restituito un errore.
 
-7. **Aggiornamento della Multa e del Credito**:
+7. **Aggiornamento della multa e del credito**:
    - Se tutte le condizioni sono soddisfatte, il sistema aggiorna lo stato della multa a "pagata" tramite `MultaDAO.pagaMulta`.
    - Il sistema detrae l'importo della multa dal credito dell'utente e aggiorna il nuovo saldo tramite `UserDAO.aggiornaCredito`.
 
 8. **Risposta**:
    - Se il pagamento è andato a buon fine, il sistema restituisce una risposta JSON con i dettagli del pagamento e un messaggio di conferma.
 
-9. **Gestione degli Errori**:
+9. **Gestione degli errori**:
    - Il middleware `errorHandler` intercetta e gestisce eventuali errori durante il processo, restituendo una risposta con il codice di errore e un messaggio esplicativo in formato JSON.
 
 ![pagaMulte](./images/DS_pagaMulta.png)
@@ -240,31 +239,54 @@ Il diagramma di sequenza rappresenta il processo di pagamento di una multa da pa
 
 Il diagramma di sequenza rappresenta il processo di pagamento di una multa e la generazione della ricevuta.
 
-1. **Richiesta di Pagamento**:
+1. **Richiesta GET della ricevuta del pagamento**:
    - Un utente (con il ruolo `utente`) invia una richiesta HTTP GET all'endpoint `/ricevuta/:uuidPagamento` per stampare la ricevuta di pagamento della multa, fornendo il `uuidPagamento` della multa come parametro.
 
 2. **Autenticazione e Autorizzazione**:
    - Il middleware `authenticateToken` verifica la validità del token JWT presente nell'header della richiesta. Se il token è mancante o invalido, viene restituito un errore di autenticazione.
    - Il middleware `authorizeRole` controlla che l'utente abbia il ruolo corretto (`utente`) per poter eseguire questa operazione. In caso contrario, viene restituito un errore di accesso negato.
 
-3. **Validazione della Richiesta**:
+3. **Validazione della richiesta**:
    - Il middleware `validateStampaRicevuta` verifica che il parametro `uuidPagamento` sia un UUID valido. Se non lo è, viene restituito un errore di validazione.
 
-4. **Recupero della Multa**:
+4. **Recupero della multa**:
    - Il sistema, tramite il DAO `MultaDAO`, cerca la multa associata all'UUID di pagamento fornito. Se la multa non esiste o non è stata pagata, viene restituito un errore appropriato.
 
-5. **Generazione della Ricevuta in PDF**:
+5. **Generazione della ricevuta in PDF**:
    - Se la multa è valida e pagata, il sistema genera un documento PDF utilizzando la libreria `PDFKit`, includendo dettagli come targa del veicolo, importo, UUID del pagamento e ID della multa.
 
 6. **Risposta**:
    - Se tutto va a buon fine, il sistema restituisce la ricevuta in formato PDF. Se ci sono errori durante il processo, questi vengono gestiti e restituiti in formato JSON.
 
-7. **Gestione degli Errori**:
+7. **Gestione degli errori**:
    - Il middleware `errorHandler` intercetta e gestisce eventuali errori, restituendo una risposta appropriata con il codice di errore e un messaggio esplicativo in formato JSON.
 
 ![pagaMulte](./images/DS_stampaRicevuta.png)
 
-* __GET /ricevuta/:uuidPagamento__
+* __GET /transito/getTransitiByVarco__
+
+Il diagramma di sequenza rappresenta il processo per ottenere tutti i transiti associati a un varco specifico.
+
+1. **Richiesta GET per i transiti del varco**:
+   - Un operatore (con il ruolo `operatore`) invia una richiesta HTTP GET all'endpoint `/varco/:varcoId` con il token di autenticazione. Il parametro `varcoId` rappresenta l'ID del varco per il quale si vogliono ottenere i transiti registrati.
+
+2. **Autenticazione e Autorizzazione**:
+   - Il middleware `authenticateToken` verifica la validità del token JWT presente nell'header della richiesta. Se il token è mancante o invalido, viene restituito un errore di autenticazione.
+   - Il middleware `authorizeRole` controlla che l'utente abbia il ruolo corretto (`operatore`) per poter eseguire questa operazione. In caso contrario, viene restituito un errore di accesso negato.
+
+3. **Validazione della richiesta**:
+   - Il middleware `validateGetTransitoByVarco` valida il parametro `varcoId` per assicurarsi che sia un intero positivo. Se non lo è, viene restituito un errore di validazione.
+
+4. **Recupero dei transiti dal DAO**:
+   - Il controller chiama il metodo `findAllByVarco` del DAO `TransitoDAO`, il quale recupera tutti i transiti registrati associati al varco con ID `varcoId` dal database. Se non vengono trovati transiti, viene restituito un errore che segnala l'assenza di transiti per quel varco.
+
+5. **Risposta**:
+   - Se i transiti vengono trovati, il sistema restituisce una risposta HTTP con codice `200` e i dati dei transiti in formato JSON. In caso contrario, viene restituito un errore di "transito non trovato".
+
+6. **Gestione degli errori**:
+   - Il middleware `errorHandler` intercetta e gestisce eventuali errori, restituendo una risposta appropriata con il codice di errore e un messaggio esplicativo in formato JSON.
+
+![getTransitiByVarco](./images/DS_transitoByVarco.png)
 
 
 
