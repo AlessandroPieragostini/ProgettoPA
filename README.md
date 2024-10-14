@@ -247,10 +247,6 @@ Il DAO (Data Access Object) è un pattern architetturale che si occupa della ges
 
 Il principale vantaggio del pattern DAO è la separazione delle responsabilità. Isolando l'accesso ai dati dalla logica applicativa, il codice risulta più modulare e facile da mantenere. Questa separazione permette, ad esempio, di cambiare il tipo di database o la modalità di accesso ai dati senza impattare altre parti del sistema. Il DAO favorisce anche una maggiore manutenibilità e scalabilità: eventuali modifiche al modo in cui i dati possono essere fatte in un unico punto centralizzato.
 
-All’interno del progetto vengono sviluppati tutti i DAO per tutte le CRUD di tutte le classi.
-
-
-
 ### 3.CoR
 Il Chain of Responsibility (CoR) è un pattern comportamentale che permette di gestire richieste in modo flessibile e dinamico attraverso una catena di handler (gestori), ognuno dei quali può elaborare la richiesta o passarla al successivo nella sequenza. Questo pattern evita l'accoppiamento diretto tra il mittente di una richiesta e i suoi destinatari, decentralizzando così il processo decisionale. Ogni handler nella catena è responsabile di valutare la richiesta: può scegliere di gestirla, elaborando la logica associata, oppure passare la richiesta a un altro handler, creando una catena di responsabilità che continua finché uno degli handler non la prende in carico o finché non si esauriscono le opzioni.
 Uno dei principali vantaggi del pattern CoR è la sua capacità di migliorare la flessibilità del sistema. Poiché i gestori sono organizzati in modo indipendente, è possibile modificare, aggiungere o rimuovere handler dalla catena senza alterare il codice del mittente o degli altri handler. Questo approccio rende il sistema facilmente estensibile e riduce la dipendenza tra componenti, facilitando la manutenzione del codice.

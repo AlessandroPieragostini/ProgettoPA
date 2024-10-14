@@ -42,7 +42,7 @@ services:
     networks:
       - private-ntwk
     ports:
-      - "{ZTL_BACKEND_PORT}:{ZTL_BACKEND_PORT}"
+      - "${ZTL_BACKEND_PORT}:${ZTL_BACKEND_PORT}"
     depends_on:
       database:
         condition: service_healthy
@@ -60,7 +60,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - JWT_SECRET=${JWT_SECRET}
     ports:
-      - "{PAGAMENTI_BACKEND_PORT}:{PAGAMENTI_BACKEND_PORT}"
+      - "${PAGAMENTI_BACKEND_PORT}:${PAGAMENTI_BACKEND_PORT}"
     networks:
       - private-ntwk
     depends_on:
