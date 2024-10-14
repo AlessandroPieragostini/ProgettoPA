@@ -1,26 +1,26 @@
-# ZTL Management System
-
 <p align="center">
   <img src="./images/logo.png" alt="GESTIONE ZTL">
 </p>
 
-
+<h1 align="center">ZTL Management System</h1>
 
 # Indice
 
-- [Indice](#Indice)
-- [Obiettivo](#Obiettivo)
+- [Indice](#indice)
+- [Obiettivo](#obiettivo)
 - [Installazione](#installazione)
 - [Scelte implementative](#scelte-implementative)
 - [Progettazione](#progettazione)
-- [Struttura Progetto](#struttura-progetto)
-- [Diagrammi dei casi d'uso](#diagrammi-dei-casi-duso)
-- [Diagrammi delle sequenze](#diagrammi-delle-sequenze)
-- [Database schema](#database-schema)
+  - [Architettura](#architettura)
+  - [Struttura Progetto](#struttura-progetto)
+  - [Diagrammi dei casi d'uso](#diagrammi-dei-casi-duso)
+  - [Diagrammi delle sequenze](#diagrammi-delle-sequenze)
+  - [Database schema](#database-schema)
 - [Pattern Utilizzati](#pattern-utilizzati)
 - [Rotte API](#rotte-api)
 - [Strumenti Utilizzati](#strumenti-utilizzati)
-- [Autori](#autori) 
+- [Autori](#autori)
+
 
 
 # Obiettivo
@@ -79,7 +79,7 @@ docker-compose up --build
    - Entrambi i servizi hanno una dipendenza da questo container.
 
 
-# Struttura Progetto
+## Struttura Progetto
 ```
 ProgettoPA
 ├── database
