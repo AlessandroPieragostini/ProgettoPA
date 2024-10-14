@@ -1,4 +1,4 @@
-# PROGETTO PROGRAMMAZIONE AVANZATA
+# ZTL Management System
 
 <p align="center">
   <img src="./images/logo.png" alt="GESTIONE ZTL">
@@ -8,7 +8,6 @@
 
 # Indice
 
-- [Progetto Programmazione Avanzata](#progetto-programmazione-avanzata)
 - [Indice](#Indice)
 - [Obiettivo](#Obiettivo)
 - [Installazione](#installazione)
