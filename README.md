@@ -72,6 +72,48 @@ docker-compose up --build
    - Entrambi i servizi hanno una dipendenza da questo container.
 
 
+# Struttura Progetto
+```
+ProgettoPA
+├── database
+│   ├── Dockerfile
+│   ├── seed.sql
+├── pagamenti_backend
+│   ├── src
+│   │   ├── controllers
+│   │   ├── dao
+│   │   ├── middleware
+│   │   ├── models
+│   │   ├── routes
+│   │   ├── static
+│   │   ├── syncDB
+│   │   ├── types
+│   │   ├── utils
+│   │   └── app.ts
+│   ├── Dockerfile
+│   ├── package-lock.json
+│   ├── package.json
+│   └── tsconfig.json
+├── ztl_backend
+│   ├── src
+│   │   ├── controllers
+│   │   ├── dao
+│   │   ├── middleware
+│   │   ├── models
+│   │   ├── routes
+│   │   ├── static
+│   │   ├── syncDB
+│   │   ├── types
+│   │   ├── utils
+│   │   └── app.ts
+│   ├── Dockerfile
+│   ├── package-lock.json
+│   ├── package.json
+│   └── tsconfig.json
+├──.env
+├──docker-compose.yml
+└──README.md
+```
 
 ## Diagrammi dei casi d'uso
 
@@ -191,48 +233,6 @@ Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indic
 
 ![DATABASE](./images/database_schema.png)
 
-# Struttura Progetto
-```
-ProgettoPA
-├── database
-│   ├── Dockerfile
-│   ├── seed.sql
-├── pagamenti_backend
-│   ├── src
-│   │   ├── controllers
-│   │   ├── dao
-│   │   ├── middleware
-│   │   ├── models
-│   │   ├── routes
-│   │   ├── static
-│   │   ├── syncDB
-│   │   ├── types
-│   │   ├── utils
-│   │   └── app.ts
-│   ├── Dockerfile
-│   ├── package-lock.json
-│   ├── package.json
-│   └── tsconfig.json
-├── ztl_backend
-│   ├── src
-│   │   ├── controllers
-│   │   ├── dao
-│   │   ├── middleware
-│   │   ├── models
-│   │   ├── routes
-│   │   ├── static
-│   │   ├── syncDB
-│   │   ├── types
-│   │   ├── utils
-│   │   └── app.ts
-│   ├── Dockerfile
-│   ├── package-lock.json
-│   ├── package.json
-│   └── tsconfig.json
-├──.env
-├──docker-compose.yml
-└──README.md
-```
 # Pattern Utilizzati
 Durante lo sviluppo del progetto, abbiamo adottato diversi design patterns per garantire un'architettura solida, scalabile e manutenibile. Di seguito vengono descritti i principali pattern utilizzati e le motivazioni dietro la loro scelta.
 ### 1. **Model-View-Controller (MVC)**
