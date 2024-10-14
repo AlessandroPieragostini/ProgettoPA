@@ -1,5 +1,10 @@
 # PROGETTO PROGRAMMAZIONE AVANZATA
-![GESTIONE ZTL](./images/logo.png)
+
+<p align="center">
+  <img src="./images/logo.png" alt="GESTIONE ZTL">
+</p>
+
+
 
 # Indice
 
@@ -169,7 +174,7 @@ Il diagramma di sequenza rappresenta il flusso di operazioni coinvolto nella cre
 
 * __GET /multe/:id__
 
-Il diagramma di sequenza rappresenta il processo per il controllo delle multe a carico di un utente attraverso. 
+Il diagramma di sequenza rappresenta il processo per il controllo delle multe a carico di un utente. 
 
 1. **Richiesta GET per il Controllo delle Multe**:
    - Un utente (con il ruolo `utente`) invia una richiesta HTTP GET all'endpoint `/multe/:id` con il token di autenticazione. L'ID passato nella richiesta rappresenta l'utente per il quale si vogliono controllare le multe.
@@ -198,6 +203,8 @@ Il diagramma di sequenza rappresenta il processo per il controllo delle multe a 
 ![checkMulte](./images/DS_checkMulte.png)
 
 * __PUT /multe/:uuidPagamento__
+
+Il diagramma di sequenza rappresenta il processo di pagamento di una multa da parte di un utente autenticato.
 
 1. **Richiesta PUT per il Pagamento della Multa**:
    - L'utente (con il ruolo `utente`) invia una richiesta HTTP PUT all'endpoint `/pagamento/:uuidPagamento` con il token di autenticazione. Il parametro `uuidPagamento` rappresenta la multa da pagare.
@@ -231,6 +238,8 @@ Il diagramma di sequenza rappresenta il processo per il controllo delle multe a 
 ![pagaMulte](./images/DS_pagaMulta.png)
 
 * __GET /ricevuta/:uuidPagamento__
+
+Il diagramma di sequenza rappresenta il processo di pagamento di una multa e la generazione della ricevuta.
 
 1. **Richiesta di Pagamento**:
    - Un utente (con il ruolo `utente`) invia una richiesta HTTP GET all'endpoint `/ricevuta/:uuidPagamento` per stampare la ricevuta di pagamento della multa, fornendo il `uuidPagamento` della multa come parametro.
@@ -285,11 +294,11 @@ Il Chain of Responsibility (CoR) è un pattern comportamentale che permette di g
 Uno dei principali vantaggi del pattern CoR è la sua capacità di migliorare la flessibilità del sistema. Poiché i gestori sono organizzati in modo indipendente, è possibile modificare, aggiungere o rimuovere handler dalla catena senza alterare il codice del mittente o degli altri handler. Questo approccio rende il sistema facilmente estensibile e riduce la dipendenza tra componenti, facilitando la manutenzione del codice.
 All’interno del progetto il pattern CoR è stato utilizzato all’interno dei middleware per implementare la validazione, l’autenticazione e la gestione degli errori.
 
-### 4. FACTORY
+### 4. Factory
 Il Factory Pattern è un pattern creazionale che fornisce un modo per creare oggetti senza specificare esplicitamente la classe esatta da istanziare. L'idea di base è di delegare il compito di creare oggetti a una factory che si occupa di decidere quale tipo di oggetto restituire in base a determinate condizioni o parametri. Questo approccio permette di gestire in modo più flessibile la creazione degli oggetti, disaccoppiando il codice che richiede un'istanza da quello che effettivamente la crea.
 Nel progetto è stata sviluppata l’errorFactory per la creazione e la gestione degli errori.
 
-### 5. SINGLETON
+### 5. Singleton
 Il Singleton Pattern è un pattern creazionale che garantisce che una classe abbia una sola istanza in tutto il programma e fornisce un punto di accesso globale a tale istanza. Questo pattern è utilizzato in situazioni in cui è necessario assicurarsi che esista un'unica rappresentazione di una risorsa, come una connessione a un database, e che tale risorsa sia condivisa da più parti dell'applicazione.
 All’interno del progetto è stato necessario implementare un pattern singleton visto che il sistema è composto da due backend separati ma che utilizzano lo stesso database.
 
