@@ -50,93 +50,6 @@ docker-compose up --build
 * 
 
 
-
-
-# Struttura Progetto
-```
-ProgettoPA
-├── database
-│   ├── Dockerfile
-│   ├── seed.sql
-├── pagamenti_backend
-│   ├── src
-│   │   ├── controllers
-│   │   ├── dao
-│   │   ├── middleware
-│   │   ├── models
-│   │   ├── routes
-│   │   ├── static
-│   │   ├── syncDB
-│   │   ├── types
-│   │   ├── utils
-│   │   └── app.ts
-│   ├── Dockerfile
-│   ├── package-lock.json
-│   ├── package.json
-│   └── tsconfig.json
-├── ztl_backend
-│   ├── src
-│   │   ├── controllers
-│   │   ├── dao
-│   │   ├── middleware
-│   │   ├── models
-│   │   ├── routes
-│   │   ├── static
-│   │   ├── syncDB
-│   │   ├── types
-│   │   ├── utils
-│   │   └── app.ts
-│   ├── Dockerfile
-│   ├── package-lock.json
-│   ├── package.json
-│   └── tsconfig.json
-├──.env
-├──docker-compose.yml
-└──README.md
-```
-# Pattern Utilizzati
-Durante lo sviluppo del progetto, abbiamo adottato diversi design patterns per garantire un'architettura solida, scalabile e manutenibile. Di seguito vengono descritti i principali pattern utilizzati e le motivazioni dietro la loro scelta.
-### 1. **Model-View-Controller (MVC)**
-
-Il pattern **Model-View-Controller (MVC)**  è stato utilizzato per strutturare l'applicazione in modo da separare la logica di business, la gestione dei dati e la presentazione:
-
-- **Model**: Gestisce l'accesso ai dati e la rappresentazione degli oggetti del database tramite **Sequelize**, garantendo una mappatura chiara delle entità come ZTL, Varco, Veicolo, e Transito.
-- **Controller**: Contiene la logica applicativa, orchestrando le operazioni tra i modelli e le rotte API per gestire le richieste dell'utente (come l'inserimento dei transiti o il calcolo delle multe).
-- **View**: gestisce le interazioni tra l'utente e il sistema. I controller ricevono le richieste HTTP, chiamano i servizi appropriati e restituiscono i risultati. Per fornire una visualizzazione dei dati si utilizza **Postman** che restituisce dati in formato JSON.
-
-L'adozione del pattern MVC facilita l'espandibilità del progetto e la sua manutenzione nel lungo termine.
-
-### 2. **Data Access Object (DAO)**
-
-Il pattern **DAO (Data Access Object)** è stato utilizzato per astrarre l'accesso ai dati. Questo approccio consente di isolare completamente il codice della logica applicativa dall'accesso ai dati, facilitando la sostituzione del meccanismo di persistenza senza influenzare altre parti del sistema. Le entità `Varco`, `Transito`, `Veicolo`, `Multa` e `Utente`  ha il proprio DAO, che esegue le operazioni richieste dall'applicazione.
-
-L'uso del pattern DAO ha garantito una forte modularità, migliorando la manutenibilità e la testabilità del codice.
-
-### 3. **Chain of Responsibility (CoR)**
-
-Il pattern **Chain of Responsibility** è stato adottato attraverso i **middleware** di **Express.js** per gestire in modo efficiente le richieste HTTP. Ogni middleware svolge un compito specifico, come l'autenticazione, la validazione delle richieste o la gestione degli errori, e può passare il controllo al successivo middleware nella catena. In particolare, sono stati implementati:
-
-- **Middleware di autenticazione**: Verifica se l'utente è autenticato tramite JWT e, in caso contrario, interrompe la catena.
-- **Middleware di validazione**: Verifica la correttezza dei dati inviati nelle richieste API.
-- **Middleware di gestione degli errori**: Cattura eventuali errori e sfrutta l'errorHandler descritto nel pattern Factory.
-
-L'utilizzo di questo pattern ha migliorato l'efficienza del flusso delle richieste, garantendo che ogni operazione venga eseguita in modo ordinato e sicuro.
-
-### 4. **Factory Pattern**
-
-Il pattern **Factory** è stato utilizzato per la gestione centralizzata degli errori tramite la creazione di errori personalizzati. L'uso di una **Error Factory** consente di generare istanze di errori HTTP in modo dinamico, semplificando la gestione e l'estensione delle classi di errore. Questo approccio è particolarmente utile per la gestione di risposte standardizzate per errori come l'autenticazione fallita, la validazione dei dati, o l'accesso non autorizzato.
-
-Grazie a questo pattern, la gestione degli errori è risultata centralizzata, modulare e facilmente estendibile.
-
-### 5. **Singleton Pattern**
-
-Il pattern **Singleton** è stato utilizzato per gestire componenti che devono essere istanziati una sola volta durante il ciclo di vita dell'applicazione:
-
-Connessione al database: la connessione a Sequelize è gestita come un singleton, garantendo che esista una sola connessione attiva, migliorando l'efficienza dell'applicazione.
-Configurazione delle chiavi JWT: la gestione delle chiavi segrete per la firma dei token JWT è centralizzata in un singleton per garantire un accesso sicuro e uniforme in tutta l'applicazione.
-
-L'adozione di questi design pattern ha permesso di sviluppare un sistema robusto, manutenibile e scalabile, rispondendo efficacemente ai requisiti del progetto e facilitando future estensioni.
-
 # Progettazione
 
 ## Diagrammi dei casi d'uso
@@ -256,6 +169,92 @@ Il diagramma di sequenza rappresenta il processo per il controllo delle multe a 
 Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indicato per applicazioni backend come quella sviluppata in questo progetto, dove l'autenticazione sicura dei dati e l'efficienza nelle operazioni di lettura e scrittura sono fondamentali. Grazie alle sue prestazioni ottimizzate, PostgreSQL rappresenta una soluzione ideale per garantire la robustezza e la velocità del sistema.
 
 ![DATABASE](./images/database_schema.png)
+
+# Struttura Progetto
+```
+ProgettoPA
+├── database
+│   ├── Dockerfile
+│   ├── seed.sql
+├── pagamenti_backend
+│   ├── src
+│   │   ├── controllers
+│   │   ├── dao
+│   │   ├── middleware
+│   │   ├── models
+│   │   ├── routes
+│   │   ├── static
+│   │   ├── syncDB
+│   │   ├── types
+│   │   ├── utils
+│   │   └── app.ts
+│   ├── Dockerfile
+│   ├── package-lock.json
+│   ├── package.json
+│   └── tsconfig.json
+├── ztl_backend
+│   ├── src
+│   │   ├── controllers
+│   │   ├── dao
+│   │   ├── middleware
+│   │   ├── models
+│   │   ├── routes
+│   │   ├── static
+│   │   ├── syncDB
+│   │   ├── types
+│   │   ├── utils
+│   │   └── app.ts
+│   ├── Dockerfile
+│   ├── package-lock.json
+│   ├── package.json
+│   └── tsconfig.json
+├──.env
+├──docker-compose.yml
+└──README.md
+```
+# Pattern Utilizzati
+Durante lo sviluppo del progetto, abbiamo adottato diversi design patterns per garantire un'architettura solida, scalabile e manutenibile. Di seguito vengono descritti i principali pattern utilizzati e le motivazioni dietro la loro scelta.
+### 1. **Model-View-Controller (MVC)**
+
+Il pattern **Model-View-Controller (MVC)**  è stato utilizzato per strutturare l'applicazione in modo da separare la logica di business, la gestione dei dati e la presentazione:
+
+- **Model**: Gestisce l'accesso ai dati e la rappresentazione degli oggetti del database tramite **Sequelize**, garantendo una mappatura chiara delle entità come ZTL, Varco, Veicolo, e Transito.
+- **Controller**: Contiene la logica applicativa, orchestrando le operazioni tra i modelli e le rotte API per gestire le richieste dell'utente (come l'inserimento dei transiti o il calcolo delle multe).
+- **View**: gestisce le interazioni tra l'utente e il sistema. I controller ricevono le richieste HTTP, chiamano i servizi appropriati e restituiscono i risultati. Per fornire una visualizzazione dei dati si utilizza **Postman** che restituisce dati in formato JSON.
+
+L'adozione del pattern MVC facilita l'espandibilità del progetto e la sua manutenzione nel lungo termine.
+
+### 2. **Data Access Object (DAO)**
+
+Il pattern **DAO (Data Access Object)** è stato utilizzato per astrarre l'accesso ai dati. Questo approccio consente di isolare completamente il codice della logica applicativa dall'accesso ai dati, facilitando la sostituzione del meccanismo di persistenza senza influenzare altre parti del sistema. Le entità `Varco`, `Transito`, `Veicolo`, `Multa` e `Utente`  ha il proprio DAO, che esegue le operazioni richieste dall'applicazione.
+
+L'uso del pattern DAO ha garantito una forte modularità, migliorando la manutenibilità e la testabilità del codice.
+
+### 3. **Chain of Responsibility (CoR)**
+
+Il pattern **Chain of Responsibility** è stato adottato attraverso i **middleware** di **Express.js** per gestire in modo efficiente le richieste HTTP. Ogni middleware svolge un compito specifico, come l'autenticazione, la validazione delle richieste o la gestione degli errori, e può passare il controllo al successivo middleware nella catena. In particolare, sono stati implementati:
+
+- **Middleware di autenticazione**: Verifica se l'utente è autenticato tramite JWT e, in caso contrario, interrompe la catena.
+- **Middleware di validazione**: Verifica la correttezza dei dati inviati nelle richieste API.
+- **Middleware di gestione degli errori**: Cattura eventuali errori e sfrutta l'errorHandler descritto nel pattern Factory.
+
+L'utilizzo di questo pattern ha migliorato l'efficienza del flusso delle richieste, garantendo che ogni operazione venga eseguita in modo ordinato e sicuro.
+
+### 4. **Factory Pattern**
+
+Il pattern **Factory** è stato utilizzato per la gestione centralizzata degli errori tramite la creazione di errori personalizzati. L'uso di una **Error Factory** consente di generare istanze di errori HTTP in modo dinamico, semplificando la gestione e l'estensione delle classi di errore. Questo approccio è particolarmente utile per la gestione di risposte standardizzate per errori come l'autenticazione fallita, la validazione dei dati, o l'accesso non autorizzato.
+
+Grazie a questo pattern, la gestione degli errori è risultata centralizzata, modulare e facilmente estendibile.
+
+### 5. **Singleton Pattern**
+
+Il pattern **Singleton** è stato utilizzato per gestire componenti che devono essere istanziati una sola volta durante il ciclo di vita dell'applicazione:
+
+Connessione al database: la connessione a Sequelize è gestita come un singleton, garantendo che esista una sola connessione attiva, migliorando l'efficienza dell'applicazione.
+Configurazione delle chiavi JWT: la gestione delle chiavi segrete per la firma dei token JWT è centralizzata in un singleton per garantire un accesso sicuro e uniforme in tutta l'applicazione.
+
+L'adozione di questi design pattern ha permesso di sviluppare un sistema robusto, manutenibile e scalabile, rispondendo efficacemente ai requisiti del progetto e facilitando future estensioni.
+
 
 # Rotte API
 
