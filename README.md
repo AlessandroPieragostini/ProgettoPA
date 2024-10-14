@@ -8,9 +8,12 @@
 - [Obiettivo](#Obiettivo)
 - [Installazione](#installazione)
 - [Scelte implementative](#scelte-implementative)
+- [Progettazione](#progettazione)
 - [Struttura Progetto](#struttura-progetto)
+- [Diagrammi dei casi d'uso](#diagrammi-dei-casi-duso)
+- [Diagrammi delle sequenze](#diagrammi-delle-sequenze)
+- [Database schema](#database-schema)
 - [Pattern Utilizzati](#pattern-utilizzati)
-- [Diagrammi UML](#diagrammi-uml)
 - [Rotte API](#rotte-api)
 - [Strumenti Utilizzati](#strumenti-utilizzati)
 - [Autori](#autori) 
@@ -1111,12 +1114,11 @@ pm.test("Save token", function () {
 # Strumenti utilizzati
 Per lo sviluppo dell'applicazione presentata sono stati utilizzati i seguenti strumenti di lavoro:
 
-- [Visual Studio Code](https://code.visualstudio.com/): un editor di codice leggero e altamente estensibile, utilizzato per scrivere e gestire il codice dell'applicazione;
 - [GitHub](https://github.com/): una piattaforma di versionamento e collaborazione, utilizzata per ospitare il codice sorgente del progetto e tenere traccia delle modifiche;
-- [Typescript](https://www.typescriptlang.org/): un linguaggio di programmazione che estende JavaScript aggiungendo il supporto per i tipi statici, rendendo il codice più robusto e manutenibile;
 - [Express.js](https://expressjs.com/): un framework minimalista per applicazioni web, utilizzato per semplificare la creazione di server e la gestione delle rotte HTTP in ambiente Node.js;
 - [Node.js](https://nodejs.org/): una piattaforma che permette di eseguire JavaScript lato server, usata per costruire applicazioni scalabili e gestire moduli e pacchetti;
 - [Sequelize](https://sequelize.org/): un ORM (Object Relational Mapping) che facilita l'interazione con database relazionali;
+- [Jwt](https://jwt.io/): un formato standard aperto per la trasmissione sicura di informazioni tra le parti, rappresentato come un oggetto JSON; utilizzato principalmente per l'autenticazione e l'autorizzazione nelle applicazioni web;
 - [Docker](https://www.docker.com/): una piattaforma di containerizzazione che permette di impacchettare l'applicazione e le sue dipendenze in ambienti isolati e portabili, semplificando il deployment e la gestione dei servizi;
 - [PostgreSQL](https://www.postgresql.org/): un sistema di database relazionale open-source, scelto per gestire e memorizzare in modo efficiente i dati dell'applicazione;
 - [Postman](https://www.postman.com/): uno strumento per testare le API, utilizzato per simulare le chiamate HTTP e verificare il corretto funzionamento delle rotte e delle risposte del server.
