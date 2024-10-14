@@ -206,6 +206,39 @@ Il diagramma di sequenza rappresenta il processo per il controllo delle multe a 
 
 ![checkMulte](./images/DS_checkMulte.png)
 
+* __PUT /multe/:uuidPagamento__
+
+1. **Richiesta PUT per il Pagamento della Multa**:
+   - L'utente (con il ruolo `utente`) invia una richiesta HTTP PUT all'endpoint `/pagamento/:uuidPagamento` con il token di autenticazione. Il parametro `uuidPagamento` rappresenta la multa da pagare.
+
+2. **Autenticazione e Autorizzazione**:
+   - Il middleware `authenticateToken` verifica la validità del token JWT fornito nell'header della richiesta. Se il token è mancante o invalido, viene restituito un errore di autenticazione.
+   - Il middleware `authorizeRole` verifica che l'utente abbia il ruolo corretto (`utente`) per eseguire questa operazione. In caso contrario, viene restituito un errore di accesso negato.
+
+3. **Validazione della Richiesta**:
+   - Il parametro `uuidPagamento` viene validato per assicurarsi che sia un UUID valido. In caso di errore, viene restituito un errore di validazione.
+
+4. **Recupero dell'Utente**:
+   - Il sistema utilizza il DAO `UserDAO` per recuperare i dettagli dell'utente in base all'ID associato al token JWT. Se l'utente non viene trovato, viene restituito un errore che segnala che l'utente non esiste.
+
+5. **Recupero della Multa**:
+   - Il sistema utilizza il DAO `MultaDAO` per cercare la multa corrispondente all'`uuidPagamento`. Se la multa non esiste o è già stata pagata, viene restituito un errore.
+
+6. **Verifica del Credito Disponibile**:
+   - Il sistema verifica che l'utente abbia sufficiente credito per pagare la multa. Se il credito non è sufficiente, viene restituito un errore.
+
+7. **Aggiornamento della Multa e del Credito**:
+   - Se tutte le condizioni sono soddisfatte, il sistema aggiorna lo stato della multa a "pagata" tramite `MultaDAO.pagaMulta`.
+   - Il sistema detrae l'importo della multa dal credito dell'utente e aggiorna il nuovo saldo tramite `UserDAO.aggiornaCredito`.
+
+8. **Risposta**:
+   - Se il pagamento è andato a buon fine, il sistema restituisce una risposta JSON con i dettagli del pagamento e un messaggio di conferma.
+
+9. **Gestione degli Errori**:
+   - Il middleware `errorHandler` intercetta e gestisce eventuali errori durante il processo, restituendo una risposta con il codice di errore e un messaggio esplicativo in formato JSON.
+
+![pagaMulte](./images/DS_pagaMulta.png)
+
 ## Database Schema
 
 Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indicato per applicazioni backend come quella sviluppata in questo progetto, dove l'autenticazione sicura dei dati e l'efficienza nelle operazioni di lettura e scrittura sono fondamentali. Grazie alle sue prestazioni ottimizzate, PostgreSQL rappresenta una soluzione ideale per garantire la robustezza e la velocità del sistema.
