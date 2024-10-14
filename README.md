@@ -52,6 +52,27 @@ docker-compose up --build
 
 # Progettazione
 
+## Architettura
+
+![architettura](./images/architettura.png)
+
+1. **Back-end Transiti (Porta 3000)**:
+   - Un container Docker che ospita il back-end dedicato alla gestione dei transiti in ZTL.
+   - Riceve chiamate API da parte dell'utente (presumibilmente tramite un client o applicazione front-end).
+   - Dipende dal container del database **PostgreSQL**.
+
+2. **Back-end Pagamenti (Porta 4000)**:
+   - Un altro container Docker che ospita il back-end per la gestione dei pagamenti delle multe.
+   - Riceve anch'esso chiamate API dall'utente.
+   - Dipende dal container del database **PostgreSQL**.
+
+3. **PostgreSQL**:
+   - Un container Docker che esegue il database **PostgreSQL**.
+   - Utilizzato sia dal back-end Transiti che dal back-end Pagamenti per l'accesso ai dati.
+   - Entrambi i servizi hanno una dipendenza da questo container.
+
+
+
 ## Diagrammi dei casi d'uso
 
 Nel sistema sviluppato, ci sono quattro tipologie di utenti principali: Utente, Operatore, Admin, e Varco. Ciascuna di queste entità interagisce con il sistema per svolgere determinate operazioni.
