@@ -7,6 +7,7 @@
 - [Indice](#Indice)
 - [Obiettivo](#Obiettivo)
 - [Installazione](#installazione)
+- [Scelte implementative](#scelte-implementative)
 - [Struttura Progetto](#struttura-progetto)
 - [Pattern Utilizzati](#pattern-utilizzati)
 - [Diagrammi UML](#diagrammi-uml)
@@ -15,7 +16,7 @@
 - [Autori](#autori) 
 
 
-## Obiettivo
+# Obiettivo
 Questo progetto, sviluppato per il corso di Programmazione Avanzata dell'Anno Accademico 2023/2024, ha come obiettivo la realizzazione di un sistema backend per la gestione delle Zone a Traffico Limitato (ZTL) di una città. Il sistema consente il monitoraggio dei transiti dei veicoli attraverso varchi ZTL, calcolando in modo automatico le multe per i veicoli che violano le restrizioni di accesso. Il progetto si articola in due backend distinti:
 
 Backend di gestione transiti, che permette di monitorare i varchi ZTL, inserire i transiti dei veicoli, e calcolare automaticamente le multe in base alla tipologia del veicolo, alla fascia oraria e al giorno della settimana.
@@ -24,7 +25,7 @@ L'intero sistema è stato sviluppato utilizzando Node.js e Express, con Sequeliz
 
 In aggiunta, il sistema supporta l'autenticazione mediante JWT (JSON Web Tokens) per garantire l'accesso sicuro e autorizzato alle diverse rotte API, e include funzionalità di validazione e gestione degli errori attraverso middleware dedicati. 
 
-## Installazione
+# Installazione
 Istruzioni su come installare e configurare il progetto:
 ```bash
 # Clona il repository
@@ -40,7 +41,18 @@ docker-compose up --build
 
 #L'applicazione ora è in ascolto all'indirizzo http://127.0.0.1:3000
 ```
-## Struttura Progetto
+# Scelte implementative
+
+* L'inserimento dei transiti da parte del varco è stato predisposto in vista di uno sviluppo futuro, ma non si avranno rotte che permetteranno di farlo.
+
+* Il transito di un veicolo in un varco è da considerare soltanto come ingresso.
+
+* 
+
+
+
+
+# Struttura Progetto
 ```
 ProgettoPA
 ├── database
@@ -82,7 +94,7 @@ ProgettoPA
 ├──docker-compose.yml
 └──README.md
 ```
-## Pattern Utilizzati
+# Pattern Utilizzati
 Durante lo sviluppo del progetto, abbiamo adottato diversi design patterns per garantire un'architettura solida, scalabile e manutenibile. Di seguito vengono descritti i principali pattern utilizzati e le motivazioni dietro la loro scelta.
 ### 1. **Model-View-Controller (MVC)**
 
@@ -125,9 +137,9 @@ Configurazione delle chiavi JWT: la gestione delle chiavi segrete per la firma d
 
 L'adozione di questi design pattern ha permesso di sviluppare un sistema robusto, manutenibile e scalabile, rispondendo efficacemente ai requisiti del progetto e facilitando future estensioni.
 
-## Diagrammi UML
+# Progettazione
 
-### Diagrammi dei casi d'uso
+## Diagrammi dei casi d'uso
 
 Nel sistema sviluppato, ci sono quattro tipologie di utenti principali: Utente, Operatore, Admin, e Varco. Ciascuna di queste entità interagisce con il sistema per svolgere determinate operazioni.
 
@@ -141,7 +153,7 @@ Nel sistema sviluppato, ci sono quattro tipologie di utenti principali: Utente, 
 
 ![CASI_D_USO](./images/Casi_d_uso.png)
 
-### Diagrammi delle sequenze
+## Diagrammi delle sequenze
 
 * __POST /transito__
 
@@ -245,7 +257,7 @@ Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indic
 
 ![DATABASE](./images/database_schema.png)
 
-## Rotte API
+# Rotte API
 
 | Tipo    | Rotta                        | Autenticazione  | Autorizzazione         |
 |---------|------------------------------|-----------------|------------------------|
@@ -1088,7 +1100,7 @@ pm.test("Save token", function () {
 
 ![](./images/ricevuta.png) 
 
-## Strumenti utilizzati
+# Strumenti utilizzati
 Per lo sviluppo dell'applicazione presentata sono stati utilizzati i seguenti strumenti di lavoro:
 
 - [Visual Studio Code](https://code.visualstudio.com/): un editor di codice leggero e altamente estensibile, utilizzato per scrivere e gestire il codice dell'applicazione;
@@ -1106,7 +1118,7 @@ Per lo sviluppo dell'applicazione presentata sono stati utilizzati i seguenti st
 
 
 
-## Autori 
+# Autori 
 | Nome e Cognome  | Email  |
 |-------------|-------------|
 | Marco Barbarella    | [s1119226@studenti.univpm.it](mailto:s1119226@studenti.univpm.it) |

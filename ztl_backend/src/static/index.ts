@@ -1,7 +1,8 @@
 export const UserRole = {
     USER:   'utente',
     OP:  'operatore',
-    ADMIN: 'admin'
+    ADMIN: 'admin',
+    VARCO: 'varco'
   };
 
 
