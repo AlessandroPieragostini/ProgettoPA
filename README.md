@@ -230,6 +230,36 @@ Il diagramma di sequenza rappresenta il processo per il controllo delle multe a 
 
 ![pagaMulte](./images/DS_pagaMulta.png)
 
+* __GET /ricevuta/:uuidPagamento__
+
+1. **Richiesta di Pagamento**:
+   - Un utente (con il ruolo `utente`) invia una richiesta HTTP GET all'endpoint `/ricevuta/:uuidPagamento` per stampare la ricevuta di pagamento della multa, fornendo il `uuidPagamento` della multa come parametro.
+
+2. **Autenticazione e Autorizzazione**:
+   - Il middleware `authenticateToken` verifica la validità del token JWT presente nell'header della richiesta. Se il token è mancante o invalido, viene restituito un errore di autenticazione.
+   - Il middleware `authorizeRole` controlla che l'utente abbia il ruolo corretto (`utente`) per poter eseguire questa operazione. In caso contrario, viene restituito un errore di accesso negato.
+
+3. **Validazione della Richiesta**:
+   - Il middleware `validateStampaRicevuta` verifica che il parametro `uuidPagamento` sia un UUID valido. Se non lo è, viene restituito un errore di validazione.
+
+4. **Recupero della Multa**:
+   - Il sistema, tramite il DAO `MultaDAO`, cerca la multa associata all'UUID di pagamento fornito. Se la multa non esiste o non è stata pagata, viene restituito un errore appropriato.
+
+5. **Generazione della Ricevuta in PDF**:
+   - Se la multa è valida e pagata, il sistema genera un documento PDF utilizzando la libreria `PDFKit`, includendo dettagli come targa del veicolo, importo, UUID del pagamento e ID della multa.
+
+6. **Risposta**:
+   - Se tutto va a buon fine, il sistema restituisce la ricevuta in formato PDF. Se ci sono errori durante il processo, questi vengono gestiti e restituiti in formato JSON.
+
+7. **Gestione degli Errori**:
+   - Il middleware `errorHandler` intercetta e gestisce eventuali errori, restituendo una risposta appropriata con il codice di errore e un messaggio esplicativo in formato JSON.
+
+![pagaMulte](./images/DS_stampaRicevuta.png)
+
+* __GET /ricevuta/:uuidPagamento__
+
+
+
 ## Database Schema
 
 Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indicato per applicazioni back-end come quella sviluppata in questo progetto, dove l'autenticazione sicura dei dati e l'efficienza nelle operazioni di lettura e scrittura sono fondamentali. Grazie alle sue prestazioni ottimizzate, PostgreSQL rappresenta una soluzione ideale per garantire la robustezza e la velocità del sistema.
