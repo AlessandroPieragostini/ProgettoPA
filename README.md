@@ -235,46 +235,34 @@ Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indic
 
 # Pattern Utilizzati
 Durante lo sviluppo del progetto, abbiamo adottato diversi design patterns per garantire un'architettura solida, scalabile e manutenibile. Di seguito vengono descritti i principali pattern utilizzati e le motivazioni dietro la loro scelta.
-### 1. **Model-View-Controller (MVC)**
+### 1. MVC
 
-Il pattern **Model-View-Controller (MVC)**  è stato utilizzato per strutturare l'applicazione in modo da separare la logica di business, la gestione dei dati e la presentazione:
+L'MVC (Model-View-Controller) è un pattern architetturale utilizzato per organizzare le applicazioni software separando le diverse responsabilità in tre componenti principali. 
+Il Model gestisce i dati, la logica di business e le operazioni legate ai dati come i database. La View è responsabile della rappresentazione dei dati che viene testata tramite Postman che restituisce dati in formato JSON. Il Controller, invece, funge da intermediario tra la View e il Model: riceve gli input dell'utente dalla View, elabora le richieste, interagisce con il Model e restituisce i dati.
 
-- **Model**: Gestisce l'accesso ai dati e la rappresentazione degli oggetti del database tramite **Sequelize**, garantendo una mappatura chiara delle entità come ZTL, Varco, Veicolo, e Transito.
-- **Controller**: Contiene la logica applicativa, orchestrando le operazioni tra i modelli e le rotte API per gestire le richieste dell'utente (come l'inserimento dei transiti o il calcolo delle multe).
-- **View**: gestisce le interazioni tra l'utente e il sistema. I controller ricevono le richieste HTTP, chiamano i servizi appropriati e restituiscono i risultati. Per fornire una visualizzazione dei dati si utilizza **Postman** che restituisce dati in formato JSON.
+L'utilizzo del pattern MVC offre numerosi vantaggi. La sua struttura a componenti ben definiti consente una chiara separazione delle responsabilità, facilitando la comprensione e la gestione del codice, soprattutto in progetti di grandi dimensioni. Questa separazione rende anche più facile la manutenzione e l'aggiornamento dell'applicazione, poiché ogni parte può essere modificata senza influenzare le altre. Ad esempio, è possibile cambiare l'interfaccia grafica (View) senza dover toccare la logica del business (Model), o viceversa. Inoltre, MVC favorisce la modularità e la riutilizzabilità del codice: le stesse View possono essere utilizzate con diversi Model e i Controller possono gestire più View. Infine, questa architettura migliora la testabilità del software, permettendo di testare separatamente le varie componenti.
 
-L'adozione del pattern MVC facilita l'espandibilità del progetto e la sua manutenzione nel lungo termine.
+### 2. DAO
+Il DAO (Data Access Object) è un pattern architetturale che si occupa della gestione dell'accesso ai dati in modo strutturato e indipendente dalla tecnologia sottostante. L'obiettivo del DAO è fornire un'interfaccia standardizzata per interagire con i dati, isolando la logica applicativa dai dettagli specifici relativi alla persistenza e gestione dei database, come query SQL. Attraverso il DAO, le operazioni CRUD vengono incapsulate in metodi dedicati, consentendo agli sviluppatori di interagire con i dati attraverso oggetti di alto livello, senza preoccuparsi della connessione diretta al database o dei dettagli tecnici di gestione delle transazioni.
 
-### 2. **Data Access Object (DAO)**
+Il principale vantaggio del pattern DAO è la separazione delle responsabilità. Isolando l'accesso ai dati dalla logica applicativa, il codice risulta più modulare e facile da mantenere. Questa separazione permette, ad esempio, di cambiare il tipo di database o la modalità di accesso ai dati senza impattare altre parti del sistema. Il DAO favorisce anche una maggiore manutenibilità e scalabilità: eventuali modifiche al modo in cui i dati possono essere fatte in un unico punto centralizzato.
 
-Il pattern **DAO (Data Access Object)** è stato utilizzato per astrarre l'accesso ai dati. Questo approccio consente di isolare completamente il codice della logica applicativa dall'accesso ai dati, facilitando la sostituzione del meccanismo di persistenza senza influenzare altre parti del sistema. Le entità `Varco`, `Transito`, `Veicolo`, `Multa` e `Utente`  ha il proprio DAO, che esegue le operazioni richieste dall'applicazione.
+All’interno del progetto vengono sviluppati tutti i DAO per tutte le CRUD di tutte le classi.
 
-L'uso del pattern DAO ha garantito una forte modularità, migliorando la manutenibilità e la testabilità del codice.
 
-### 3. **Chain of Responsibility (CoR)**
 
-Il pattern **Chain of Responsibility** è stato adottato attraverso i **middleware** di **Express.js** per gestire in modo efficiente le richieste HTTP. Ogni middleware svolge un compito specifico, come l'autenticazione, la validazione delle richieste o la gestione degli errori, e può passare il controllo al successivo middleware nella catena. In particolare, sono stati implementati:
+### 3.CoR
+Il Chain of Responsibility (CoR) è un pattern comportamentale che permette di gestire richieste in modo flessibile e dinamico attraverso una catena di handler (gestori), ognuno dei quali può elaborare la richiesta o passarla al successivo nella sequenza. Questo pattern evita l'accoppiamento diretto tra il mittente di una richiesta e i suoi destinatari, decentralizzando così il processo decisionale. Ogni handler nella catena è responsabile di valutare la richiesta: può scegliere di gestirla, elaborando la logica associata, oppure passare la richiesta a un altro handler, creando una catena di responsabilità che continua finché uno degli handler non la prende in carico o finché non si esauriscono le opzioni.
+Uno dei principali vantaggi del pattern CoR è la sua capacità di migliorare la flessibilità del sistema. Poiché i gestori sono organizzati in modo indipendente, è possibile modificare, aggiungere o rimuovere handler dalla catena senza alterare il codice del mittente o degli altri handler. Questo approccio rende il sistema facilmente estensibile e riduce la dipendenza tra componenti, facilitando la manutenzione del codice.
+All’interno del progetto il pattern CoR è stato utilizzato all’interno dei middleware per implementare la validazione, l’autenticazione e la gestione degli errori.
 
-- **Middleware di autenticazione**: Verifica se l'utente è autenticato tramite JWT e, in caso contrario, interrompe la catena.
-- **Middleware di validazione**: Verifica la correttezza dei dati inviati nelle richieste API.
-- **Middleware di gestione degli errori**: Cattura eventuali errori e sfrutta l'errorHandler descritto nel pattern Factory.
+### 4. FACTORY
+Il Factory Pattern è un pattern creazionale che fornisce un modo per creare oggetti senza specificare esplicitamente la classe esatta da istanziare. L'idea di base è di delegare il compito di creare oggetti a una factory che si occupa di decidere quale tipo di oggetto restituire in base a determinate condizioni o parametri. Questo approccio permette di gestire in modo più flessibile la creazione degli oggetti, disaccoppiando il codice che richiede un'istanza da quello che effettivamente la crea.
+Nel progetto è stata sviluppata l’errorFactory per la creazione e la gestione degli errori.
 
-L'utilizzo di questo pattern ha migliorato l'efficienza del flusso delle richieste, garantendo che ogni operazione venga eseguita in modo ordinato e sicuro.
-
-### 4. **Factory Pattern**
-
-Il pattern **Factory** è stato utilizzato per la gestione centralizzata degli errori tramite la creazione di errori personalizzati. L'uso di una **Error Factory** consente di generare istanze di errori HTTP in modo dinamico, semplificando la gestione e l'estensione delle classi di errore. Questo approccio è particolarmente utile per la gestione di risposte standardizzate per errori come l'autenticazione fallita, la validazione dei dati, o l'accesso non autorizzato.
-
-Grazie a questo pattern, la gestione degli errori è risultata centralizzata, modulare e facilmente estendibile.
-
-### 5. **Singleton Pattern**
-
-Il pattern **Singleton** è stato utilizzato per gestire componenti che devono essere istanziati una sola volta durante il ciclo di vita dell'applicazione:
-
-Connessione al database: la connessione a Sequelize è gestita come un singleton, garantendo che esista una sola connessione attiva, migliorando l'efficienza dell'applicazione.
-Configurazione delle chiavi JWT: la gestione delle chiavi segrete per la firma dei token JWT è centralizzata in un singleton per garantire un accesso sicuro e uniforme in tutta l'applicazione.
-
-L'adozione di questi design pattern ha permesso di sviluppare un sistema robusto, manutenibile e scalabile, rispondendo efficacemente ai requisiti del progetto e facilitando future estensioni.
+### 5. SINGLETON
+Il Singleton Pattern è un pattern creazionale che garantisce che una classe abbia una sola istanza in tutto il programma e fornisce un punto di accesso globale a tale istanza. Questo pattern è utilizzato in situazioni in cui è necessario assicurarsi che esista un'unica rappresentazione di una risorsa, come una connessione a un database, e che tale risorsa sia condivisa da più parti dell'applicazione.
+All’interno del progetto è stato necessario implementare un pattern singleton visto che il sistema è composto da due backend separati ma che utilizzano lo stesso database.
 
 
 # Rotte API
