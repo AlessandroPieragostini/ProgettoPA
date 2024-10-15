@@ -48,13 +48,28 @@ docker-compose up --build
 
 #L'applicazione ora è in ascolto all'indirizzo http://127.0.0.1:3000
 ```
+Esempio di file __.env__
+
+```bash
+POSTGRES_PORT=5432
+POSTGRES_USER=your_user
+POSTGRES_HOST=database
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=your_db_name
+
+ZTL_BACKEND_PORT=3000
+PAGAMENTI_BACKEND_PORT=4000
+
+JWT_SECRET=your_secret_key
+```
+
 # Scelte implementative
 
 * L'inserimento dei transiti da parte del varco è stato predisposto in vista di uno sviluppo futuro, ma non si avranno rotte che permetteranno di farlo.
 
 * Il transito di un veicolo in un varco è da considerare soltanto come ingresso.
 
-* Sviluppo futuro: utilizzo di Axios per l'interazione tra i due back-end evitando che si cambi porta per le chiamate API
+* Sviluppo futuro: utilizzo di strumenti, ad esempio Axios, per l'interazione tra i due back-end evitando che si cambi porta per le chiamate API
 
 
 # Progettazione
