@@ -45,8 +45,6 @@ cd ProgettoPA
 
 # Avvia il progetto (assicurandoti di aver precendentemente installato Docker e docker-compose)
 docker-compose up --build
-
-#L'applicazione ora è in ascolto all'indirizzo http://127.0.0.1:3000
 ```
 Esempio di file __.env__
 
