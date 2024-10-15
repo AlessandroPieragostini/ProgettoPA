@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import User from '../models/user';
 import { generateToken } from '../utils/tokenJWT';
 import { ErrorFactory, ErrorTypes } from '../utils/errorFactory';
 import { StatusCodes } from 'http-status-codes';
+import { UserDAO } from '../dao/userDAO';
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   
@@ -16,7 +16,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
   try {
     // Cerca un utente nel database usando l'email fornita
-    const user = await User.findOne({ where: { email } });
+    const user = await UserDAO.findByEmail(email);
     if (!user) {
       return next(ErrorFactory.createError(ErrorTypes.Unauthorized, `Nessun utente con email ${email}`));
     }
