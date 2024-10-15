@@ -385,7 +385,7 @@ All’interno del progetto è stato necessario implementare un pattern singleton
 | *PUT*     | `/pagamento/:uuidPagamento`            | SI  | Utente                 |
 | *GET*     | `/pagamento/ricevuta/:uuidPagamento`   | SI  | Utente                 |
 | *GET*     | `/crediti`                 | SI              | Utente                 |
-| *PUT*     | `/crediti/ricarica/:userId`| SI              | Utente                 |
+| *PUT*     | `/crediti/ricarica/       `| SI              | Admin                 |
 
 ## Login
 
