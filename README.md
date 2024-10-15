@@ -114,6 +114,7 @@ ProgettoPA
 │   ├── package-lock.json
 │   ├── package.json
 │   └── tsconfig.json
+├── test_postman
 ├── ztl_backend
 │   ├── src
 │   │   ├── controllers
@@ -132,6 +133,7 @@ ProgettoPA
 │   └── tsconfig.json
 ├──.env
 ├──docker-compose.yml
+├──LICENSE
 └──README.md
 ```
 
