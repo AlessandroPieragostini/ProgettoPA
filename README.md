@@ -153,6 +153,30 @@ Nel sistema sviluppato, ci sono quattro tipologie di utenti principali: Utente, 
 
 ## Diagrammi delle sequenze
 
+> Dato che la maggior parte dei diagrammi risultavano con la stessa struttura, mostreremo di seguito soltanto alcuni di essi, quelli di maggior interesse e particolarità.
+
+* __POST /login__
+
+Il diagramma di sequenza rappresenta il processo di autenticazione tramite login.
+
+1. **Invio della richiesta di login**:
+   - Un utente invia una richiesta HTTP POST all'endpoint `/login`, includendo l'email e altri dati necessari per l'autenticazione.
+
+2. **Validazione della richiesta**:
+   - Il middleware `validateLogin` verifica che i dati forniti nella richiesta siano validi. Se mancano informazioni o ci sono errori di validazione, viene restituito un messaggio d'errore e la richiesta viene interrotta.
+
+3. **Ricerca dell'utente**:
+   - Il controller `loginController` recupera l'email dal corpo della richiesta o dai parametri della query. Se l'email non viene fornita, viene generato un errore `BadRequest` tramite `ErrorFactory` e la richiesta viene interrotta.
+   - Viene invocato il DAO `UserDAO` per cercare l'utente nel database. Se l'utente non viene trovato, viene restituito un errore di autorizzazione `Unauthorized`.
+
+4. **Generazione del token**:
+   - Se l'utente viene trovato nel database, viene generato un token JWT contenente l'ID, l'email e il ruolo dell'utente. Il token viene restituito all'utente nella risposta JSON.
+
+5. **Gestione degli errori**:
+   - Il middleware `errorHandler` gestisce eventuali errori generati durante il processo e restituisce una risposta con il codice di errore e un messaggio appropriato in formato JSON.
+
+![login](./images/DS_login.png)
+
 * __POST /transito__
 
 Il diagramma di sequenza rappresenta il flusso di operazioni coinvolto nella creazione di un nuovo transito. 
@@ -302,28 +326,6 @@ Il diagramma di sequenza rappresenta il processo per ottenere tutti i transiti a
    - Il middleware `errorHandler` intercetta e gestisce eventuali errori, restituendo una risposta appropriata con il codice di errore e un messaggio esplicativo in formato JSON.
 
 ![getTransitiByVarco](./images/DS_transitoByVarco.png)
-
-* __POST /login__
-
-Il diagramma di sequenza rappresenta il processo di autenticazione tramite login.
-
-1. **Invio della richiesta di login**:
-   - Un utente invia una richiesta HTTP POST all'endpoint `/login`, includendo l'email e altri dati necessari per l'autenticazione.
-
-2. **Validazione della richiesta**:
-   - Il middleware `validateLogin` verifica che i dati forniti nella richiesta siano validi. Se mancano informazioni o ci sono errori di validazione, viene restituito un messaggio d'errore e la richiesta viene interrotta.
-
-3. **Ricerca dell'utente**:
-   - Il controller `loginController` recupera l'email dal corpo della richiesta o dai parametri della query. Se l'email non viene fornita, viene generato un errore `BadRequest` tramite `ErrorFactory` e la richiesta viene interrotta.
-   - Viene invocato il DAO `UserDAO` per cercare l'utente nel database. Se l'utente non viene trovato, viene restituito un errore di autorizzazione `Unauthorized`.
-
-4. **Generazione del token**:
-   - Se l'utente viene trovato nel database, viene generato un token JWT contenente l'ID, l'email e il ruolo dell'utente. Il token viene restituito all'utente nella risposta JSON.
-
-5. **Gestione degli errori**:
-   - Il middleware `errorHandler` gestisce eventuali errori generati durante il processo e restituisce una risposta con il codice di errore e un messaggio appropriato in formato JSON.
-
-![login](./images/DS_login.png)
 
 ## Database Schema
 
