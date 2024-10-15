@@ -155,6 +155,30 @@ Nel sistema sviluppato, ci sono quattro tipologie di utenti principali: Utente, 
 
 ## Diagrammi delle sequenze
 
+> Dato che la maggior parte dei diagrammi risultavano con la stessa struttura, mostreremo di seguito soltanto alcuni di essi, quelli di maggior interesse e particolarità.
+
+* __POST /login__
+
+Il diagramma di sequenza rappresenta il processo di autenticazione tramite login.
+
+1. **Invio della richiesta di login**:
+   - Un utente invia una richiesta HTTP POST all'endpoint `/login`, includendo l'email e altri dati necessari per l'autenticazione.
+
+2. **Validazione della richiesta**:
+   - Il middleware `validateLogin` verifica che i dati forniti nella richiesta siano validi. Se mancano informazioni o ci sono errori di validazione, viene restituito un messaggio d'errore e la richiesta viene interrotta.
+
+3. **Ricerca dell'utente**:
+   - Il controller `loginController` recupera l'email dal corpo della richiesta o dai parametri della query. Se l'email non viene fornita, viene generato un errore `BadRequest` tramite `ErrorFactory` e la richiesta viene interrotta.
+   - Viene invocato il DAO `UserDAO` per cercare l'utente nel database. Se l'utente non viene trovato, viene restituito un errore di autorizzazione `Unauthorized`.
+
+4. **Generazione del token**:
+   - Se l'utente viene trovato nel database, viene generato un token JWT contenente l'ID, l'email e il ruolo dell'utente. Il token viene restituito all'utente nella risposta JSON.
+
+5. **Gestione degli errori**:
+   - Il middleware `errorHandler` gestisce eventuali errori generati durante il processo e restituisce una risposta con il codice di errore e un messaggio appropriato in formato JSON.
+
+![login](./images/DS_login.png)
+
 * __POST /transito__
 
 Il diagramma di sequenza rappresenta il flusso di operazioni coinvolto nella creazione di un nuovo transito. 
@@ -305,8 +329,6 @@ Il diagramma di sequenza rappresenta il processo per ottenere tutti i transiti a
 
 ![getTransitiByVarco](./images/DS_transitoByVarco.png)
 
-
-
 ## Database Schema
 
 Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indicato per applicazioni back-end come quella sviluppata in questo progetto, dove l'autenticazione sicura dei dati e l'efficienza nelle operazioni di lettura e scrittura sono fondamentali. Grazie alle sue prestazioni ottimizzate, PostgreSQL rappresenta una soluzione ideale per garantire la robustezza e la velocità del sistema.
@@ -315,8 +337,8 @@ Il sistema utilizza **PostgreSQL** come RDBMS, il quale è particolarmente indic
 
 # Pattern Utilizzati
 Durante lo sviluppo del progetto, abbiamo adottato diversi design patterns per garantire un'architettura solida, scalabile e manutenibile. Di seguito vengono descritti i principali pattern utilizzati e le motivazioni dietro la loro scelta.
-### 1. MVC
 
+### 1. MVC
 L'MVC (Model-View-Controller) è un pattern architetturale utilizzato per organizzare le applicazioni software separando le diverse responsabilità in tre componenti principali. 
 Il Model gestisce i dati, la logica di business e le operazioni legate ai dati come i database. La View è responsabile della rappresentazione dei dati che viene testata tramite Postman che restituisce dati in formato JSON. Il Controller, invece, funge da intermediario tra la View e il Model: riceve gli input dell'utente dalla View, elabora le richieste, interagisce con il Model e restituisce i dati.
 
@@ -367,7 +389,7 @@ All’interno del progetto è stato necessario implementare un pattern singleton
 | *PUT*     | `/pagamento/:uuidPagamento`            | SI  | Utente                 |
 | *GET*     | `/pagamento/ricevuta/:uuidPagamento`   | SI  | Utente                 |
 | *GET*     | `/crediti`                 | SI              | Utente                 |
-| *PUT*     | `/crediti/ricarica/:userId`| SI              | Utente                 |
+| *PUT*     | `/crediti/ricarica/       `| SI              | Admin                 |
 
 ## Login
 
