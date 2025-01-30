@@ -1222,8 +1222,8 @@ Per lo sviluppo dell'applicazione presentata sono stati utilizzati i seguenti st
 # Autori 
 | Nome e Cognome  | Email  |
 |-------------|-------------|
-| Marco Barbarella    | [s1119226@studenti.univpm.it](mailto:s1119226@studenti.univpm.it) |
 | Alessandro Pieragostini    | [s1119377@studenti.univpm.it](mailto:s1119377@studenti.univpm.it)   |
+| Marco Barbarella    | [s1119226@studenti.univpm.it](mailto:s1119226@studenti.univpm.it) |
 
 # License
 This project is licensed under the [MIT License](LICENSE) - consulta il file [LICENSE](LICENSE) per ulteriori dettagli.
